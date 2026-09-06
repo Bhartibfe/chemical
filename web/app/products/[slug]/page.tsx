@@ -1,22 +1,18 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import ElementTile from "@/components/ElementTile";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
-import {
-  categoryMeta,
-  getProduct,
-  indexOf,
-  products,
-} from "@/lib/products";
+import Unit from "@/components/Unit";
+import Vessel from "@/components/Vessel";
+import { categoryMeta, getProduct, indexOf, products } from "@/lib/products";
 import { breadcrumbSchema, productSchema } from "@/lib/schema";
 import { clampWords, pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 type Params = { params: Promise<{ slug: string }> };
 
-/** One static datasheet per chemical — 29 indexable pages, each targeting the
- *  searches buyers actually run for that specific product. */
+/** One static stream sheet per chemical — 29 indexable pages, each targeting
+ *  the searches buyers actually run for that specific product. */
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.slug }));
 }
@@ -51,16 +47,14 @@ export default async function ProductPage({ params }: Params) {
 
   const meta = categoryMeta[product.category];
   const ref = indexOf(product.slug);
+  const tag = `V-${ref.padStart(3, "0")}`;
 
   const related = products
     .filter((p) => p.category === product.category && p.slug !== product.slug)
     .slice(0, 4);
 
   return (
-    <div
-      className="datasheet"
-      style={{ "--stripe": `var(${meta.token})` } as React.CSSProperties}
-    >
+    <div style={{ "--svc": `var(${meta.token})` } as React.CSSProperties}>
       <JsonLd
         schema={[
           productSchema(product),
@@ -72,181 +66,139 @@ export default async function ProductPage({ params }: Params) {
         ]}
       />
 
-      {/* ── DOCUMENT HEADER ──────────────────────────────────── */}
-      <div className="sheet-head">
+      {/* ── STREAM HEAD ──────────────────────────────────────── */}
+      <section className="stream-head">
         <div className="container">
-          <nav aria-label="Breadcrumb" className="mono sheet-crumb">
-            <Link href="/">Index</Link>
-            <span aria-hidden="true">/</span>
-            <Link href="/products">Catalogue</Link>
-            <span aria-hidden="true">/</span>
+          <nav aria-label="Breadcrumb" className="tag-sm crumb">
+            <Link href="/">Overview</Link>
+            <span aria-hidden="true">→</span>
+            <Link href="/products">Tank farm</Link>
+            <span aria-hidden="true">→</span>
             <span aria-current="page">{product.name}</span>
           </nav>
 
-          <dl className="sheet-meta">
-            <div>
-              <dt className="mono-sm">Document</dt>
-              <dd className="data">SE/PRD/{ref}</dd>
-            </div>
-            <div>
-              <dt className="mono-sm">Category</dt>
-              <dd className="data">
-                <span
-                  className="swatch"
-                  style={{ background: "var(--stripe)" }}
-                  aria-hidden="true"
-                />
+          <div className="stream-inner">
+            <div className="stream-plate">
+              <span className="tag-sm stream-plate-tag">{tag}</span>
+              <span className="data stream-formula">
+                {product.formula ?? meta.abbr}
+              </span>
+              <span className="stream-svc" aria-hidden="true" />
+              <span className="tag-sm stream-plate-svc">
                 {meta.code} · {product.category}
-              </dd>
-            </div>
-            <div>
-              <dt className="mono-sm">Issued by</dt>
-              <dd className="data">{site.name}</dd>
-            </div>
-            <div>
-              <dt className="mono-sm">Certification</dt>
-              <dd className="data">{site.certification}</dd>
-            </div>
-          </dl>
-        </div>
-      </div>
-
-      {/* ── TITLE PLATE ──────────────────────────────────────── */}
-      <section className="plate">
-        <div className="container plate-inner">
-          <div className="plate-formula-wrap">
-            <span className="data plate-formula">
-              {product.formula ?? meta.abbr}
-            </span>
-            <span className="mono-sm plate-formula-label">
-              {product.formula ? "Formula" : "Category"}
-            </span>
-          </div>
-
-          <div className="plate-title-wrap">
-            <span className="data plate-ref">{ref}</span>
-            <h1 className="display d1 plate-title">{product.name}</h1>
-            {/* Answer-first: this sentence stands alone if an AI engine lifts
-                it out of the page. */}
-            <p className="lead plate-lead">{product.summary}</p>
-            <div className="plate-actions">
-              <Link href="/contact" className="btn btn-solid">
-                Enquire
-              </Link>
-              <a href={site.phoneHref} className="btn btn-outline data">
-                {site.phone}
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SPECIFICATION ────────────────────────────────────── */}
-      <section className="band">
-        <div className="container sheet-body">
-          <div>
-            <div className="marker">
-              <span className="marker-num">01</span>
-              <span className="marker-title">Applications</span>
-              <span className="marker-meta">
-                {String(product.applications.length).padStart(2, "0")} listed
               </span>
             </div>
 
-            <ol className="applications">
-              {product.applications.map((application, i) => (
-                <Reveal as="li" index={i} key={application} className="application">
-                  <span className="data application-num">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span>{application}</span>
-                </Reveal>
-              ))}
-            </ol>
-
-            <p className="prose sheet-note">
-              {product.desc} Grades, packing, and pricing are confirmed on
-              enquiry.
-            </p>
-          </div>
-
-          <aside>
-            <div className="marker">
-              <span className="marker-num">02</span>
-              <span className="marker-title">Supply data</span>
+            <div>
+              <h1 className="draft t1 stream-title">{product.name}</h1>
+              {/* Answer-first: this sentence stands alone if an AI engine
+                  lifts it out of the page. */}
+              <p className="lead stream-lead">{product.summary}</p>
+              <div className="intake-actions">
+                <Link href="/contact" className="btn btn-solid">
+                  Enquire
+                </Link>
+                <a href={site.phoneHref} className="btn btn-line data">
+                  {site.phone}
+                </a>
+              </div>
             </div>
-
-            <dl className="sheet-spec">
-              <div className="field-row">
-                <dt>Product</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd className="data">{product.name}</dd>
-              </div>
-              {product.formula && (
-                <div className="field-row">
-                  <dt>Formula</dt>
-                  <span className="leader" aria-hidden="true" />
-                  <dd className="data">{product.formula}</dd>
-                </div>
-              )}
-              <div className="field-row">
-                <dt>Index ref</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd className="data">SE/PRD/{ref}</dd>
-              </div>
-              <div className="field-row">
-                <dt>Category</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd className="data">{product.category}</dd>
-              </div>
-              <div className="field-row">
-                <dt>Application</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd className="data">{product.tag}</dd>
-              </div>
-              <div className="field-row">
-                <dt>Supply area</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd className="data">Pan-India</dd>
-              </div>
-              <div className="field-row">
-                <dt>Dispatch from</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd className="data">Punjab · Chandigarh</dd>
-              </div>
-              <div className="field-row">
-                <dt>Documentation</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd className="data">MSDS supplied</dd>
-              </div>
-              <div className="field-row">
-                <dt>Certification</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd className="data">{site.certification}</dd>
-              </div>
-            </dl>
-
-            <Link href="/contact" className="btn btn-solid sheet-cta">
-              Request {product.name}
-            </Link>
-          </aside>
+          </div>
         </div>
       </section>
 
-      {/* ── CROSS REFERENCE ──────────────────────────────────── */}
-      {related.length > 0 && (
-        <section className="band band-sheet">
-          <div className="container">
-            <div className="marker">
-              <span className="marker-num">03</span>
-              <span className="marker-title">Cross reference</span>
-              <span className="marker-meta">{product.category}</span>
-            </div>
+      {/* ── OUTLET STREAMS ───────────────────────────────────── */}
+      <Unit
+        tag="ST-101"
+        name="Outlet streams — applications"
+        note={`${String(product.applications.length).padStart(2, "0")} branches`}
+      >
+        <p className="lead unit-lead">
+          Where buyers across India take {product.name.toLowerCase()} once it
+          leaves SHIV ENTERPRISES.
+        </p>
 
-            <ul className="tile-grid">
+        <ul className="branches">
+          {product.applications.map((application, i) => (
+            <Reveal as="li" index={i} key={application} className="branch">
+              <span className="branch-pipe" aria-hidden="true" />
+              <span className="data branch-tag">
+                S-{String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="draft t3 branch-name">{application}</h3>
+            </Reveal>
+          ))}
+        </ul>
+
+        <p className="prose stream-note">
+          {product.desc} Grades, packing, and pricing are confirmed on enquiry.
+        </p>
+      </Unit>
+
+      {/* ── STREAM DATA ──────────────────────────────────────── */}
+      <Unit tag="DS-102" name="Stream data" tone="panel">
+        <dl className="datasheet">
+          <div className="ds-row">
+            <dt className="tag-sm">Product</dt>
+            <dd className="data">{product.name}</dd>
+          </div>
+          {product.formula && (
+            <div className="ds-row">
+              <dt className="tag-sm">Formula</dt>
+              <dd className="data">{product.formula}</dd>
+            </div>
+          )}
+          <div className="ds-row">
+            <dt className="tag-sm">Vessel tag</dt>
+            <dd className="data">{tag}</dd>
+          </div>
+          <div className="ds-row">
+            <dt className="tag-sm">Service class</dt>
+            <dd className="data">
+              {meta.code} · {product.category}
+            </dd>
+          </div>
+          <div className="ds-row">
+            <dt className="tag-sm">Application</dt>
+            <dd className="data">{product.tag}</dd>
+          </div>
+          <div className="ds-row">
+            <dt className="tag-sm">Supply area</dt>
+            <dd className="data">Pan-India</dd>
+          </div>
+          <div className="ds-row">
+            <dt className="tag-sm">Dispatch from</dt>
+            <dd className="data">Punjab · Chandigarh</dd>
+          </div>
+          <div className="ds-row">
+            <dt className="tag-sm">Documentation</dt>
+            <dd className="data">MSDS supplied</dd>
+          </div>
+          <div className="ds-row">
+            <dt className="tag-sm">Certification</dt>
+            <dd className="data">{site.certification}</dd>
+          </div>
+        </dl>
+
+        <Link href="/contact" className="btn btn-solid ds-cta">
+          Request {product.name}
+        </Link>
+      </Unit>
+
+      {/* ── PARALLEL LINES ───────────────────────────────────── */}
+      {related.length > 0 && (
+        <Unit
+          tag="TK-303"
+          name={`Parallel lines — ${product.category}`}
+          note={`${related.length} vessels`}
+          terminal
+        >
+          <div className="farm">
+            <span className="farm-header" aria-hidden="true" />
+            <ul className="farm-grid">
               {related.map((item) => (
                 <li key={item.slug}>
-                  <ElementTile
+                  <Vessel
                     product={item}
                     index={products.findIndex((p) => p.slug === item.slug)}
                   />
@@ -254,7 +206,7 @@ export default async function ProductPage({ params }: Params) {
               ))}
             </ul>
           </div>
-        </section>
+        </Unit>
       )}
     </div>
   );

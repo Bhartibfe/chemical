@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
@@ -8,10 +8,10 @@ import { globalSchemas } from "@/lib/schema";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-/** Archivo carries the industrial display voice; IBM Plex Mono was drawn for
- *  technical documentation and sets every field, unit, and reference. */
-const archivo = Archivo({
-  variable: "--font-archivo",
+/** Barlow Condensed reads as engineering-drawing lettering; IBM Plex Mono was
+ *  drawn for technical documentation and sets every equipment tag and value. */
+const barlow = Barlow_Condensed({
+  variable: "--font-barlow",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
@@ -65,8 +65,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f2ed" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a1017" },
+    { media: "(prefers-color-scheme: light)", color: "#eef0ec" },
+    { media: "(prefers-color-scheme: dark)", color: "#07131c" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -85,7 +85,7 @@ export default function RootLayout({
     <html
       lang="en-IN"
       data-theme="light"
-      className={`${archivo.variable} ${plexMono.variable}`}
+      className={`${barlow.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <head>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
+import Unit from "@/components/Unit";
 import { clients, commitments, differentiators } from "@/lib/content";
 import { products } from "@/lib/products";
 import { breadcrumbSchema } from "@/lib/schema";
@@ -29,18 +30,18 @@ export default function AboutPage() {
         ])}
       />
 
-      <section className="page-plate">
+      <section className="sheet-head">
         <div className="container">
-          <nav aria-label="Breadcrumb" className="mono sheet-crumb">
-            <Link href="/">Index</Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">Company</span>
+          <nav aria-label="Breadcrumb" className="tag-sm crumb">
+            <Link href="/">Overview</Link>
+            <span aria-hidden="true">→</span>
+            <span aria-current="page">Plant data</span>
           </nav>
 
-          <div className="page-plate-inner">
+          <div className="sheet-inner">
             <div>
-              <span className="data page-plate-ref">SE/03</span>
-              <h1 className="display d1">The company</h1>
+              <span className="tag-text sheet-ref">SHT 04 · PLANT DATA</span>
+              <h1 className="draft t1">The plant</h1>
             </div>
             <p className="lead">
               SHIV ENTERPRISES is an {site.certification} certified industrial
@@ -53,154 +54,131 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="band">
-        <div className="container sheet-body">
-          <div>
-            <div className="marker">
-              <span className="marker-num">01</span>
-              <span className="marker-title">Statement</span>
+      <Unit tag="OP-101" name="Operating statement">
+        <p className="prose about-para">
+          SHIV ENTERPRISES delivers high-purity chemical solutions to
+          India&apos;s most critical industries — from nuclear power plants to
+          railways and defence. Every product supplied meets strict quality
+          benchmarks under an {site.certification} certified quality management
+          system.
+        </p>
+        <p className="prose about-para">
+          Our technical team supports product selection, dosing guidance, and
+          specification matching, so procurement teams receive the right grade
+          the first time rather than the closest available substitute.
+        </p>
+
+        <ul className="marks">
+          {differentiators.map((item) => (
+            <li key={item} className="tag-sm mark">
+              {item}
+            </li>
+          ))}
+        </ul>
+
+        <dl className="datasheet about-data">
+          {stats.map((stat) => (
+            <div className="ds-row" key={stat.label}>
+              <dt className="tag-sm">{stat.label}</dt>
+              <dd className="data">{stat.num}</dd>
             </div>
-
-            <p className="prose about-para">
-              SHIV ENTERPRISES delivers high-purity chemical solutions to
-              India&apos;s most critical industries — from nuclear power plants
-              to railways and defence. Every product supplied meets strict
-              quality benchmarks under an {site.certification} certified quality
-              management system.
-            </p>
-            <p className="prose about-para">
-              Our technical team supports product selection, dosing guidance,
-              and specification matching, so procurement teams receive the right
-              grade the first time rather than the closest available substitute.
-            </p>
-
-            <ul className="marks">
-              {differentiators.map((item) => (
-                <li key={item} className="tag">
-                  {item}
-                </li>
-              ))}
-            </ul>
+          ))}
+          <div className="ds-row">
+            <dt className="tag-sm">Certification</dt>
+            <dd className="data">{site.certification}</dd>
           </div>
-
-          <aside>
-            <div className="marker">
-              <span className="marker-num">02</span>
-              <span className="marker-title">Record</span>
-            </div>
-
-            <dl className="sheet-spec">
-              {stats.map((stat) => (
-                <div className="field-row" key={stat.label}>
-                  <dt>{stat.label}</dt>
-                  <span className="leader" aria-hidden="true" />
-                  <dd className="data">{stat.num}</dd>
-                </div>
-              ))}
-              <div className="field-row">
-                <dt>Certification</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd className="data">{site.certification}</dd>
-              </div>
-              <div className="field-row">
-                <dt>Supply area</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd className="data">Pan-India</dd>
-              </div>
-            </dl>
-          </aside>
-        </div>
-      </section>
-
-      <section className="band band-sheet">
-        <div className="container">
-          <div className="marker">
-            <span className="marker-num">03</span>
-            <span className="marker-title">Terms of supply</span>
+          <div className="ds-row">
+            <dt className="tag-sm">Supply area</dt>
+            <dd className="data">Pan-India</dd>
           </div>
+        </dl>
+      </Unit>
 
-          <div className="terms-grid">
-            {commitments.map((item, i) => (
-              <Reveal as="div" index={i} key={item.title} className="term">
-                <span className="data term-num">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h2 className="display d3">{item.title}</h2>
+      <Unit
+        tag="AN-201"
+        name="Quality controls"
+        note={`${commitments.length} controls`}
+        tone="panel"
+      >
+        <ul className="controls">
+          {commitments.map((item, i) => (
+            <Reveal as="li" index={i} key={item.title} className="control">
+              <span className="bubble">
+                QC
+                <br />
+                {String(i + 1).padStart(3, "0")}
+              </span>
+              <div>
+                <h2 className="draft t3">{item.title}</h2>
                 <p className="prose">{item.desc}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+              </div>
+            </Reveal>
+          ))}
+        </ul>
+      </Unit>
 
-      <section className="band">
-        <div className="container">
-          <div className="marker">
-            <span className="marker-num">04</span>
-            <span className="marker-title">Register of clients</span>
-            <span className="marker-meta">{clients.length} institutions</span>
-          </div>
+      <Unit
+        tag="PK-501"
+        name="Client register"
+        note={`${clients.length} institutions`}
+      >
+        <ul className="register">
+          {clients.map((client, i) => (
+            <li key={client.name} className="register-row">
+              <span className="data register-num">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="register-name">{client.name}</span>
+              <span className="register-line" aria-hidden="true" />
+              <span className="tag-sm register-dest">Delivered</span>
+            </li>
+          ))}
+        </ul>
+      </Unit>
 
-          <ul className="register">
-            {clients.map((client, i) => (
-              <li key={client.name} className="register-row">
-                <span className="data register-num">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="register-name">{client.name}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="band band-sheet">
-        <div className="container">
-          <div className="marker">
-            <span className="marker-num">05</span>
-            <span className="marker-title">Offices</span>
-          </div>
-
-          <ul className="offices">
-            {addresses.map((address, i) => (
-              <Reveal as="li" index={i} key={address.label} className="office">
-                <span className="data office-num">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h2 className="display d3">{address.label}</h2>
-                <address className="data office-address">
+      <Unit tag="ZI-002" name="Sites" tone="panel">
+        <ul className="sites">
+          {addresses.map((address, i) => (
+            <Reveal as="li" index={i} key={address.label} className="site-card">
+              <span className="bubble">
+                ZI
+                <br />
+                {String(i + 1).padStart(3, "0")}
+              </span>
+              <div>
+                <h2 className="draft t3">{address.label}</h2>
+                <address className="data site-address">
                   {address.display}
                 </address>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      </section>
+              </div>
+            </Reveal>
+          ))}
+        </ul>
+      </Unit>
 
-      <section className="band enquiry-band">
-        <div className="container enquiry-band-inner">
+      <Unit tag="CP-601" name="Enquiry" tone="ink" terminal>
+        <div className="control-room">
           <div>
-            <p className="mono enquiry-kicker">Enquiry</p>
-            <h2 className="display d2">
+            <h3 className="draft t2">
               Work with
               <br />
               SHIV ENTERPRISES.
-            </h2>
-            <p className="lead enquiry-lead">
+            </h3>
+            <p className="lead cr-lead">
               Send your requirement and our technical team will respond with
               availability, documentation, and delivery timelines.
             </p>
           </div>
-          <div className="enquiry-actions">
+          <div className="cr-actions">
             <Link href="/contact" className="btn btn-solid">
               Contact us
             </Link>
-            <Link href="/products" className="btn btn-outline">
-              View catalogue
+            <Link href="/products" className="btn btn-line">
+              Tank farm
             </Link>
           </div>
         </div>
-      </section>
+      </Unit>
     </>
   );
 }

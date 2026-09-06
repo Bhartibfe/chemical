@@ -1,13 +1,13 @@
 "use client";
 
 /**
- * Light/dark switch, set as a mono field rather than an icon button so it
- * reads as part of the document furniture.
+ * Light/dark switch, drawn as a two-position selector on the drawing header —
+ * SHEET (vellum) or BOARD (backlit CAD screen).
  *
- * `data-theme` on <html> is the single source of truth — set before first
- * paint by the inline script in the root layout, and flipped here. No React
- * state is involved: CSS shows the label for the active theme, so the control
- * cannot disagree with the screen and there is nothing to hydrate.
+ * `data-theme` on <html> is the single source of truth, set before first paint
+ * by the inline script in the root layout and flipped here. No React state is
+ * involved: CSS shows the label for the active mode, so the control cannot
+ * disagree with the screen and there is nothing to hydrate.
  */
 export default function ThemeToggle() {
   const toggle = () => {
@@ -25,14 +25,15 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      className="theme-toggle mono"
+      className="mode-switch tag-sm"
       aria-label="Switch between light and dark theme"
     >
-      <span className="theme-label-light" aria-hidden="true">
-        ○ Light
+      <span className="mode-lamp" aria-hidden="true" />
+      <span className="mode-light" aria-hidden="true">
+        Sheet
       </span>
-      <span className="theme-label-dark" aria-hidden="true">
-        ● Dark
+      <span className="mode-dark" aria-hidden="true">
+        Board
       </span>
     </button>
   );

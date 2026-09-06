@@ -1,6 +1,7 @@
 import Link from "next/link";
 import EnquiryForm from "@/components/EnquiryForm";
 import JsonLd from "@/components/JsonLd";
+import Unit from "@/components/Unit";
 import { breadcrumbSchema, faqSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
 import { addresses, site } from "@/lib/site";
@@ -30,18 +31,18 @@ export default function ContactPage() {
         ]}
       />
 
-      <section className="page-plate">
+      <section className="sheet-head">
         <div className="container">
-          <nav aria-label="Breadcrumb" className="mono sheet-crumb">
-            <Link href="/">Index</Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">Enquiry</span>
+          <nav aria-label="Breadcrumb" className="tag-sm crumb">
+            <Link href="/">Overview</Link>
+            <span aria-hidden="true">→</span>
+            <span aria-current="page">Control room</span>
           </nav>
 
-          <div className="page-plate-inner">
+          <div className="sheet-inner">
             <div>
-              <span className="data page-plate-ref">SE/04</span>
-              <h1 className="display d1">Enquiry</h1>
+              <span className="tag-text sheet-ref">SHT 05 · CP-601</span>
+              <h1 className="draft t1">Control room</h1>
             </div>
             <p className="lead">
               Request a quote, ask about a grade, or get technical guidance.
@@ -51,103 +52,80 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="band">
-        <div className="container sheet-body">
-          <div>
-            <div className="marker">
-              <span className="marker-num">01</span>
-              <span className="marker-title">Direct lines</span>
+      <Unit tag="CP-601" name="Direct lines">
+        <dl className="datasheet">
+          <div className="ds-row">
+            <dt className="tag-sm">Telephone</dt>
+            <dd>
+              <a href={site.phoneHref} className="data link">
+                {site.phone}
+              </a>
+            </dd>
+          </div>
+          <div className="ds-row">
+            <dt className="tag-sm">Email</dt>
+            <dd>
+              <a href={site.emailHref} className="data link">
+                {site.email}
+              </a>
+            </dd>
+          </div>
+          <div className="ds-row">
+            <dt className="tag-sm">WhatsApp</dt>
+            <dd>
+              <a
+                href={site.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="data link"
+              >
+                Chat
+                <span className="visually-hidden">
+                  {" "}
+                  on WhatsApp (opens in a new tab)
+                </span>
+              </a>
+            </dd>
+          </div>
+          {addresses.map((address) => (
+            <div className="ds-row" key={address.label}>
+              <dt className="tag-sm">{address.label.replace(" Office", "")}</dt>
+              <dd className="data">{address.display}</dd>
             </div>
-
-            <dl className="sheet-spec">
-              <div className="field-row">
-                <dt>Telephone</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd>
-                  <a href={site.phoneHref} className="data link">
-                    {site.phone}
-                  </a>
-                </dd>
-              </div>
-              <div className="field-row">
-                <dt>Email</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd>
-                  <a href={site.emailHref} className="data link">
-                    {site.email}
-                  </a>
-                </dd>
-              </div>
-              <div className="field-row">
-                <dt>WhatsApp</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd>
-                  <a
-                    href={site.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="data link"
-                  >
-                    Chat
-                    <span className="visually-hidden">
-                      {" "}
-                      on WhatsApp (opens in a new tab)
-                    </span>
-                  </a>
-                </dd>
-              </div>
-              {addresses.map((address) => (
-                <div className="field-row" key={address.label}>
-                  <dt>{address.label.replace(" Office", "")}</dt>
-                  <span className="leader" aria-hidden="true" />
-                  <dd className="data">{address.display}</dd>
-                </div>
-              ))}
-              <div className="field-row">
-                <dt>Certification</dt>
-                <span className="leader" aria-hidden="true" />
-                <dd className="data">{site.certification}</dd>
-              </div>
-            </dl>
+          ))}
+          <div className="ds-row">
+            <dt className="tag-sm">Certification</dt>
+            <dd className="data">{site.certification}</dd>
           </div>
+        </dl>
+      </Unit>
 
-          <div>
-            <div className="marker">
-              <span className="marker-num">02</span>
-              <span className="marker-title">Enquiry form</span>
+      <Unit tag="FM-701" name="Enquiry form" tone="panel">
+        <EnquiryForm />
+      </Unit>
+
+      <Unit
+        tag="RF-801"
+        name="Frequently asked"
+        note={`${faqSchema.mainEntity.length} entries`}
+        terminal
+      >
+        {/* Mirrors the FAQPage schema above, so what an AI engine reads and
+            what a visitor reads are the same answers. */}
+        <dl className="faq">
+          {faqSchema.mainEntity.map((entry, i) => (
+            <div key={entry.name} className="faq-entry">
+              <dt>
+                <span className="data faq-num">
+                  Q{String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="draft t3">{entry.name}</span>
+              </dt>
+              <dd className="prose">{entry.acceptedAnswer.text}</dd>
             </div>
-            <EnquiryForm />
-          </div>
-        </div>
-      </section>
-
-      <section className="band band-sheet">
-        <div className="container">
-          <div className="marker">
-            <span className="marker-num">03</span>
-            <span className="marker-title">Frequently asked</span>
-            <span className="marker-meta">
-              {faqSchema.mainEntity.length} entries
-            </span>
-          </div>
-
-          {/* Mirrors the FAQPage schema above, so what an AI engine reads and
-              what a visitor reads are the same answers. */}
-          <dl className="faq">
-            {faqSchema.mainEntity.map((entry, i) => (
-              <div key={entry.name} className="faq-entry">
-                <dt>
-                  <span className="data faq-num">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="display d3">{entry.name}</span>
-                </dt>
-                <dd className="prose">{entry.acceptedAnswer.text}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
+          ))}
+        </dl>
+      </Unit>
     </>
   );
 }

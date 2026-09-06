@@ -2,77 +2,85 @@
 @import "./components.css";
 
 /* ═══════════════════════════════════════════════════════════════════
-   THE CHEMICAL INDEX — design tokens
+   THE PROCESS FLOW PLANT — design tokens
 
-   The site is set as a technical reference document, not a marketing
-   page: paper and ink, hairline rules, monospace data, no rounded
-   cards and no shadows. Brand colours are sampled from the logo —
-   navy #00243C (the SE mark) and cyan #1496C8 (the swoosh).
+   The site is drawn as a piping & instrumentation diagram. Material
+   enters at the top, is tested, stored, branched to sectors, and
+   dispatched. Every section is a tagged plant unit on one continuous
+   process line.
+
+   Light  = drafting sheet, ink on vellum.
+   Dark   = CAD screen, luminous lines on a drawing board.
+
+   Brand colours are sampled from the logo: navy #00243C (the SE mark)
+   and cyan #1496C8 (the swoosh).
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
   --brand-navy: #00243c;
   --brand-cyan: #1496c8;
 
-  /* Paper & ink */
-  --paper: #f4f2ed; /* warm stock, not office white */
-  --paper-2: #eae7e0;
-  --sheet: #fbfaf7;
-  --ink: #0b1a26;
-  --ink-2: #4a5b68;
-  --ink-3: #7b8b97;
+  /* Drawing sheet */
+  --sheet: #eef0ec; /* vellum */
+  --sheet-2: #e4e7e2;
+  --panel: #f8f9f7;
+  --ink: #0d2233;
+  --ink-2: #4a5f70;
+  --ink-3: #7d909e;
 
-  /* Rules — hairlines carry the whole layout, so they get two weights */
-  --rule: #cdc8bf;
-  --rule-strong: #0b1a26;
+  /* Drawing lines. Process lines are heavy, utility lines light. */
+  --line: #0d2233;
+  --line-soft: #b9c2bd;
+  --grid: rgba(13, 34, 51, 0.055);
 
   --accent: #0b6e93;
-  --accent-hover: #00243c;
-  --on-accent: #fbfaf7;
+  --flow: #1496c8; /* the moving product in the pipe */
+  --on-accent: #f8f9f7;
 
-  /* Category key. Chosen to stay distinguishable as 3px stripes and to
-     clear 3:1 against paper. */
-  --cat-water: #0e7fa8;
-  --cat-acid: #b45309;
-  --cat-alkali: #6247aa;
-  --cat-oxid: #0f766e;
-  --cat-surf: #a3306e;
-  --cat-spec: #475b6b;
+  /* Service colours — as a real P&ID colour-codes its line services. */
+  --svc-water: #0e7fa8;
+  --svc-acid: #c2410c;
+  --svc-alkali: #6247aa;
+  --svc-oxid: #0f766e;
+  --svc-surf: #a3306e;
+  --svc-spec: #475b6b;
 
-  --container: 1280px;
+  --rail: 72px; /* width of the pipework gutter */
+  --container: 1320px;
 }
 
 :root[data-theme="dark"] {
-  --paper: #0a1017;
-  --paper-2: #0f1922;
-  --sheet: #111c26;
-  --ink: #e6ecef;
-  --ink-2: #9fb0bc;
-  --ink-3: #6f8492;
+  --sheet: #07131c;
+  --sheet-2: #0b1a25;
+  --panel: #0e2130;
+  --ink: #dfeaf1;
+  --ink-2: #9db2c0;
+  --ink-3: #6b8393;
 
-  --rule: #24343f;
-  --rule-strong: #7fa8bd;
+  --line: #4d7d97;
+  --line-soft: #1e3849;
+  --grid: rgba(89, 175, 214, 0.07);
 
   --accent: #46b6dd;
-  --accent-hover: #7fd0ee;
-  --on-accent: #06121b;
+  --flow: #5ecdf2;
+  --on-accent: #04121b;
 
-  --cat-water: #3fb0d8;
-  --cat-acid: #e08c3c;
-  --cat-alkali: #9c85e0;
-  --cat-oxid: #38b09f;
-  --cat-surf: #e06aa4;
-  --cat-spec: #8ba3b3;
+  --svc-water: #3fb0d8;
+  --svc-acid: #f08a4b;
+  --svc-alkali: #9c85e0;
+  --svc-oxid: #38b09f;
+  --svc-surf: #e06aa4;
+  --svc-spec: #8ba3b3;
 }
 
 @theme inline {
-  --color-paper: var(--paper);
   --color-sheet: var(--sheet);
+  --color-panel: var(--panel);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
-  --color-rule: var(--rule);
+  --color-line: var(--line);
   --color-accent: var(--accent);
-  --font-display: var(--font-archivo);
+  --font-draft: var(--font-barlow);
   --font-mono: var(--font-plex-mono);
 }
 
@@ -90,18 +98,24 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 96px;
+  scroll-padding-top: 100px;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--paper);
+  background: var(--sheet);
   color: var(--ink);
-  font-family: var(--font-archivo), system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  font-size: 16.5px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+
+  /* The drawing grid, faint under everything. */
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 a {
@@ -124,53 +138,51 @@ button {
 }
 
 ::selection {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--flow);
+  color: var(--on-accent);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 2px solid var(--flow);
+  outline-offset: 3px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   TYPE — display is tight and industrial, data is always monospace
+   TYPE — drafting lettering for headings, monospace for every tag
    ═══════════════════════════════════════════════════════════════════ */
 
-.display {
-  font-family: var(--font-archivo), sans-serif;
-  font-weight: 700;
-  line-height: 0.94;
-  letter-spacing: -0.035em;
+.draft {
+  font-family: var(--font-barlow), sans-serif;
+  font-weight: 600;
   text-transform: uppercase;
+  line-height: 0.98;
+  letter-spacing: 0.005em;
   text-wrap: balance;
 }
 
-.d1 {
-  font-size: clamp(2.75rem, 8.5vw, 7rem);
+.t1 {
+  font-size: clamp(2.5rem, 7.5vw, 5.75rem);
 }
-.d2 {
-  font-size: clamp(2rem, 5vw, 3.75rem);
+.t2 {
+  font-size: clamp(1.75rem, 4vw, 3rem);
 }
-.d3 {
-  font-size: clamp(1.375rem, 2.4vw, 1.875rem);
-  letter-spacing: -0.02em;
+.t3 {
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
 }
 
-/* Monospace label: the workhorse of this design. Used for every field
-   name, section number, reference, and unit. */
-.mono {
+/* Equipment and instrument tags. Always monospace, always uppercase. */
+.tag-text {
   font-family: var(--font-plex-mono), ui-monospace, monospace;
   font-size: 0.6875rem;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
 }
 
-.mono-sm {
+.tag-sm {
   font-family: var(--font-plex-mono), ui-monospace, monospace;
-  font-size: 0.625rem;
-  letter-spacing: 0.14em;
+  font-size: 0.5938rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
@@ -180,8 +192,8 @@ button {
 }
 
 .lead {
-  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
-  line-height: 1.55;
+  font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
+  line-height: 1.6;
   color: var(--ink-2);
   max-width: 60ch;
   text-wrap: pretty;
@@ -201,85 +213,11 @@ button {
   width: 100%;
   max-width: var(--container);
   margin-inline: auto;
-  padding-inline: clamp(18px, 4vw, 48px);
-}
-
-.band {
-  padding-block: clamp(56px, 8vw, 104px);
-  border-bottom: 1px solid var(--rule);
-}
-
-.band-tight {
-  padding-block: clamp(36px, 4vw, 56px);
-  border-bottom: 1px solid var(--rule);
-}
-
-.band-sheet {
-  background: var(--sheet);
-}
-
-/* Section marker: 01 / TITLE, sitting on its own rule. */
-.marker {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  padding-bottom: 12px;
-  margin-bottom: 36px;
-  border-bottom: 1px solid var(--rule-strong);
-}
-.marker-num {
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-}
-.marker-title {
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-.marker-meta {
-  margin-left: auto;
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 0.625rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-
-/* Dot-leader field row — the datasheet idiom. */
-.field-row {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  padding-block: 9px;
-  border-bottom: 1px solid var(--rule);
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 0.75rem;
-}
-.field-row dt,
-.field-row .field-key {
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  white-space: nowrap;
-}
-.field-row .leader {
-  flex: 1;
-  border-bottom: 1px dotted var(--rule);
-  transform: translateY(-3px);
-}
-.field-row dd,
-.field-row .field-val {
-  text-align: right;
-  font-weight: 500;
+  padding-inline: clamp(16px, 3vw, 40px);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   CONTROLS — square, ruled, no radius anywhere
+   CONTROLS — drawn like plant fittings: square, ruled, no radius
    ═══════════════════════════════════════════════════════════════════ */
 
 .btn {
@@ -288,11 +226,11 @@ button {
   justify-content: center;
   gap: 10px;
   min-height: 46px;
-  padding: 13px 24px;
-  border: 1px solid var(--rule-strong);
+  padding: 13px 22px;
+  border: 1.5px solid var(--line);
   font-family: var(--font-plex-mono), monospace;
   font-size: 0.6875rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   transition:
@@ -302,42 +240,45 @@ button {
 }
 
 .btn-solid {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--line);
+  color: var(--sheet);
 }
 .btn-solid:hover {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--flow);
+  border-color: var(--flow);
   color: var(--on-accent);
 }
 
-.btn-outline {
+.btn-line {
   background: transparent;
   color: var(--ink);
 }
-.btn-outline:hover {
-  background: var(--ink);
-  color: var(--paper);
+.btn-line:hover {
+  background: var(--line);
+  color: var(--sheet);
 }
 
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 4px 9px;
-  border: 1px solid var(--rule);
+/* Instrument bubble — the circle-with-tag symbol from a real P&ID. */
+.bubble {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+  background: var(--panel);
   font-family: var(--font-plex-mono), monospace;
-  font-size: 0.625rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: 0.5625rem;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  text-align: center;
   text-transform: uppercase;
-  color: var(--ink-2);
-  white-space: nowrap;
 }
 
 .swatch {
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 3px;
   flex-shrink: 0;
 }
 
@@ -363,8 +304,8 @@ button {
   top: 0;
   z-index: 1200;
   padding: 12px 20px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--line);
+  color: var(--sheet);
   font-family: var(--font-plex-mono), monospace;
   font-size: 0.75rem;
 }
@@ -372,6 +313,8 @@ button {
   left: 0;
 }
 
+/* Motion is the whole conceit here, so the reduced-motion path is
+   explicit: the pipework stays, the product stops moving. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -3,6 +3,7 @@ import Link from "next/link";
 import CategoryKey from "@/components/CategoryKey";
 import JsonLd from "@/components/JsonLd";
 import ProductBrowser from "@/components/ProductBrowser";
+import Unit from "@/components/Unit";
 import { categories, products } from "@/lib/products";
 import { breadcrumbSchema, productCatalogueSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
@@ -33,25 +34,25 @@ export default function ProductsPage() {
         ]}
       />
 
-      <section className="page-plate">
+      <section className="sheet-head">
         <div className="container">
-          <nav aria-label="Breadcrumb" className="mono sheet-crumb">
-            <Link href="/">Index</Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">Catalogue</span>
+          <nav aria-label="Breadcrumb" className="tag-sm crumb">
+            <Link href="/">Overview</Link>
+            <span aria-hidden="true">→</span>
+            <span aria-current="page">Tank farm</span>
           </nav>
 
-          <div className="page-plate-inner">
+          <div className="sheet-inner">
             <div>
-              <span className="data page-plate-ref">SE/01</span>
-              <h1 className="display d1">The catalogue</h1>
+              <span className="tag-text sheet-ref">SHT 02 · TK-301</span>
+              <h1 className="draft t1">Tank farm</h1>
             </div>
             <p className="lead">
-              SHIV ENTERPRISES supplies {products.length} industrial chemicals
-              across {categories.length} categories — water treatment, acids,
-              alkalis and salts, bleaching and oxidising agents, surfactants,
-              and specialty products — dispatched from Punjab and Chandigarh to
-              sites across India.
+              SHIV ENTERPRISES holds {products.length} industrial chemicals
+              across {categories.length} service classes — water treatment,
+              acids, alkalis and salts, bleaching and oxidising agents,
+              surfactants, and specialty products — dispatched from Punjab and
+              Chandigarh to sites across India.
             </p>
           </div>
 
@@ -59,40 +60,37 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section className="band">
-        <div className="container">
-          <Suspense
-            fallback={<p className="mono index-count">Loading index…</p>}
-          >
-            <ProductBrowser />
-          </Suspense>
-        </div>
-      </section>
+      <Unit tag="TK-301" name="Vessel inventory" note="Live filter">
+        <Suspense
+          fallback={<p className="tag-sm stream-count">Priming lines…</p>}
+        >
+          <ProductBrowser />
+        </Suspense>
+      </Unit>
 
-      <section className="band enquiry-band">
-        <div className="container enquiry-band-inner">
+      <Unit tag="CP-601" name="Off-catalogue enquiry" tone="ink" terminal>
+        <div className="control-room">
           <div>
-            <p className="mono enquiry-kicker">Not listed</p>
-            <h2 className="display d2">
+            <h3 className="draft t2">
               We source beyond
               <br />
-              this index.
-            </h2>
-            <p className="lead enquiry-lead">
+              this inventory.
+            </h3>
+            <p className="lead cr-lead">
               Send the chemical name, grade, and quantity and we will confirm
               availability.
             </p>
           </div>
-          <div className="enquiry-actions">
+          <div className="cr-actions">
             <Link href="/contact" className="btn btn-solid">
               Request a quote
             </Link>
-            <a href={site.phoneHref} className="btn btn-outline data">
+            <a href={site.phoneHref} className="btn btn-line data">
               {site.phone}
             </a>
           </div>
         </div>
-      </section>
+      </Unit>
     </>
   );
 }

@@ -7,14 +7,13 @@ import { useEffect, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
 import { navLinks, site } from "@/lib/site";
 
-/** Section reference printed in the masthead, the way a document header
- *  names the sheet you are on. */
-const sheetRef: Record<string, string> = {
-  "/": "SE/00 · INDEX",
-  "/products": "SE/01 · CATALOGUE",
-  "/industries": "SE/02 · SECTORS",
-  "/about": "SE/03 · COMPANY",
-  "/contact": "SE/04 · ENQUIRY",
+/** Drawing sheet number for the current view. */
+const sheetOf: Record<string, string> = {
+  "/": "SHT 01 — PROCESS OVERVIEW",
+  "/products": "SHT 02 — TANK FARM",
+  "/industries": "SHT 03 — DISTRIBUTION",
+  "/about": "SHT 04 — PLANT DATA",
+  "/contact": "SHT 05 — CONTROL ROOM",
 };
 
 export default function Header() {
@@ -31,27 +30,25 @@ export default function Header() {
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
-  const ref = pathname.startsWith("/products/")
-    ? "SE/01 · DATASHEET"
-    : (sheetRef[pathname] ?? "SE · SHIV ENTERPRISES");
+  const sheet = pathname.startsWith("/products/")
+    ? "SHT 02.1 — STREAM DATA"
+    : (sheetOf[pathname] ?? "SHIV ENTERPRISES");
 
   return (
-    <header className="masthead">
-      {/* Running head — document reference, certification, contact. */}
-      <div className="running-head">
-        <div className="container running-head-inner mono-sm">
-          <span>{ref}</span>
-          <span className="running-head-cert">
-            {site.certification} CERTIFIED
-          </span>
-          <a href={site.phoneHref} className="running-head-phone data">
+    <header className="drawing-head">
+      {/* Revision strip — the band across the top of every drawing. */}
+      <div className="rev-strip">
+        <div className="container rev-strip-inner tag-sm">
+          <span>{sheet}</span>
+          <span className="rev-cert">{site.certification}</span>
+          <a href={site.phoneHref} className="data rev-phone">
             {site.phone}
           </a>
         </div>
       </div>
 
-      <div className="container masthead-inner">
-        <Link href="/" className="masthead-logo" aria-label={`${site.name} home`}>
+      <div className="container head-inner">
+        <Link href="/" className="head-logo" aria-label={`${site.name} home`}>
           <Image
             src={site.logo}
             alt={`${site.name} — ${site.certification} certified industrial chemical supplier`}
@@ -61,27 +58,27 @@ export default function Header() {
           />
         </Link>
 
-        <nav className="masthead-nav" aria-label="Primary">
+        <nav className="head-nav" aria-label="Primary">
           {navLinks.map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
-              className="masthead-link mono"
+              className="head-link tag-text"
               aria-current={isActive(link.href) ? "page" : undefined}
             >
-              <span className="masthead-link-num">
-                {String(i + 1).padStart(2, "0")}
+              <span className="head-link-tag" aria-hidden="true">
+                {String((i + 2) * 100).slice(0, 3)}
               </span>
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="masthead-actions">
+        <div className="head-actions">
           <ThemeToggle />
           <button
             type="button"
-            className="masthead-burger mono"
+            className="head-burger tag-sm"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-nav"
@@ -91,20 +88,20 @@ export default function Header() {
         </div>
       </div>
 
-      <div id="mobile-nav" className="masthead-mobile" hidden={!open}>
+      <div id="mobile-nav" className="head-mobile" hidden={!open}>
         <nav className="container" aria-label="Mobile">
           {navLinks.map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
-              className="masthead-mobile-link"
+              className="head-mobile-link"
               onClick={() => setOpen(false)}
               aria-current={isActive(link.href) ? "page" : undefined}
             >
-              <span className="mono masthead-link-num">
-                {String(i + 1).padStart(2, "0")}
+              <span className="tag-sm head-link-tag">
+                {String((i + 2) * 100).slice(0, 3)}
               </span>
-              <span className="display d3">{link.label}</span>
+              <span className="draft t3">{link.label}</span>
             </Link>
           ))}
         </nav>

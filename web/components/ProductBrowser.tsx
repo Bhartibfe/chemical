@@ -3,7 +3,7 @@
 import { useDeferredValue, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import ElementTile from "./ElementTile";
+import Vessel from "./Vessel";
 import {
   categories,
   categoryMeta,
@@ -43,7 +43,7 @@ export default function ProductBrowser() {
   const [filter, setFilter] = useState<Filter>(initialFilter);
   const reduced = useReducedMotion();
 
-  // Keeps typing responsive while the full index re-renders.
+  // Keeps typing responsive while the tank farm re-renders.
   const deferredQuery = useDeferredValue(query);
 
   const visible = useMemo(
@@ -56,10 +56,11 @@ export default function ProductBrowser() {
 
   return (
     <>
-      <div className="index-controls">
-        <div className="index-search">
-          <label htmlFor="product-search" className="mono index-search-label">
-            Search
+      {/* Isolation valves — the filter row, drawn as a valve manifold. */}
+      <div className="manifold">
+        <div className="manifold-search">
+          <label htmlFor="product-search" className="tag-sm">
+            Search stream
           </label>
           <input
             id="product-search"
@@ -72,7 +73,11 @@ export default function ProductBrowser() {
           />
         </div>
 
-        <div className="index-filters" role="group" aria-label="Filter by category">
+        <div
+          className="manifold-valves"
+          role="group"
+          aria-label="Filter by service class"
+        >
           {filters.map((option) => {
             const active = filter === option;
             const meta = option === "All" ? null : categoryMeta[option];
@@ -81,17 +86,20 @@ export default function ProductBrowser() {
                 key={option}
                 type="button"
                 onClick={() => setFilter(option)}
-                className="index-filter mono"
+                className="valve tag-sm"
                 data-active={active}
                 aria-pressed={active}
               >
-                {meta && (
+                <span className="valve-symbol" aria-hidden="true">
                   <span
-                    className="swatch"
-                    style={{ background: `var(${meta.token})` }}
-                    aria-hidden="true"
+                    className="valve-body"
+                    style={
+                      meta
+                        ? ({ background: `var(${meta.token})` } as React.CSSProperties)
+                        : undefined
+                    }
                   />
-                )}
+                </span>
                 {meta ? meta.code : "ALL"}
               </button>
             );
@@ -99,37 +107,42 @@ export default function ProductBrowser() {
         </div>
       </div>
 
-      <p className="index-count mono" role="status" aria-live="polite">
-        {String(visible.length).padStart(2, "0")} / {products.length} entries
+      <p className="tag-sm stream-count" role="status" aria-live="polite">
+        {String(visible.length).padStart(2, "0")} / {products.length} vessels
+        online
         {filter !== "All" && ` · ${filter}`}
       </p>
 
       {visible.length > 0 ? (
-        <motion.ul layout={!reduced} className="tile-grid">
-          <AnimatePresence mode="popLayout">
-            {visible.map(({ product, index }, position) => (
-              <motion.li
-                key={product.slug}
-                layout={!reduced}
-                initial={reduced ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={reduced ? undefined : { opacity: 0 }}
-                transition={{
-                  duration: 0.24,
-                  delay: reduced ? 0 : Math.min(position * 0.018, 0.28),
-                  ease: "linear",
-                }}
-              >
-                <ElementTile product={product} index={index} />
-              </motion.li>
-            ))}
-          </AnimatePresence>
-        </motion.ul>
+        <div className="farm">
+          {/* Distribution header the vessels hang from. */}
+          <span className="farm-header" aria-hidden="true" />
+          <motion.ul layout={!reduced} className="farm-grid">
+            <AnimatePresence mode="popLayout">
+              {visible.map(({ product, index }, position) => (
+                <motion.li
+                  key={product.slug}
+                  layout={!reduced}
+                  initial={reduced ? false : { opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduced ? undefined : { opacity: 0 }}
+                  transition={{
+                    duration: 0.26,
+                    delay: reduced ? 0 : Math.min(position * 0.02, 0.3),
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  <Vessel product={product} index={index} />
+                </motion.li>
+              ))}
+            </AnimatePresence>
+          </motion.ul>
+        </div>
       ) : (
-        <div className="index-empty">
-          <p className="display d3">No entry matches “{query}”</p>
+        <div className="no-flow">
+          <p className="draft t3">No vessel matches “{query}”</p>
           <p className="prose">
-            SHIV ENTERPRISES sources beyond this index. Call{" "}
+            SHIV ENTERPRISES sources beyond this plant inventory. Call{" "}
             <a href="tel:+917814969998" className="data link">
               +91 78149 69998
             </a>{" "}
@@ -137,13 +150,13 @@ export default function ProductBrowser() {
           </p>
           <button
             type="button"
-            className="btn btn-outline"
+            className="btn btn-line"
             onClick={() => {
               setQuery("");
               setFilter("All");
             }}
           >
-            Reset index
+            Reopen all valves
           </button>
         </div>
       )}

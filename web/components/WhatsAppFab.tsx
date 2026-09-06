@@ -1,15 +1,16 @@
 import { site } from "@/lib/site";
 
-/** Persistent enquiry tab. Set as a ruled block rather than a floating
- *  circle, so it belongs to the document rather than hovering over it. */
+/** Field enquiry point, drawn as a wall-mounted call station clamped to the
+ *  edge of the sheet rather than a floating bubble. */
 export default function WhatsAppFab() {
   return (
     <a
-      className="wa-tab mono"
+      className="call-point tag-sm"
       href={site.whatsapp}
       target="_blank"
       rel="noopener noreferrer"
     >
+      <span className="call-lamp" aria-hidden="true" />
       WhatsApp
       <span className="visually-hidden">
         {" "}

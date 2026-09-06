@@ -1,6 +1,7 @@
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
+import Unit from "@/components/Unit";
 import { industries } from "@/lib/content";
 import { breadcrumbSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
@@ -29,18 +30,18 @@ export default function IndustriesPage() {
         ])}
       />
 
-      <section className="page-plate">
+      <section className="sheet-head">
         <div className="container">
-          <nav aria-label="Breadcrumb" className="mono sheet-crumb">
-            <Link href="/">Index</Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">Sectors</span>
+          <nav aria-label="Breadcrumb" className="tag-sm crumb">
+            <Link href="/">Overview</Link>
+            <span aria-hidden="true">→</span>
+            <span aria-current="page">Distribution</span>
           </nav>
 
-          <div className="page-plate-inner">
+          <div className="sheet-inner">
             <div>
-              <span className="data page-plate-ref">SE/02</span>
-              <h1 className="display d1">Sectors served</h1>
+              <span className="tag-text sheet-ref">SHT 03 · MN-401</span>
+              <h1 className="draft t1">Distribution</h1>
             </div>
             <p className="lead">
               SHIV ENTERPRISES supplies industrial chemicals to{" "}
@@ -52,45 +53,47 @@ export default function IndustriesPage() {
         </div>
       </section>
 
-      <section className="band">
-        <div className="container">
-          <ul className="ledger">
-            {industries.map((industry, i) => (
-              <Reveal as="li" index={i} key={industry.slug} className="ledger-row">
-                <span className="data ledger-num">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h2 className="display d3 ledger-title">{industry.name}</h2>
-                <p className="ledger-desc">{industry.blurb}</p>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <Unit
+        tag="MN-401"
+        name="Manifold branches"
+        note={`${industries.length} outlets`}
+      >
+        <ul className="branches">
+          {industries.map((industry, i) => (
+            <Reveal as="li" index={i} key={industry.slug} className="branch">
+              <span className="branch-pipe" aria-hidden="true" />
+              <span className="data branch-tag">
+                B-{String(i + 1).padStart(2, "0")}
+              </span>
+              <h2 className="draft t3 branch-name">{industry.name}</h2>
+              <p className="branch-desc">{industry.blurb}</p>
+            </Reveal>
+          ))}
+        </ul>
+      </Unit>
 
-      <section className="band enquiry-band">
-        <div className="container enquiry-band-inner">
+      <Unit tag="CP-601" name="Sector enquiry" tone="ink" terminal>
+        <div className="control-room">
           <div>
-            <p className="mono enquiry-kicker">Enquiry</p>
-            <h2 className="display d2">
+            <h3 className="draft t2">
               Tell us the
               <br />
               application.
-            </h2>
-            <p className="lead enquiry-lead">
+            </h3>
+            <p className="lead cr-lead">
               We will recommend the right chemical, grade, and dosing approach.
             </p>
           </div>
-          <div className="enquiry-actions">
+          <div className="cr-actions">
             <Link href="/contact" className="btn btn-solid">
               Talk to our team
             </Link>
-            <a href={site.phoneHref} className="btn btn-outline data">
+            <a href={site.phoneHref} className="btn btn-line data">
               {site.phone}
             </a>
           </div>
         </div>
-      </section>
+      </Unit>
     </>
   );
 }
