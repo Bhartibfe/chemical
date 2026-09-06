@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Chapter from "@/components/Chapter";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
-import Unit from "@/components/Unit";
 import { industries } from "@/lib/content";
 import { breadcrumbSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
@@ -30,70 +30,65 @@ export default function IndustriesPage() {
         ])}
       />
 
-      <section className="sheet-head">
-        <div className="container">
-          <nav aria-label="Breadcrumb" className="tag-sm crumb">
-            <Link href="/">Overview</Link>
-            <span aria-hidden="true">→</span>
-            <span aria-current="page">Distribution</span>
+      <section className="chapter-opener">
+        <div className="page">
+          <nav aria-label="Breadcrumb" className="apparatus-sm breadcrumb">
+            <Link href="/">Handbook</Link>
+            <span aria-hidden="true">·</span>
+            <span aria-current="page">Sectors</span>
           </nav>
 
-          <div className="sheet-inner">
-            <div>
-              <span className="tag-text sheet-ref">SHT 03 · MN-401</span>
-              <h1 className="draft t1">Distribution</h1>
-            </div>
-            <p className="lead">
-              SHIV ENTERPRISES supplies industrial chemicals to{" "}
-              {industries.length} sectors across India, from municipal water
-              treatment plants in Punjab to defence metallurgical laboratories
-              and thermal power stations.
-            </p>
-          </div>
+          <p className="apparatus chapter-opener-num">§ 02</p>
+          <h1 className="title t1">Sectors served</h1>
+          <hr className="rule-double" />
+          <p className="lead">
+            SHIV ENTERPRISES supplies industrial chemicals to{" "}
+            {industries.length} sectors across India, from municipal water
+            treatment plants in Punjab to defence metallurgical laboratories and
+            thermal power stations.
+          </p>
         </div>
       </section>
 
-      <Unit
-        tag="MN-401"
-        name="Manifold branches"
-        note={`${industries.length} outlets`}
-      >
-        <ul className="branches">
-          {industries.map((industry, i) => (
-            <Reveal as="li" index={i} key={industry.slug} className="branch">
-              <span className="branch-pipe" aria-hidden="true" />
-              <span className="data branch-tag">
-                B-{String(i + 1).padStart(2, "0")}
-              </span>
-              <h2 className="draft t3 branch-name">{industry.name}</h2>
-              <p className="branch-desc">{industry.blurb}</p>
-            </Reveal>
-          ))}
-        </ul>
-      </Unit>
+      <section className="chapter" data-tone="paper">
+        <div className="page">
+          <ol className="sector-list">
+            {industries.map((industry, i) => (
+              <Reveal as="li" index={i} key={industry.slug} className="sector">
+                <span className="folio sector-num">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h2 className="title t3 sector-name">{industry.name}</h2>
+                  <p className="prose sector-desc">{industry.blurb}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </section>
 
-      <Unit tag="CP-601" name="Sector enquiry" tone="ink" terminal>
-        <div className="control-room">
-          <div>
-            <h3 className="draft t2">
-              Tell us the
-              <br />
-              application.
-            </h3>
-            <p className="lead cr-lead">
-              We will recommend the right chemical, grade, and dosing approach.
-            </p>
-          </div>
-          <div className="cr-actions">
-            <Link href="/contact" className="btn btn-solid">
+      <Chapter
+        number={3}
+        title="Enquiries"
+        note="Tell us the application and we will match the chemical."
+        tone="plate"
+      >
+        <div className="enquiry-spread">
+          <p className="lead">
+            We will recommend the right chemical, grade, and dosing approach for
+            your process.
+          </p>
+          <div className="title-page-actions">
+            <Link href="/contact" className="btn btn-ink">
               Talk to our team
             </Link>
-            <a href={site.phoneHref} className="btn btn-line data">
+            <a href={site.phoneHref} className="btn btn-plain">
               {site.phone}
             </a>
           </div>
         </div>
-      </Unit>
+      </Chapter>
     </>
   );
 }

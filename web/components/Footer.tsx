@@ -4,51 +4,58 @@ import { addresses, navLinks, site } from "@/lib/site";
 import { categories, categoryMeta, products } from "@/lib/products";
 
 /**
- * Title block — the bordered data panel in the corner of every engineering
- * drawing, carrying who drew it, what it is, and which revision you hold.
+ * Colophon — the note at the back of a book recording who made it, how, and
+ * in what types. Here it also carries the imprint details a buyer needs.
  */
 export default function Footer() {
   return (
-    <footer className="title-block">
-      <div className="container">
-        <div className="tb-grid">
-          <div className="tb-cell tb-brand">
+    <footer className="colophon">
+      <div className="page">
+        <p className="apparatus colophon-rule">Colophon</p>
+
+        <div className="colophon-grid">
+          <div className="colophon-imprint">
             <Image
               src={site.logo}
               alt={`${site.name} logo`}
               width={412}
               height={175}
-              className="tb-logo"
+              className="colophon-logo"
             />
-            <p className="prose tb-note">
+            <p className="prose colophon-note">
               SHIV ENTERPRISES is an {site.certification} certified industrial
               chemical supplier based in Sardulgarh, Punjab, supplying{" "}
-              {products.length} chemicals across India.
+              {products.length} chemicals to power, rail, defence, water
+              treatment and textile sectors across India.
             </p>
+            {addresses.map((address) => (
+              <address key={address.label} className="colophon-address">
+                <span className="apparatus-sm">{address.label}</span>
+                <span>{address.display}</span>
+              </address>
+            ))}
           </div>
 
-          <nav className="tb-cell" aria-label="Footer">
-            <span className="tag-sm tb-label">Sheets</span>
+          <nav className="colophon-col" aria-label="Footer">
+            <p className="apparatus-sm colophon-label">Chapters</p>
             {navLinks.map((link, i) => (
-              <Link key={link.href} href={link.href} className="tb-link">
-                <span className="data tb-num">
-                  {String(i + 2).padStart(2, "0")}
-                </span>
+              <Link key={link.href} href={link.href} className="colophon-link">
+                <span className="folio">{String(i + 1).padStart(2, "0")}</span>
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <nav className="tb-cell" aria-label="Service classes">
-            <span className="tag-sm tb-label">Services</span>
+          <nav className="colophon-col" aria-label="Subject classes">
+            <p className="apparatus-sm colophon-label">Subjects</p>
             {categories.map((category) => (
               <Link
                 key={category}
                 href={`/products?category=${encodeURIComponent(category)}`}
-                className="tb-link"
+                className="colophon-link"
               >
                 <span
-                  className="swatch"
+                  className="mark"
                   style={{ background: `var(${categoryMeta[category].token})` }}
                   aria-hidden="true"
                 />
@@ -57,50 +64,30 @@ export default function Footer() {
             ))}
           </nav>
 
-          <div className="tb-cell">
-            <span className="tag-sm tb-label">Sites</span>
-            {addresses.map((address) => (
-              <address key={address.label} className="tb-address">
-                <span className="tag-sm">{address.label}</span>
-                <span className="data">{address.display}</span>
-              </address>
-            ))}
-            <a href={site.phoneHref} className="tb-link data">
+          <div className="colophon-col">
+            <p className="apparatus-sm colophon-label">Enquiries</p>
+            <a href={site.phoneHref} className="colophon-link">
               {site.phone}
             </a>
-            <a href={site.emailHref} className="tb-link data">
+            <a href={site.emailHref} className="colophon-link">
               {site.email}
+            </a>
+            <a
+              href={site.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="colophon-link"
+            >
+              WhatsApp
+              <span className="visually-hidden"> (opens in a new tab)</span>
             </a>
           </div>
         </div>
 
-        {/* The stamp row a real title block ends on. */}
-        <dl className="tb-stamp">
-          <div>
-            <dt className="tag-sm">Drawing</dt>
-            <dd className="data">SE-PFD-001</dd>
-          </div>
-          <div>
-            <dt className="tag-sm">Title</dt>
-            <dd className="data">Industrial Chemical Supply — Process Flow</dd>
-          </div>
-          <div>
-            <dt className="tag-sm">Certification</dt>
-            <dd className="data">{site.certification}</dd>
-          </div>
-          <div>
-            <dt className="tag-sm">Area served</dt>
-            <dd className="data">Pan-India</dd>
-          </div>
-          <div>
-            <dt className="tag-sm">Issued</dt>
-            <dd className="data">{new Date().getFullYear()}</dd>
-          </div>
-        </dl>
-
-        <p className="tag-sm tb-foot">
-          © {new Date().getFullYear()} {site.legalName} · Sardulgarh ·
-          Chandigarh · All rights reserved
+        <p className="colophon-set">
+          Set in Source Serif 4 and Source Sans 3. {site.certification}{" "}
+          certified. © {new Date().getFullYear()} {site.legalName}, Sardulgarh
+          and Chandigarh. All rights reserved.
         </p>
       </div>
     </footer>

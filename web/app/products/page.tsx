@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import CategoryKey from "@/components/CategoryKey";
+import Chapter from "@/components/Chapter";
 import JsonLd from "@/components/JsonLd";
 import ProductBrowser from "@/components/ProductBrowser";
-import Unit from "@/components/Unit";
 import { categories, products } from "@/lib/products";
 import { breadcrumbSchema, productCatalogueSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
@@ -34,63 +34,59 @@ export default function ProductsPage() {
         ]}
       />
 
-      <section className="sheet-head">
-        <div className="container">
-          <nav aria-label="Breadcrumb" className="tag-sm crumb">
-            <Link href="/">Overview</Link>
-            <span aria-hidden="true">→</span>
-            <span aria-current="page">Tank farm</span>
+      <section className="chapter-opener">
+        <div className="page">
+          <nav aria-label="Breadcrumb" className="apparatus-sm breadcrumb">
+            <Link href="/">Handbook</Link>
+            <span aria-hidden="true">·</span>
+            <span aria-current="page">Catalogue</span>
           </nav>
 
-          <div className="sheet-inner">
-            <div>
-              <span className="tag-text sheet-ref">SHT 02 · TK-301</span>
-              <h1 className="draft t1">Tank farm</h1>
-            </div>
-            <p className="lead">
-              SHIV ENTERPRISES holds {products.length} industrial chemicals
-              across {categories.length} service classes — water treatment,
-              acids, alkalis and salts, bleaching and oxidising agents,
-              surfactants, and specialty products — dispatched from Punjab and
-              Chandigarh to sites across India.
-            </p>
-          </div>
-
+          <p className="apparatus chapter-opener-num">§ 01</p>
+          <h1 className="title t1">The catalogue</h1>
+          <hr className="rule-double" />
+          <p className="lead">
+            SHIV ENTERPRISES supplies {products.length} industrial chemicals
+            across {categories.length} subject classes — water treatment, acids,
+            alkalis and salts, bleaching and oxidising agents, surfactants, and
+            specialty products — dispatched from Punjab and Chandigarh to sites
+            across India.
+          </p>
           <CategoryKey />
         </div>
       </section>
 
-      <Unit tag="TK-301" name="Vessel inventory" note="Live filter">
-        <Suspense
-          fallback={<p className="tag-sm stream-count">Priming lines…</p>}
-        >
-          <ProductBrowser />
-        </Suspense>
-      </Unit>
+      <section className="chapter" data-tone="paper">
+        <div className="page">
+          <Suspense
+            fallback={<p className="apparatus-sm index-count">Loading index…</p>}
+          >
+            <ProductBrowser />
+          </Suspense>
+        </div>
+      </section>
 
-      <Unit tag="CP-601" name="Off-catalogue enquiry" tone="ink" terminal>
-        <div className="control-room">
-          <div>
-            <h3 className="draft t2">
-              We source beyond
-              <br />
-              this inventory.
-            </h3>
-            <p className="lead cr-lead">
-              Send the chemical name, grade, and quantity and we will confirm
-              availability.
-            </p>
-          </div>
-          <div className="cr-actions">
-            <Link href="/contact" className="btn btn-solid">
+      <Chapter
+        number={2}
+        title="Not listed here"
+        note="The handbook is not the limit of what we supply."
+        tone="plate"
+      >
+        <div className="enquiry-spread">
+          <p className="lead">
+            SHIV ENTERPRISES sources beyond this catalogue. Send the chemical
+            name, grade, and quantity and we will confirm availability.
+          </p>
+          <div className="title-page-actions">
+            <Link href="/contact" className="btn btn-ink">
               Request a quote
             </Link>
-            <a href={site.phoneHref} className="btn btn-line data">
+            <a href={site.phoneHref} className="btn btn-plain">
               {site.phone}
             </a>
           </div>
         </div>
-      </Unit>
+      </Chapter>
     </>
   );
 }

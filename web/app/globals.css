@@ -2,86 +2,83 @@
 @import "./components.css";
 
 /* ═══════════════════════════════════════════════════════════════════
-   THE PROCESS FLOW PLANT — design tokens
+   THE REFERENCE HANDBOOK — design tokens
 
-   The site is drawn as a piping & instrumentation diagram. Material
-   enters at the top, is tested, stored, branched to sectors, and
-   dispatched. Every section is a tagged plant unit on one continuous
-   process line.
-
-   Light  = drafting sheet, ink on vellum.
-   Dark   = CAD screen, luminous lines on a drawing board.
+   The site is set as a bound reference handbook: running heads,
+   numbered chapters, indexed entries, marginal notes, and a colophon.
+   Typography does the work — Source Serif 4 for text, Source Sans 3
+   for the apparatus (folios, labels, running heads).
 
    Brand colours are sampled from the logo: navy #00243C (the SE mark)
-   and cyan #1496C8 (the swoosh).
+   and cyan #1496C8 (the swoosh). Navy is the accent ink; cyan is used
+   sparingly, for marks and links.
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
   --brand-navy: #00243c;
   --brand-cyan: #1496c8;
 
-  /* Drawing sheet */
-  --sheet: #eef0ec; /* vellum */
-  --sheet-2: #e4e7e2;
-  --panel: #f8f9f7;
-  --ink: #0d2233;
-  --ink-2: #4a5f70;
-  --ink-3: #7d909e;
+  /* Paper & ink — warm book stock, not office white */
+  --paper: #fbf9f5;
+  --paper-2: #f4f0e8;
+  --paper-3: #ece7dc;
+  --ink: #191512;
+  --ink-2: #4e463e;
+  --ink-3: #857a6d;
 
-  /* Drawing lines. Process lines are heavy, utility lines light. */
-  --line: #0d2233;
-  --line-soft: #b9c2bd;
-  --grid: rgba(13, 34, 51, 0.055);
+  --rule: #ddd6c8;
+  --rule-strong: #191512;
 
-  --accent: #0b6e93;
-  --flow: #1496c8; /* the moving product in the pipe */
-  --on-accent: #f8f9f7;
+  --accent: #00243c; /* navy — headings, rules, marks */
+  --link: #0b5f80; /* cyan darkened for AA on cream */
+  --link-hover: #00243c;
+  --on-accent: #fbf9f5;
 
-  /* Service colours — as a real P&ID colour-codes its line services. */
-  --svc-water: #0e7fa8;
-  --svc-acid: #c2410c;
-  --svc-alkali: #6247aa;
-  --svc-oxid: #0f766e;
-  --svc-surf: #a3306e;
-  --svc-spec: #475b6b;
+  /* Subject marks for the six classes. Muted to book-plate ink, not
+     screen colour. */
+  --sub-water: #1c6a8a;
+  --sub-acid: #9a4a1c;
+  --sub-alkali: #55407e;
+  --sub-oxid: #1f6659;
+  --sub-surf: #8a3560;
+  --sub-spec: #4a5560;
 
-  --rail: 72px; /* width of the pipework gutter */
-  --container: 1320px;
+  --measure: 68ch; /* line length for body text */
+  --page: 1180px;
 }
 
 :root[data-theme="dark"] {
-  --sheet: #07131c;
-  --sheet-2: #0b1a25;
-  --panel: #0e2130;
-  --ink: #dfeaf1;
-  --ink-2: #9db2c0;
-  --ink-3: #6b8393;
+  --paper: #14110e;
+  --paper-2: #1b1713;
+  --paper-3: #221d18;
+  --ink: #ece5da;
+  --ink-2: #b3a99b;
+  --ink-3: #8a7f71;
 
-  --line: #4d7d97;
-  --line-soft: #1e3849;
-  --grid: rgba(89, 175, 214, 0.07);
+  --rule: #352f27;
+  --rule-strong: #b3a99b;
 
-  --accent: #46b6dd;
-  --flow: #5ecdf2;
-  --on-accent: #04121b;
+  --accent: #9fc4da;
+  --link: #6fb9d8;
+  --link-hover: #a5d5ea;
+  --on-accent: #14110e;
 
-  --svc-water: #3fb0d8;
-  --svc-acid: #f08a4b;
-  --svc-alkali: #9c85e0;
-  --svc-oxid: #38b09f;
-  --svc-surf: #e06aa4;
-  --svc-spec: #8ba3b3;
+  --sub-water: #63b4d0;
+  --sub-acid: #d08a5c;
+  --sub-alkali: #a08fd0;
+  --sub-oxid: #5fae9e;
+  --sub-surf: #d07fa5;
+  --sub-spec: #96a3ae;
 }
 
 @theme inline {
-  --color-sheet: var(--sheet);
-  --color-panel: var(--panel);
+  --color-paper: var(--paper);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
-  --color-line: var(--line);
+  --color-rule: var(--rule);
   --color-accent: var(--accent);
-  --font-draft: var(--font-barlow);
-  --font-mono: var(--font-plex-mono);
+  --font-serif: var(--font-source-serif);
+  --font-sans: var(--font-source-sans);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -98,24 +95,19 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: 96px;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--sheet);
+  background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-barlow), system-ui, sans-serif;
-  font-size: 16.5px;
-  line-height: 1.55;
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-size: 18px;
+  line-height: 1.62;
+  font-feature-settings: "kern" 1, "liga" 1, "onum" 1;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-
-  /* The drawing grid, faint under everything. */
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 24px 24px;
 }
 
 a {
@@ -123,8 +115,7 @@ a {
   text-decoration: none;
 }
 
-img,
-svg {
+img {
   display: block;
   max-width: 100%;
 }
@@ -138,148 +129,167 @@ button {
 }
 
 ::selection {
-  background: var(--flow);
+  background: var(--accent);
   color: var(--on-accent);
 }
 
 :focus-visible {
-  outline: 2px solid var(--flow);
+  outline: 2px solid var(--link);
   outline-offset: 3px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   TYPE — drafting lettering for headings, monospace for every tag
+   TYPE
+   Headings are set in the book serif, sentence case, with real
+   optical sizing. Nothing is condensed and nothing shouts.
    ═══════════════════════════════════════════════════════════════════ */
 
-.draft {
-  font-family: var(--font-barlow), sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  line-height: 0.98;
-  letter-spacing: 0.005em;
+.title {
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
   text-wrap: balance;
 }
 
 .t1 {
-  font-size: clamp(2.5rem, 7.5vw, 5.75rem);
+  font-size: clamp(2.5rem, 5.5vw, 4.25rem);
 }
 .t2 {
-  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-size: clamp(1.875rem, 3.2vw, 2.75rem);
 }
 .t3 {
-  font-size: clamp(1.25rem, 2vw, 1.625rem);
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  line-height: 1.25;
 }
 
-/* Equipment and instrument tags. Always monospace, always uppercase. */
-.tag-text {
-  font-family: var(--font-plex-mono), ui-monospace, monospace;
+/* The apparatus: running heads, folios, labels, small caps. Set in the
+   sans, letterspaced, never larger than the text it annotates. */
+.apparatus {
+  font-family: var(--font-source-sans), system-ui, sans-serif;
   font-size: 0.6875rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.13em;
   text-transform: uppercase;
+  font-feature-settings: "lnum" 1;
 }
 
-.tag-sm {
-  font-family: var(--font-plex-mono), ui-monospace, monospace;
-  font-size: 0.5938rem;
+.apparatus-sm {
+  font-family: var(--font-source-sans), system-ui, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
+  font-feature-settings: "lnum" 1;
 }
 
-.data {
-  font-family: var(--font-plex-mono), ui-monospace, monospace;
-  font-variant-numeric: tabular-nums;
+.folio {
+  font-family: var(--font-source-sans), system-ui, sans-serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-size: 0.75rem;
 }
 
 .lead {
-  font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
-  line-height: 1.6;
+  font-size: clamp(1.125rem, 1.5vw, 1.3125rem);
+  line-height: 1.55;
   color: var(--ink-2);
-  max-width: 60ch;
+  max-width: 58ch;
   text-wrap: pretty;
 }
 
 .prose {
   color: var(--ink-2);
-  max-width: 68ch;
+  max-width: var(--measure);
   text-wrap: pretty;
+}
+
+/* Opening paragraph of a chapter carries a drop cap, as a book does. */
+.opening::first-letter {
+  float: left;
+  font-size: 3.9em;
+  line-height: 0.82;
+  padding: 0.06em 0.09em 0 0;
+  color: var(--accent);
+  font-weight: 400;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
    LAYOUT
    ═══════════════════════════════════════════════════════════════════ */
 
-.container {
+.page {
   width: 100%;
-  max-width: var(--container);
+  max-width: var(--page);
   margin-inline: auto;
-  padding-inline: clamp(16px, 3vw, 40px);
+  padding-inline: clamp(20px, 5vw, 56px);
+}
+
+/* Text column with a margin column beside it for notes — the book's
+   two-column armature. */
+.spread {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 232px;
+  gap: clamp(28px, 5vw, 68px);
+  align-items: start;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   CONTROLS — drawn like plant fittings: square, ruled, no radius
+   CONTROLS
    ═══════════════════════════════════════════════════════════════════ */
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 9px;
   min-height: 46px;
-  padding: 13px 22px;
-  border: 1.5px solid var(--line);
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  padding: 12px 26px;
+  border: 1px solid var(--rule-strong);
+  font-family: var(--font-source-sans), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
   transition:
-    background-color 0.15s linear,
-    color 0.15s linear,
-    border-color 0.15s linear;
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.btn-solid {
-  background: var(--line);
-  color: var(--sheet);
+.btn-ink {
+  background: var(--rule-strong);
+  color: var(--paper);
 }
-.btn-solid:hover {
-  background: var(--flow);
-  border-color: var(--flow);
+.btn-ink:hover {
+  background: var(--accent);
+  border-color: var(--accent);
   color: var(--on-accent);
 }
 
-.btn-line {
+.btn-plain {
   background: transparent;
   color: var(--ink);
 }
-.btn-line:hover {
-  background: var(--line);
-  color: var(--sheet);
+.btn-plain:hover {
+  background: var(--rule-strong);
+  color: var(--paper);
 }
 
-/* Instrument bubble — the circle-with-tag symbol from a real P&ID. */
-.bubble {
-  display: inline-grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
+.link {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.link:hover {
+  color: var(--link-hover);
+}
+
+.mark {
+  width: 8px;
+  height: 8px;
   flex-shrink: 0;
-  border: 1.5px solid var(--line);
   border-radius: 50%;
-  background: var(--panel);
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 0.5625rem;
-  letter-spacing: 0.06em;
-  line-height: 1.15;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.swatch {
-  width: 10px;
-  height: 3px;
-  flex-shrink: 0;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -304,17 +314,15 @@ button {
   top: 0;
   z-index: 1200;
   padding: 12px 20px;
-  background: var(--line);
-  color: var(--sheet);
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 0.75rem;
+  background: var(--rule-strong);
+  color: var(--paper);
+  font-family: var(--font-source-sans), sans-serif;
+  font-size: 0.8125rem;
 }
 .skip-link:focus {
   left: 0;
 }
 
-/* Motion is the whole conceit here, so the reduced-motion path is
-   explicit: the pipework stays, the product stops moving. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

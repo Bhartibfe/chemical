@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Chapter from "@/components/Chapter";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
-import Unit from "@/components/Unit";
 import { clients, commitments, differentiators } from "@/lib/content";
 import { products } from "@/lib/products";
 import { breadcrumbSchema } from "@/lib/schema";
@@ -30,155 +30,148 @@ export default function AboutPage() {
         ])}
       />
 
-      <section className="sheet-head">
-        <div className="container">
-          <nav aria-label="Breadcrumb" className="tag-sm crumb">
-            <Link href="/">Overview</Link>
-            <span aria-hidden="true">→</span>
-            <span aria-current="page">Plant data</span>
+      <section className="chapter-opener">
+        <div className="page">
+          <nav aria-label="Breadcrumb" className="apparatus-sm breadcrumb">
+            <Link href="/">Handbook</Link>
+            <span aria-hidden="true">·</span>
+            <span aria-current="page">The company</span>
           </nav>
 
-          <div className="sheet-inner">
-            <div>
-              <span className="tag-text sheet-ref">SHT 04 · PLANT DATA</span>
-              <h1 className="draft t1">The plant</h1>
-            </div>
-            <p className="lead">
-              SHIV ENTERPRISES is an {site.certification} certified industrial
-              chemical supplier based in Sardulgarh, Mansa, Punjab, with a
-              second office in Chandigarh, supplying {products.length} chemicals
-              to power plants, Indian Railways, defence establishments, water
-              treatment plants, and textile mills across India.
-            </p>
-          </div>
+          <p className="apparatus chapter-opener-num">§ 03</p>
+          <h1 className="title t1">The company</h1>
+          <hr className="rule-double" />
+          <p className="lead">
+            SHIV ENTERPRISES is an {site.certification} certified industrial
+            chemical supplier based in Sardulgarh, Mansa, Punjab, with a second
+            office in Chandigarh, supplying {products.length} chemicals to power
+            plants, Indian Railways, defence establishments, water treatment
+            plants, and textile mills across India.
+          </p>
         </div>
       </section>
 
-      <Unit tag="OP-101" name="Operating statement">
-        <p className="prose about-para">
-          SHIV ENTERPRISES delivers high-purity chemical solutions to
-          India&apos;s most critical industries — from nuclear power plants to
-          railways and defence. Every product supplied meets strict quality
-          benchmarks under an {site.certification} certified quality management
-          system.
-        </p>
-        <p className="prose about-para">
-          Our technical team supports product selection, dosing guidance, and
-          specification matching, so procurement teams receive the right grade
-          the first time rather than the closest available substitute.
-        </p>
+      <section className="chapter" data-tone="paper">
+        <div className="page spread">
+          <div>
+            <p className="prose opening">
+              SHIV ENTERPRISES delivers high-purity chemical solutions to
+              India&apos;s most critical industries — from nuclear power plants
+              to railways and defence. Every product supplied meets strict
+              quality benchmarks under an {site.certification} certified quality
+              management system.
+            </p>
+            <p className="prose about-para">
+              Our technical team supports product selection, dosing guidance,
+              and specification matching, so procurement teams receive the right
+              grade the first time rather than the closest available substitute.
+            </p>
 
-        <ul className="marks">
-          {differentiators.map((item) => (
-            <li key={item} className="tag-sm mark">
-              {item}
-            </li>
-          ))}
-        </ul>
-
-        <dl className="datasheet about-data">
-          {stats.map((stat) => (
-            <div className="ds-row" key={stat.label}>
-              <dt className="tag-sm">{stat.label}</dt>
-              <dd className="data">{stat.num}</dd>
-            </div>
-          ))}
-          <div className="ds-row">
-            <dt className="tag-sm">Certification</dt>
-            <dd className="data">{site.certification}</dd>
+            <ul className="attributes">
+              {differentiators.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
-          <div className="ds-row">
-            <dt className="tag-sm">Supply area</dt>
-            <dd className="data">Pan-India</dd>
-          </div>
-        </dl>
-      </Unit>
 
-      <Unit
-        tag="AN-201"
-        name="Quality controls"
-        note={`${commitments.length} controls`}
-        tone="panel"
+          <aside className="margin-note">
+            <p className="apparatus-sm margin-note-label">In brief</p>
+            <dl className="margin-list">
+              {stats.map((stat) => (
+                <div key={stat.label}>
+                  <dt>{stat.label}</dt>
+                  <dd>{stat.num}</dd>
+                </div>
+              ))}
+              <div>
+                <dt>Certification</dt>
+                <dd>{site.certification}</dd>
+              </div>
+              <div>
+                <dt>Supply area</dt>
+                <dd>Pan-India</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <Chapter
+        number={1}
+        title="Terms of supply"
+        note="What every order carries, whatever the chemical."
+        tone="tint"
       >
-        <ul className="controls">
+        <ol className="terms">
           {commitments.map((item, i) => (
-            <Reveal as="li" index={i} key={item.title} className="control">
-              <span className="bubble">
-                QC
-                <br />
-                {String(i + 1).padStart(3, "0")}
+            <Reveal as="li" index={i} key={item.title} className="term">
+              <span className="folio term-num">
+                {["i", "ii", "iii", "iv"][i] ?? String(i + 1)}
               </span>
               <div>
-                <h2 className="draft t3">{item.title}</h2>
+                <h2 className="title t3">{item.title}</h2>
                 <p className="prose">{item.desc}</p>
               </div>
             </Reveal>
           ))}
-        </ul>
-      </Unit>
+        </ol>
+      </Chapter>
 
-      <Unit
-        tag="PK-501"
-        name="Client register"
-        note={`${clients.length} institutions`}
+      <Chapter
+        number={2}
+        title="Clients"
+        note={`${clients.length} government and private institutions across India.`}
       >
-        <ul className="register">
+        <ul className="client-list">
           {clients.map((client, i) => (
-            <li key={client.name} className="register-row">
-              <span className="data register-num">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span className="register-name">{client.name}</span>
-              <span className="register-line" aria-hidden="true" />
-              <span className="tag-sm register-dest">Delivered</span>
+            <li key={client.name} className="client">
+              <span className="folio">{String(i + 1).padStart(2, "0")}</span>
+              <span>{client.name}</span>
             </li>
           ))}
         </ul>
-      </Unit>
+      </Chapter>
 
-      <Unit tag="ZI-002" name="Sites" tone="panel">
-        <ul className="sites">
+      <Chapter
+        number={3}
+        title="Offices"
+        note="Two sites in North India, dispatching nationwide."
+        tone="tint"
+      >
+        <ol className="offices">
           {addresses.map((address, i) => (
-            <Reveal as="li" index={i} key={address.label} className="site-card">
-              <span className="bubble">
-                ZI
-                <br />
-                {String(i + 1).padStart(3, "0")}
-              </span>
+            <Reveal as="li" index={i} key={address.label} className="office">
+              <span className="folio">{String(i + 1).padStart(2, "0")}</span>
               <div>
-                <h2 className="draft t3">{address.label}</h2>
-                <address className="data site-address">
-                  {address.display}
-                </address>
+                <h2 className="title t3">{address.label}</h2>
+                <address className="office-address">{address.display}</address>
               </div>
             </Reveal>
           ))}
-        </ul>
-      </Unit>
+        </ol>
+      </Chapter>
 
-      <Unit tag="CP-601" name="Enquiry" tone="ink" terminal>
-        <div className="control-room">
-          <div>
-            <h3 className="draft t2">
-              Work with
-              <br />
-              SHIV ENTERPRISES.
-            </h3>
-            <p className="lead cr-lead">
-              Send your requirement and our technical team will respond with
-              availability, documentation, and delivery timelines.
-            </p>
-          </div>
-          <div className="cr-actions">
-            <Link href="/contact" className="btn btn-solid">
+      <Chapter
+        number={4}
+        title="Enquiries"
+        note="Send your requirement for availability and timelines."
+        tone="plate"
+      >
+        <div className="enquiry-spread">
+          <p className="lead">
+            Send your requirement and our technical team will respond with
+            availability, documentation, and delivery timelines.
+          </p>
+          <div className="title-page-actions">
+            <Link href="/contact" className="btn btn-ink">
               Contact us
             </Link>
-            <Link href="/products" className="btn btn-line">
-              Tank farm
+            <Link href="/products" className="btn btn-plain">
+              The catalogue
             </Link>
           </div>
         </div>
-      </Unit>
+      </Chapter>
     </>
   );
 }

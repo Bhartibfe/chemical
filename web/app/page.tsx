@@ -1,9 +1,9 @@
 import Link from "next/link";
 import CategoryKey from "@/components/CategoryKey";
+import Chapter from "@/components/Chapter";
+import Entry from "@/components/Entry";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
-import Unit from "@/components/Unit";
-import Vessel from "@/components/Vessel";
 import { clients, commitments, industries, testimonials } from "@/lib/content";
 import { products } from "@/lib/products";
 import { productCatalogueSchema } from "@/lib/schema";
@@ -19,264 +19,242 @@ export const metadata = pageMeta({
   path: "/",
 });
 
-const onLine = products.slice(0, 8);
+const opening = products.slice(0, 8);
 
 export default function HomePage() {
   return (
     <>
       <JsonLd schema={productCatalogueSchema} />
 
-      {/* ── FEED ─────────────────────────────────────────────── */}
-      <section className="intake">
-        <div className="container intake-inner">
-          <div className="intake-rail" aria-hidden="true">
-            <span className="intake-cap" />
-            <span className="pipe pipe-out" />
-          </div>
+      {/* ── TITLE PAGE ───────────────────────────────────────── */}
+      <section className="title-page">
+        <div className="page">
+          <p className="apparatus title-page-imprint">
+            Sardulgarh, Punjab · {site.certification} Certified
+          </p>
 
-          <div className="intake-body">
-            <p className="tag-text intake-kicker">
-              SE-PFD-001 · Industrial chemical supply · Punjab, India
-            </p>
+          <h1 className="title t1 title-page-title">
+            A handbook of
+            <br />
+            industrial chemicals
+          </h1>
 
-            <h1 className="draft t1 intake-title">
-              Twenty-nine chemicals.
-              <br />
-              <span className="intake-accent">One process line.</span>
-            </h1>
+          <p className="title-page-sub">
+            Twenty-nine compounds for power, rail, defence and textile
+          </p>
 
-            {/* Answer-first and entity-explicit: quotable standalone by an AI
-                answer engine, with company, credential, place and scope all
-                inside a single sentence. */}
-            <p className="lead intake-lead">
-              SHIV ENTERPRISES is an {site.certification} certified industrial
-              chemical supplier based in Sardulgarh, Punjab, supplying{" "}
-              {products.length} water treatment chemicals, acids, alkalis and
-              surfactants to power plants, Indian Railways, defence, and textile
-              mills across India.
-            </p>
+          <hr className="rule-double" />
 
-            <div className="intake-actions">
-              <Link href="/products" className="btn btn-solid">
-                Open the tank farm
-              </Link>
-              <Link href="/contact" className="btn btn-line">
-                Request a quote
-              </Link>
-            </div>
+          {/* Answer-first and entity-explicit: quotable standalone by an AI
+              answer engine, with company, credential, place and scope all
+              inside a single sentence. */}
+          <p className="lead title-page-lead">
+            SHIV ENTERPRISES is an {site.certification} certified industrial
+            chemical supplier based in Sardulgarh, Punjab, supplying{" "}
+            {products.length} water treatment chemicals, acids, alkalis and
+            surfactants to power plants, Indian Railways, defence, and textile
+            mills across India.
+          </p>
 
-            <div className="gauges">
-              <div className="gauge">
-                <span className="bubble">
-                  QI
-                  <br />
-                  001
-                </span>
-                <span className="gauge-text">
-                  <span className="tag-sm">Certification</span>
-                  <span className="data">{site.certification}</span>
-                </span>
-              </div>
-              <div className="gauge">
-                <span className="bubble">
-                  FI
-                  <br />
-                  029
-                </span>
-                <span className="gauge-text">
-                  <span className="tag-sm">Streams</span>
-                  <span className="data">{products.length} chemicals</span>
-                </span>
-              </div>
-              <div className="gauge">
-                <span className="bubble">
-                  ZI
-                  <br />
-                  002
-                </span>
-                <span className="gauge-text">
-                  <span className="tag-sm">Sites</span>
-                  <span className="data">Sardulgarh · Chandigarh</span>
-                </span>
-              </div>
-            </div>
+          <div className="title-page-actions">
+            <Link href="/products" className="btn btn-ink">
+              Open the catalogue
+            </Link>
+            <Link href="/contact" className="btn btn-plain">
+              Request a quote
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── QC ───────────────────────────────────────────────── */}
-      <Unit
-        tag="AN-201"
-        name="Quality assurance"
-        note={`${commitments.length} controls`}
-        tone="panel"
+      {/* ── CONTENTS ─────────────────────────────────────────── */}
+      <section className="contents">
+        <div className="page">
+          <p className="apparatus contents-label">Contents</p>
+          <ol className="contents-list">
+            <li>
+              <Link href="/products">
+                <span className="folio">01</span>
+                <span className="contents-title">The catalogue</span>
+                <span className="contents-leader" aria-hidden="true" />
+                <span className="folio">{products.length} entries</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/industries">
+                <span className="folio">02</span>
+                <span className="contents-title">Sectors served</span>
+                <span className="contents-leader" aria-hidden="true" />
+                <span className="folio">{industries.length} sectors</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/about">
+                <span className="folio">03</span>
+                <span className="contents-title">The company</span>
+                <span className="contents-leader" aria-hidden="true" />
+                <span className="folio">{clients.length} clients</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact">
+                <span className="folio">04</span>
+                <span className="contents-title">Enquiries</span>
+                <span className="contents-leader" aria-hidden="true" />
+                <span className="folio">{site.phone}</span>
+              </Link>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      {/* ── § 01 THE CATALOGUE ───────────────────────────────── */}
+      <Chapter
+        number={1}
+        title="The catalogue"
+        note={`Showing ${opening.length} of ${products.length} entries. Each entry carries its formula, subject class, and applications.`}
+        tone="tint"
       >
-        <p className="lead unit-lead">
-          Every batch SHIV ENTERPRISES dispatches passes an{" "}
-          {site.certification} certified quality management system before it
-          leaves the plant.
+        <p className="prose opening chapter-opening">
+          SHIV ENTERPRISES holds {products.length} industrial chemicals across
+          six subject classes, from sodium hypochlorite for municipal water
+          treatment to hydrazine hydrate for boiler feed water. Every entry is
+          supplied under an {site.certification} certified quality management
+          system, with MSDS documentation on dispatch.
         </p>
 
-        <ul className="controls">
-          {commitments.map((item, i) => (
-            <Reveal as="li" index={i} key={item.title} className="control">
-              <span className="bubble">
-                QC
-                <br />
-                {String(i + 1).padStart(3, "0")}
+        <div className="index-list index-list-preview">
+          {opening.map((product, i) => (
+            <Entry key={product.slug} product={product} index={i} />
+          ))}
+        </div>
+
+        <div className="chapter-foot">
+          <CategoryKey />
+          <Link href="/products" className="btn btn-plain">
+            All {products.length} entries
+          </Link>
+        </div>
+      </Chapter>
+
+      {/* ── § 02 SECTORS ─────────────────────────────────────── */}
+      <Chapter
+        number={2}
+        title="Sectors served"
+        note={`${industries.length} sectors, from municipal water treatment to defence metallurgy.`}
+      >
+        <ol className="sector-list">
+          {industries.map((industry, i) => (
+            <Reveal as="li" index={i} key={industry.slug} className="sector">
+              <span className="folio sector-num">
+                {String(i + 1).padStart(2, "0")}
               </span>
               <div>
-                <h3 className="draft t3">{item.title}</h3>
+                <h3 className="title t3 sector-name">{industry.name}</h3>
+                <p className="prose sector-desc">{industry.blurb}</p>
+              </div>
+            </Reveal>
+          ))}
+        </ol>
+      </Chapter>
+
+      {/* ── § 03 TERMS OF SUPPLY ─────────────────────────────── */}
+      <Chapter
+        number={3}
+        title="Terms of supply"
+        note="What every order carries, whatever the chemical."
+        tone="tint"
+      >
+        <ol className="terms">
+          {commitments.map((item, i) => (
+            <Reveal as="li" index={i} key={item.title} className="term">
+              <span className="folio term-num">
+                {["i", "ii", "iii", "iv"][i] ?? String(i + 1)}
+              </span>
+              <div>
+                <h3 className="title t3">{item.title}</h3>
                 <p className="prose">{item.desc}</p>
               </div>
             </Reveal>
           ))}
-        </ul>
-      </Unit>
+        </ol>
+      </Chapter>
 
-      {/* ── STORAGE ──────────────────────────────────────────── */}
-      <Unit
-        tag="TK-301"
-        name="Storage — tank farm"
-        note={`${onLine.length} of ${products.length} shown`}
+      {/* ── § 04 CLIENTS & REFERENCES ────────────────────────── */}
+      <Chapter
+        number={4}
+        title="Clients and references"
+        note={`${clients.length} government and private institutions across India.`}
       >
-        <p className="lead unit-lead">
-          {products.length} chemicals held across six service classes, from
-          sodium hypochlorite for municipal water treatment to hydrazine hydrate
-          for boiler feed water.
-        </p>
-
-        <div className="farm">
-          <span className="farm-header" aria-hidden="true" />
-          <ul className="farm-grid">
-            {onLine.map((product, i) => (
-              <li key={product.slug}>
-                <Vessel product={product} index={i} />
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="farm-foot">
-          <CategoryKey />
-          <Link href="/products" className="btn btn-line">
-            All {products.length} vessels
-          </Link>
-        </div>
-      </Unit>
-
-      {/* ── DISTRIBUTION ─────────────────────────────────────── */}
-      <Unit
-        tag="MN-401"
-        name="Distribution manifold"
-        note={`${industries.length} branches`}
-        tone="panel"
-      >
-        <p className="lead unit-lead">
-          From storage the line branches to {industries.length} sectors across
-          India — water treatment plants, power stations, Indian Railways, and
-          defence establishments among them.
-        </p>
-
-        <ul className="branches">
-          {industries.map((industry, i) => (
-            <Reveal as="li" index={i} key={industry.slug} className="branch">
-              <span className="branch-pipe" aria-hidden="true" />
-              <span className="data branch-tag">
-                B-{String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="draft t3 branch-name">{industry.name}</h3>
-              <p className="branch-desc">{industry.blurb}</p>
-            </Reveal>
-          ))}
-        </ul>
-      </Unit>
-
-      {/* ── DISPATCH ─────────────────────────────────────────── */}
-      <Unit
-        tag="PK-501"
-        name="Dispatch — client register"
-        note={`${clients.length} institutions`}
-      >
-        <p className="lead unit-lead">
-          Delivered pan-India to government and private institutions including
-          Nuclear Power Corporation of India, Indian Railways, and Nuclear Fuel
-          Complex.
-        </p>
-
-        <ul className="register">
+        <ul className="client-list">
           {clients.map((client, i) => (
-            <li key={client.name} className="register-row">
-              <span className="data register-num">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span className="register-name">{client.name}</span>
-              <span className="register-line" aria-hidden="true" />
-              <span className="tag-sm register-dest">Delivered</span>
+            <li key={client.name} className="client">
+              <span className="folio">{String(i + 1).padStart(2, "0")}</span>
+              <span>{client.name}</span>
             </li>
           ))}
         </ul>
 
-        <ul className="returns">
+        <ul className="quotes">
           {testimonials.map((testimonial, i) => (
-            <Reveal as="li" index={i} key={testimonial.author} className="return">
+            <Reveal as="li" index={i} key={testimonial.author} className="quote">
               <blockquote>
-                <p className="return-text">{testimonial.quote}</p>
+                <p className="quote-text">{testimonial.quote}</p>
               </blockquote>
-              <cite className="tag-sm return-cite">{testimonial.author}</cite>
+              <cite className="apparatus-sm quote-cite">
+                {testimonial.author}
+              </cite>
             </Reveal>
           ))}
         </ul>
-      </Unit>
+      </Chapter>
 
-      {/* ── CONTROL ROOM ─────────────────────────────────────── */}
-      <Unit tag="CP-601" name="Control room — enquiry" tone="ink" terminal>
-        <div className="control-room">
+      {/* ── § 05 ENQUIRIES ───────────────────────────────────── */}
+      <Chapter
+        number={5}
+        title="Enquiries"
+        note="Include the chemical, grade and quantity for a faster reply."
+        tone="plate"
+      >
+        <div className="enquiry-spread">
           <div>
-            <h3 className="draft t2">
-              Send the chemical,
-              <br />
-              grade and quantity.
-            </h3>
-            <p className="lead cr-lead">
-              Our technical team replies with availability, documentation, and
-              delivery timelines.
+            <p className="lead">
+              Send the chemical, grade and quantity. Our technical team replies
+              with availability, documentation, and delivery timelines.
             </p>
-            <div className="intake-actions">
-              <Link href="/contact" className="btn btn-solid">
-                Open enquiry form
+            <div className="title-page-actions">
+              <Link href="/contact" className="btn btn-ink">
+                Open the enquiry form
               </Link>
             </div>
           </div>
 
-          <dl className="cr-spec">
-            <div className="cr-row">
-              <dt className="tag-sm">Telephone</dt>
+          <dl className="imprint-list">
+            <div>
+              <dt className="apparatus-sm">Telephone</dt>
               <dd>
-                <a href={site.phoneHref} className="data link">
+                <a href={site.phoneHref} className="link">
                   {site.phone}
                 </a>
               </dd>
             </div>
-            <div className="cr-row">
-              <dt className="tag-sm">Email</dt>
+            <div>
+              <dt className="apparatus-sm">Email</dt>
               <dd>
-                <a href={site.emailHref} className="data link">
+                <a href={site.emailHref} className="link">
                   {site.email}
                 </a>
               </dd>
             </div>
             {addresses.map((address) => (
-              <div className="cr-row" key={address.label}>
-                <dt className="tag-sm">
-                  {address.label.replace(" Office", "")}
-                </dt>
-                <dd className="data">{address.display}</dd>
+              <div key={address.label}>
+                <dt className="apparatus-sm">{address.label}</dt>
+                <dd>{address.display}</dd>
               </div>
             ))}
           </dl>
         </div>
-      </Unit>
+      </Chapter>
     </>
   );
 }

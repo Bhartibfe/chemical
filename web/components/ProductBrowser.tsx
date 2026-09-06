@@ -3,7 +3,7 @@
 import { useDeferredValue, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import Vessel from "./Vessel";
+import Entry from "./Entry";
 import {
   categories,
   categoryMeta,
@@ -43,7 +43,7 @@ export default function ProductBrowser() {
   const [filter, setFilter] = useState<Filter>(initialFilter);
   const reduced = useReducedMotion();
 
-  // Keeps typing responsive while the tank farm re-renders.
+  // Keeps typing responsive while the full index re-renders.
   const deferredQuery = useDeferredValue(query);
 
   const visible = useMemo(
@@ -56,28 +56,22 @@ export default function ProductBrowser() {
 
   return (
     <>
-      {/* Isolation valves — the filter row, drawn as a valve manifold. */}
-      <div className="manifold">
-        <div className="manifold-search">
-          <label htmlFor="product-search" className="tag-sm">
-            Search stream
+      <div className="finder">
+        <div className="finder-search">
+          <label htmlFor="product-search" className="apparatus-sm">
+            Search the index
           </label>
           <input
             id="product-search"
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Name, formula or application…"
+            placeholder="Headword, formula or application…"
             autoComplete="off"
-            className="data"
           />
         </div>
 
-        <div
-          className="manifold-valves"
-          role="group"
-          aria-label="Filter by service class"
-        >
+        <div className="finder-filters" role="group" aria-label="Filter by subject">
           {filters.map((option) => {
             const active = filter === option;
             const meta = option === "All" ? null : categoryMeta[option];
@@ -86,77 +80,69 @@ export default function ProductBrowser() {
                 key={option}
                 type="button"
                 onClick={() => setFilter(option)}
-                className="valve tag-sm"
+                className="finder-filter apparatus-sm"
                 data-active={active}
                 aria-pressed={active}
               >
-                <span className="valve-symbol" aria-hidden="true">
+                {meta && (
                   <span
-                    className="valve-body"
-                    style={
-                      meta
-                        ? ({ background: `var(${meta.token})` } as React.CSSProperties)
-                        : undefined
-                    }
+                    className="mark"
+                    style={{ background: `var(${meta.token})` }}
+                    aria-hidden="true"
                   />
-                </span>
-                {meta ? meta.code : "ALL"}
+                )}
+                {option === "All" ? "All subjects" : option}
               </button>
             );
           })}
         </div>
       </div>
 
-      <p className="tag-sm stream-count" role="status" aria-live="polite">
-        {String(visible.length).padStart(2, "0")} / {products.length} vessels
-        online
+      <p className="apparatus-sm index-count" role="status" aria-live="polite">
+        {visible.length} of {products.length} entries
         {filter !== "All" && ` · ${filter}`}
       </p>
 
       {visible.length > 0 ? (
-        <div className="farm">
-          {/* Distribution header the vessels hang from. */}
-          <span className="farm-header" aria-hidden="true" />
-          <motion.ul layout={!reduced} className="farm-grid">
-            <AnimatePresence mode="popLayout">
-              {visible.map(({ product, index }, position) => (
-                <motion.li
-                  key={product.slug}
-                  layout={!reduced}
-                  initial={reduced ? false : { opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduced ? undefined : { opacity: 0 }}
-                  transition={{
-                    duration: 0.26,
-                    delay: reduced ? 0 : Math.min(position * 0.02, 0.3),
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                >
-                  <Vessel product={product} index={index} />
-                </motion.li>
-              ))}
-            </AnimatePresence>
-          </motion.ul>
-        </div>
+        <motion.div layout={!reduced} className="index-list">
+          <AnimatePresence mode="popLayout">
+            {visible.map(({ product, index }, position) => (
+              <motion.div
+                key={product.slug}
+                layout={!reduced}
+                initial={reduced ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={reduced ? undefined : { opacity: 0 }}
+                transition={{
+                  duration: 0.24,
+                  delay: reduced ? 0 : Math.min(position * 0.014, 0.24),
+                  ease: "linear",
+                }}
+              >
+                <Entry product={product} index={index} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       ) : (
-        <div className="no-flow">
-          <p className="draft t3">No vessel matches “{query}”</p>
+        <div className="index-empty">
+          <p className="title t3">No entry under “{query}”.</p>
           <p className="prose">
-            SHIV ENTERPRISES sources beyond this plant inventory. Call{" "}
-            <a href="tel:+917814969998" className="data link">
+            SHIV ENTERPRISES sources beyond this handbook. Call{" "}
+            <a href="tel:+917814969998" className="link">
               +91 78149 69998
             </a>{" "}
             and we will confirm availability.
           </p>
           <button
             type="button"
-            className="btn btn-line"
+            className="btn btn-plain"
             onClick={() => {
               setQuery("");
               setFilter("All");
             }}
           >
-            Reopen all valves
+            Show all entries
           </button>
         </div>
       )}

@@ -1,21 +1,21 @@
 import { categoryMeta, categories } from "@/lib/products";
 
-/** Line-service key, printed the way a drawing legends its service classes. */
+/** Subject key, printed the way a reference book legends its classes. */
 export default function CategoryKey() {
   return (
-    <div className="legend">
-      <span className="tag-sm legend-title">Service key</span>
-      <ul className="legend-list">
+    <div className="subject-key">
+      <p className="apparatus-sm subject-key-title">Subject classes</p>
+      <ul className="subject-key-list">
         {categories.map((category) => {
           const meta = categoryMeta[category];
           return (
-            <li key={category} className="legend-item tag-sm">
+            <li key={category} className="subject-key-item">
               <span
-                className="swatch"
+                className="mark"
                 style={{ background: `var(${meta.token})` }}
                 aria-hidden="true"
               />
-              {meta.code} · {category}
+              {category}
             </li>
           );
         })}

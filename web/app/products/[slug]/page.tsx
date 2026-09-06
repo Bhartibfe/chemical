@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Chapter from "@/components/Chapter";
+import Entry from "@/components/Entry";
 import JsonLd from "@/components/JsonLd";
-import Reveal from "@/components/Reveal";
-import Unit from "@/components/Unit";
-import Vessel from "@/components/Vessel";
 import { categoryMeta, getProduct, indexOf, products } from "@/lib/products";
 import { breadcrumbSchema, productSchema } from "@/lib/schema";
 import { clampWords, pageMeta } from "@/lib/seo";
@@ -11,8 +10,21 @@ import { site } from "@/lib/site";
 
 type Params = { params: Promise<{ slug: string }> };
 
-/** One static stream sheet per chemical — 29 indexable pages, each targeting
- *  the searches buyers actually run for that specific product. */
+const roman = [
+  "i",
+  "ii",
+  "iii",
+  "iv",
+  "v",
+  "vi",
+  "vii",
+  "viii",
+  "ix",
+  "x",
+];
+
+/** One static entry per chemical — 29 indexable pages, each targeting the
+ *  searches buyers actually run for that specific product. */
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.slug }));
 }
@@ -47,14 +59,13 @@ export default async function ProductPage({ params }: Params) {
 
   const meta = categoryMeta[product.category];
   const ref = indexOf(product.slug);
-  const tag = `V-${ref.padStart(3, "0")}`;
 
   const related = products
     .filter((p) => p.category === product.category && p.slug !== product.slug)
-    .slice(0, 4);
+    .slice(0, 5);
 
   return (
-    <div style={{ "--svc": `var(${meta.token})` } as React.CSSProperties}>
+    <div style={{ "--subject": `var(${meta.token})` } as React.CSSProperties}>
       <JsonLd
         schema={[
           productSchema(product),
@@ -66,147 +77,126 @@ export default async function ProductPage({ params }: Params) {
         ]}
       />
 
-      {/* ── STREAM HEAD ──────────────────────────────────────── */}
-      <section className="stream-head">
-        <div className="container">
-          <nav aria-label="Breadcrumb" className="tag-sm crumb">
-            <Link href="/">Overview</Link>
-            <span aria-hidden="true">→</span>
-            <Link href="/products">Tank farm</Link>
-            <span aria-hidden="true">→</span>
+      {/* ── ENTRY HEAD ───────────────────────────────────────── */}
+      <section className="entry-page">
+        <div className="page">
+          <nav aria-label="Breadcrumb" className="apparatus-sm breadcrumb">
+            <Link href="/">Handbook</Link>
+            <span aria-hidden="true">·</span>
+            <Link href="/products">Catalogue</Link>
+            <span aria-hidden="true">·</span>
             <span aria-current="page">{product.name}</span>
           </nav>
 
-          <div className="stream-inner">
-            <div className="stream-plate">
-              <span className="tag-sm stream-plate-tag">{tag}</span>
-              <span className="data stream-formula">
-                {product.formula ?? meta.abbr}
-              </span>
-              <span className="stream-svc" aria-hidden="true" />
-              <span className="tag-sm stream-plate-svc">
-                {meta.code} · {product.category}
-              </span>
-            </div>
-
+          <div className="spread entry-spread">
             <div>
-              <h1 className="draft t1 stream-title">{product.name}</h1>
+              <p className="apparatus entry-page-ref">
+                Entry {ref} · {product.category}
+              </p>
+
+              <h1 className="title t1 entry-page-word">{product.name}</h1>
+
+              {product.formula && (
+                <p className="entry-page-formula">[ {product.formula} ]</p>
+              )}
+
+              <hr className="rule-double" />
+
               {/* Answer-first: this sentence stands alone if an AI engine
                   lifts it out of the page. */}
-              <p className="lead stream-lead">{product.summary}</p>
-              <div className="intake-actions">
-                <Link href="/contact" className="btn btn-solid">
-                  Enquire
+              <p className="prose opening entry-page-definition">
+                {product.summary}
+              </p>
+
+              <div className="title-page-actions">
+                <Link href="/contact" className="btn btn-ink">
+                  Enquire about {product.name}
                 </Link>
-                <a href={site.phoneHref} className="btn btn-line data">
+                <a href={site.phoneHref} className="btn btn-plain">
                   {site.phone}
                 </a>
               </div>
             </div>
+
+            {/* Marginal note — the book's outer column. */}
+            <aside className="margin-note">
+              <p className="apparatus-sm margin-note-label">Supply</p>
+              <dl className="margin-list">
+                <div>
+                  <dt>Subject</dt>
+                  <dd>{product.category}</dd>
+                </div>
+                {product.formula && (
+                  <div>
+                    <dt>Formula</dt>
+                    <dd>{product.formula}</dd>
+                  </div>
+                )}
+                <div>
+                  <dt>Application</dt>
+                  <dd>{product.tag}</dd>
+                </div>
+                <div>
+                  <dt>Supply area</dt>
+                  <dd>Pan-India</dd>
+                </div>
+                <div>
+                  <dt>Dispatch</dt>
+                  <dd>Punjab &amp; Chandigarh</dd>
+                </div>
+                <div>
+                  <dt>Documents</dt>
+                  <dd>MSDS supplied</dd>
+                </div>
+                <div>
+                  <dt>Certification</dt>
+                  <dd>{site.certification}</dd>
+                </div>
+              </dl>
+              <p className="margin-note-foot">
+                Grades, packing and pricing are confirmed on enquiry.
+              </p>
+            </aside>
           </div>
         </div>
       </section>
 
-      {/* ── OUTLET STREAMS ───────────────────────────────────── */}
-      <Unit
-        tag="ST-101"
-        name="Outlet streams — applications"
-        note={`${String(product.applications.length).padStart(2, "0")} branches`}
+      {/* ── USES ─────────────────────────────────────────────── */}
+      <Chapter
+        number={1}
+        title="Uses"
+        note={`Where buyers across India take ${product.name.toLowerCase()}.`}
+        tone="tint"
       >
-        <p className="lead unit-lead">
-          Where buyers across India take {product.name.toLowerCase()} once it
-          leaves SHIV ENTERPRISES.
-        </p>
-
-        <ul className="branches">
+        <ol className="uses">
           {product.applications.map((application, i) => (
-            <Reveal as="li" index={i} key={application} className="branch">
-              <span className="branch-pipe" aria-hidden="true" />
-              <span className="data branch-tag">
-                S-{String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="draft t3 branch-name">{application}</h3>
-            </Reveal>
+            <li key={application} className="use">
+              <span className="folio use-num">{roman[i] ?? String(i + 1)}</span>
+              <span>{application}</span>
+            </li>
           ))}
-        </ul>
+        </ol>
 
-        <p className="prose stream-note">
-          {product.desc} Grades, packing, and pricing are confirmed on enquiry.
-        </p>
-      </Unit>
+        <p className="prose uses-note">{product.desc}</p>
+      </Chapter>
 
-      {/* ── STREAM DATA ──────────────────────────────────────── */}
-      <Unit tag="DS-102" name="Stream data" tone="panel">
-        <dl className="datasheet">
-          <div className="ds-row">
-            <dt className="tag-sm">Product</dt>
-            <dd className="data">{product.name}</dd>
-          </div>
-          {product.formula && (
-            <div className="ds-row">
-              <dt className="tag-sm">Formula</dt>
-              <dd className="data">{product.formula}</dd>
-            </div>
-          )}
-          <div className="ds-row">
-            <dt className="tag-sm">Vessel tag</dt>
-            <dd className="data">{tag}</dd>
-          </div>
-          <div className="ds-row">
-            <dt className="tag-sm">Service class</dt>
-            <dd className="data">
-              {meta.code} · {product.category}
-            </dd>
-          </div>
-          <div className="ds-row">
-            <dt className="tag-sm">Application</dt>
-            <dd className="data">{product.tag}</dd>
-          </div>
-          <div className="ds-row">
-            <dt className="tag-sm">Supply area</dt>
-            <dd className="data">Pan-India</dd>
-          </div>
-          <div className="ds-row">
-            <dt className="tag-sm">Dispatch from</dt>
-            <dd className="data">Punjab · Chandigarh</dd>
-          </div>
-          <div className="ds-row">
-            <dt className="tag-sm">Documentation</dt>
-            <dd className="data">MSDS supplied</dd>
-          </div>
-          <div className="ds-row">
-            <dt className="tag-sm">Certification</dt>
-            <dd className="data">{site.certification}</dd>
-          </div>
-        </dl>
-
-        <Link href="/contact" className="btn btn-solid ds-cta">
-          Request {product.name}
-        </Link>
-      </Unit>
-
-      {/* ── PARALLEL LINES ───────────────────────────────────── */}
+      {/* ── SEE ALSO ─────────────────────────────────────────── */}
       {related.length > 0 && (
-        <Unit
-          tag="TK-303"
-          name={`Parallel lines — ${product.category}`}
-          note={`${related.length} vessels`}
-          terminal
+        <Chapter
+          number={2}
+          title="See also"
+          note={`Other entries under ${product.category}.`}
         >
-          <div className="farm">
-            <span className="farm-header" aria-hidden="true" />
-            <ul className="farm-grid">
-              {related.map((item) => (
-                <li key={item.slug}>
-                  <Vessel
-                    product={item}
-                    index={products.findIndex((p) => p.slug === item.slug)}
-                  />
-                </li>
-              ))}
-            </ul>
+          <div className="index-list">
+            {related.map((item) => (
+              <Entry
+                key={item.slug}
+                product={item}
+                index={products.findIndex((p) => p.slug === item.slug)}
+              />
+            ))}
           </div>
-        </Unit>
+        </Chapter>
       )}
     </div>
   );

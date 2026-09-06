@@ -97,8 +97,8 @@ web/
              page.tsx  products/  products/[slug]/  industries/  about/  contact/
              globals.css (tokens + base) · components.css (component styles)
              sitemap.ts · robots.ts
-  components/ Header ThemeToggle Footer WhatsAppFab · Unit (the process line)
-              ProductBrowser Vessel CategoryKey · Reveal JsonLd EnquiryForm
+  components/ Header ThemeToggle Footer WhatsAppFab · Chapter (section shell)
+              ProductBrowser Entry CategoryKey · Reveal JsonLd EnquiryForm
   lib/       site.ts (NAP single source of truth) · products.ts (29 items,
              slug + category + formula + applications + categoryMeta)
              content.ts · schema.ts · seo.ts
@@ -109,46 +109,36 @@ Client Components only where interaction demands it: `Header`, `ThemeToggle`,
 After any change run `npm run build` from `web/` and confirm routes still show
 `○ (Static)` / `● (SSG)`.
 
-### Design system — "The Process Flow Plant"
+### Design system — "The Reference Handbook"
 
-The site is drawn as a **piping & instrumentation diagram**. Material enters
-at the top, is tested, stored, branched to sectors, and dispatched. Every
-section is a tagged plant unit on one continuous process line. This is
-deliberate and it is what keeps the site from looking generated. Hold it.
+The site is set as a **bound reference handbook**: a title page, a table of
+contents, numbered chapters, indexed entries, marginal notes, and a colophon.
+Typography carries the design — there is no illustration and no ornament.
+This is what keeps it from looking generated. Hold it.
 
 House rules, in order of importance:
 
-1. **Every section is a `<Unit>`.** It takes an ISA-style equipment tag
-   (`TK-301`), a service name, and an optional note. The component draws the
-   pipework in the left gutter; new sections go through it, never around it.
-2. **The pipework is decorative, the content is not.** All diagram elements
-   are CSS with `aria-hidden`; every word is ordinary HTML beside them. Never
-   put copy inside the diagram — it would hide it from crawlers, AI answer
-   engines, and screen readers.
-3. **No `border-radius`, no `box-shadow`** — except instrument bubbles and
-   status lamps, which are round on a real P&ID. Structure comes from ruled
-   lines.
-4. **Every tag, code, unit, formula and value is monospace.** `IBM Plex Mono`
-   sets all data; `Barlow Condensed`, uppercase, is the drafting lettering for
-   headings.
-5. **Sheet, not brand wash.** Light is vellum `#eef0ec`; dark is a backlit
-   drawing board `#07131c`. The logo's navy `#00243C` is the line colour and
-   cyan `#1496C8` is `--flow`, the product moving in the pipe.
-6. **The catalogue is a tank farm.** `Vessel` draws each chemical as a tagged
-   storage vessel hanging off a distribution header — nozzle stub, equipment
-   number, formula, service class, level indicator. The formula is the
-   artwork; no decorative illustration is invented.
+1. **Source Serif 4 sets everything a reader reads** — body text and every
+   heading. `Source Sans 3` carries only the *apparatus*: running heads,
+   folios, small-cap labels, and buttons. Never set body copy in the sans.
+2. **Nothing is condensed and nothing shouts.** Headings are sentence case in
+   the serif. Uppercase is reserved for the apparatus classes
+   (`.apparatus`, `.apparatus-sm`) at small sizes with generous tracking.
+3. **Every section is a `<Chapter>`** — numbered `§ nn`, with a title and an
+   optional marginal note. New sections go through it, never around it.
+4. **The catalogue is an index.** `Entry` sets each chemical as an index line:
+   entry number, headword, dot leader, formula in italic. Scanning a column of
+   these is how the book is actually used.
+5. **Warm book stock, sparing colour.** Light is cream `#fbf9f5`; dark is
+   `#14110e`. The logo navy `#00243C` is the accent ink for chapter numbers
+   and rules; the cyan is darkened to `--link` for links only.
+6. **Book devices are real, not decorative** — `.rule-double` is the paired
+   thick/thin rule of classical setting, `.opening` sets a drop cap on a
+   chapter's first paragraph, and `.spread` gives the text column a margin
+   column for notes.
 
-Unit tags in use: `AN-201` quality, `TK-301` storage, `MN-401` distribution,
-`PK-501` dispatch, `CP-601` control room, `ST-101`/`DS-102` stream sheets.
-Keep new tags in the same ISA form.
-
-Six service colours (`--svc-water`, `--svc-acid`, …) are the only permitted
-accent hues; `CategoryKey` prints the legend.
-
-**The flow animation is the concept**, so its reduced-motion path is explicit:
-the pipework stays drawn, the product stops moving. Never animate anything
-that would hide content if the animation failed.
+Six subject colours (`--sub-water`, `--sub-acid`, …) mark classes in the index;
+`CategoryKey` prints the key.
 
 Light and dark are both first-class. `data-theme` on `<html>` is the single
 source of truth, set before first paint by the inline script in `layout.tsx`
@@ -156,8 +146,9 @@ and flipped by `ThemeToggle`. Define new colours as tokens in `globals.css`
 under both `:root` and `:root[data-theme="dark"]` — never hardcode a hex in a
 component.
 
-**No icon library and no emoji.** Both were removed on purpose; the drawing
-language uses tags, rules, and symbols. Do not reintroduce them.
+**No icon library and no emoji.** Both were removed on purpose; the book
+language uses numerals, rules, italics, and small caps. Do not reintroduce
+them.
 
 ### Standing rules
 
