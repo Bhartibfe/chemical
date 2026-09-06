@@ -77,52 +77,67 @@ skills for anything copy- or metadata-shaped.
   second copy.
 - **Keep code clean.** No dead code, no commented-out blocks, no stray
   `console.log`. Match the surrounding style.
-- **Preserve the design.** The navy/cyan palette, the Inter typeface, and the
-  existing layout are the brand. Improve within it; don't restyle on a whim.
+- **Preserve the design.** The logo-derived navy/cyan palette and the Swiss
+  minimal layout are the brand. Improve within it; don't restyle on a whim.
 - Ask before touching real business data, pricing, or client names.
 
-## Design system (from the existing site — keep these tokens)
+The original `weeebbbb.html` used a different, darker palette (`#060e1f` navy,
+`#00c3ff` cyan, Inter). That file stays as a content reference only — the live
+design system below supersedes it.
 
-```
---navy    #060e1f      --accent   #00c3ff     --text   #e8edf5
---navy2   #0b1a35      --accent2  #0080ff     --muted  #7a90b0
---navy3   #102248      --green    #00e676     --radius 14px
-```
-Typeface: **Inter** (300–800). Dark theme, cyan accent, glass-style cards
-(`rgba(255,255,255,.04)` on a `rgba(0,195,255,.12)` border).
+## The live app (`web/`)
 
-## React migration (planned, not started)
-
-Stack: **Next.js 16 + React 19 + TypeScript + Tailwind 4**, in `web/`. Every
-route is statically prerendered, so crawlers and AI engines receive complete
-HTML — that is the whole reason for the framework choice. Keep it that way.
+Stack: **Next.js 16 + React 19 + TypeScript + Tailwind 4 + Motion + Lucide**.
+All 39 routes are statically prerendered, so crawlers and AI engines receive
+complete HTML — that is the whole reason for the framework choice. Keep it so.
 
 ```
 web/
-  app/       layout.tsx (metadata + JSON-LD), page.tsx, globals.css,
-             sitemap.ts, robots.ts
-  components/  one per section: Nav Hero About Products Industries
-               Testimonials Clients Contact Footer WhatsAppButton, plus Reveal
-  lib/       site.ts (NAP single source of truth), products.ts,
-             content.ts, schema.ts (JSON-LD, derived from the data above)
+  app/       layout.tsx (fonts, theme script, global JSON-LD)
+             page.tsx  products/  products/[slug]/  industries/  about/  contact/
+             globals.css (tokens + base) · components.css (component styles)
+             sitemap.ts · robots.ts
+  components/ Header ThemeToggle Footer WhatsAppFab · ProductBrowser
+              ProductCard ProductVisual · Reveal Icon JsonLd EnquiryForm
+  lib/       site.ts (NAP single source of truth) · products.ts (29 items,
+             slug + category + applications) · content.ts · schema.ts · seo.ts
 ```
 
-Only `Products` and `Reveal` are Client Components; everything else renders on
-the server. Run `npm run build` from `web/` and confirm routes still show
-`○ (Static)`.
+Client Components only where interaction demands it: `Header`, `ThemeToggle`,
+`ProductBrowser`, `EnquiryForm`, `Reveal`. Everything else is server-rendered.
+After any change run `npm run build` from `web/` and confirm routes still show
+`○ (Static)` / `● (SSG)`.
 
-Standing rules:
+### Design system
+
+Swiss minimalism, generated via the `ui-ux-pro-max` skill and anchored on
+colours sampled from the logo: **navy `#00243C`**, **cyan `#1496C8`**.
+Typography is **Lexend** (headings) + **Source Sans 3** (body).
+
+Light and dark are both first-class. `data-theme` on `<html>` is the single
+source of truth, set before first paint by the inline script in `layout.tsx`
+and flipped by `ThemeToggle`. Define new colours as tokens in `globals.css`
+under both `:root` and `:root[data-theme="dark"]` — never hardcode a hex in a
+component.
+
+**No emoji as icons.** Use `lucide-react` via `components/Icon.tsx`. Product
+artwork is generated vector art (`ProductVisual`), seeded per product name.
+
+### Standing rules
 
 1. `weeebbbb.html` is read-only reference. Never edit or delete it.
-2. Business facts change in `lib/site.ts` only — the copy, metadata, and
-   JSON-LD all read from it, which is what keeps NAP consistent.
-3. Every meta tag, JSON-LD block, and heading level must survive any refactor.
+2. Business facts change in `lib/site.ts` only — copy, metadata, and JSON-LD
+   all read from it, which is what keeps NAP consistent.
+3. Every page ships a unique title, description, and canonical via
+   `pageMeta()` in `lib/seo.ts`. A new route without it is a bug.
+4. Every meta tag, JSON-LD block, and heading level must survive any refactor.
    Losing SEO markup is a bug, not a detail.
-4. Never make content client-only, and never let it start at `opacity: 0`
-   without the `html.js` guard in `globals.css`.
+5. Never make content client-only, and never hide it behind an animation start
+   state — `Reveal` server-renders its children and no-ops under
+   `prefers-reduced-motion`.
 
-**Missing assets:** `web/public/logo.jpg` and `web/public/brochure.pdf` are
-referenced but not in the repo. Drop the real files in before deploying.
+**Missing asset:** `web/public/brochure.pdf` is not in the repo. The logo is in
+place at `web/public/logo.png`.
 
 ## Specialist agents
 

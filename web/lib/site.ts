@@ -9,21 +9,23 @@
 
 export const site = {
   name: "SHIV ENTERPRISES",
+  legalName: "Shiv Enterprises",
   url: "https://theshiventerprises.co.in",
-  logo: "/logo.jpg",
+  logo: "/logo.png",
   certification: "ISO 9001:2015",
   phone: "+91 78149 69998",
   phoneHref: "tel:+917814969998",
   email: "shivventerprisess@gmail.com",
+  emailHref: "mailto:shivventerprisess@gmail.com",
   whatsapp:
     "https://wa.me/917814969998?text=Hello!%20I%20want%20to%20enquire%20about%20your%20chemical%20products",
   areaServed: "India",
+  founded: "Sardulgarh, Mansa, Punjab",
 } as const;
 
 export const addresses = [
   {
     label: "Punjab Office",
-    icon: "📍",
     streetAddress: "Sardulgarh",
     addressLocality: "Mansa",
     addressRegion: "Punjab",
@@ -33,7 +35,6 @@ export const addresses = [
   },
   {
     label: "Chandigarh Office",
-    icon: "🏢",
     streetAddress: "6th Floor, Elante Mall Offices, Industrial Area Phase-I",
     addressLocality: "Chandigarh",
     addressRegion: "Chandigarh",
@@ -45,8 +46,15 @@ export const addresses = [
 ] as const;
 
 export const stats = [
-  { num: "26+", label: "Products" },
-  { num: "7+", label: "Major Clients" },
-  { num: "8+", label: "Industries Served" },
-  { num: "100%", label: "Quality Assured" },
+  { num: "29", label: "Chemicals supplied" },
+  { num: "8", label: "Industries served" },
+  { num: "10", label: "Institutional clients" },
+  { num: "2", label: "Offices in North India" },
+] as const;
+
+export const navLinks = [
+  { href: "/products", label: "Products" },
+  { href: "/industries", label: "Industries" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ] as const;

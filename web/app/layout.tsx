@@ -1,22 +1,36 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
-import { allSchemas } from "@/lib/schema";
+import { Lexend, Source_Sans_3 } from "next/font/google";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
+import WhatsAppFab from "@/components/WhatsAppFab";
+import { globalSchemas } from "@/lib/schema";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const lexend = Lexend({
+  variable: "--font-lexend",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const sourceSans = Source_Sans_3({
+  variable: "--font-source-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title:
-    "Industrial Chemical Supplier in Punjab & Chandigarh India | SHIV ENTERPRISES",
+  title: {
+    default:
+      "Industrial Chemical Supplier in Punjab & Chandigarh | SHIV ENTERPRISES",
+    template: `%s | ${site.name}`,
+  },
   description:
-    "Shiv Enterprises is a trusted industrial chemical supplier in Punjab, India. We supply water treatment chemicals, acids, alkalis, boiler chemicals, textile chemicals, and industrial raw materials across India.",
+    "SHIV ENTERPRISES is an ISO 9001:2015 certified industrial chemical supplier in Sardulgarh, Punjab. Water treatment chemicals, acids, alkalis and surfactants delivered across India.",
   keywords: [
     "industrial chemicals Punjab",
     "chemical supplier India",
@@ -26,49 +40,39 @@ export const metadata: Metadata = {
     "Shiv Enterprises",
     "Sardulgarh chemical supplier",
     "Chandigarh chemical supplier",
-    "industrial chemicals Chandigarh",
     "textile chemicals India",
     "boiler chemicals supplier",
-    "industrial raw materials Punjab",
     "hydrochloric acid supplier India",
   ],
   authors: [{ name: site.name }],
-  robots: { index: true, follow: true },
+  creator: site.name,
+  publisher: site.name,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
   alternates: { canonical: "/" },
-  openGraph: {
-    title: "SHIV ENTERPRISES — Industrial Chemical Solutions",
-    description:
-      "Premium industrial chemical supplier serving power plants, railways, defence, textile and water treatment sectors.",
-    url: `${site.url}/`,
-    siteName: site.name,
-    type: "website",
-    locale: "en_IN",
-    images: [{ url: "/logo.jpg", alt: `${site.name} logo` }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "SHIV ENTERPRISES — Industrial Chemical Solutions",
-    description: "Trusted supplier of industrial chemicals across India.",
-    images: ["/logo.jpg"],
-  },
   other: {
     "geo.region": "IN-PB",
-    "geo.placename": "Punjab, Chandigarh",
+    "geo.placename": "Sardulgarh, Punjab, Chandigarh",
     language: "English",
     distribution: "global",
-    rating: "general",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#060e1f",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f9fb" },
+    { media: "(prefers-color-scheme: dark)", color: "#04121e" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
 
-/** Marks JS as available before first paint, so the scroll-reveal start state
- *  never applies to crawlers or no-JS visitors. */
-const jsFlag = `document.documentElement.classList.add("js")`;
+/** Resolves the theme before first paint so there is no flash of the wrong
+ *  palette. Runs ahead of hydration and owns `data-theme` outright. */
+const themeScript = `(function(){try{var s=localStorage.getItem("theme");var d=s?s==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",d?"dark":"light")}catch(e){document.documentElement.setAttribute("data-theme","light")}})()`;
 
 export default function RootLayout({
   children,
@@ -76,18 +80,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html
+      lang="en-IN"
+      data-theme="light"
+      className={`${lexend.variable} ${sourceSans.variable}`}
+      suppressHydrationWarning
+    >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
-        {allSchemas.map((schema, i) => (
-          <script
-            key={i}
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-          />
-        ))}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <JsonLd schema={globalSchemas} />
       </head>
-      <body>{children}</body>
+      <body>
+        <a className="skip-link" href="#main">
+          Skip to main content
+        </a>
+        <Header />
+        <main id="main">{children}</main>
+        <Footer />
+        <WhatsAppFab />
+      </body>
     </html>
   );
 }

@@ -1,16 +1,85 @@
 /** Section content ported from the original site. Real business data — do not
  *  invent entries, and confirm with the owner before editing client names. */
 
-export const industries = [
-  { icon: "💧", name: "Water Treatment Plants" },
-  { icon: "⚡", name: "Power Plants" },
-  { icon: "🚂", name: "Indian Railways" },
-  { icon: "🛡", name: "Defence Sector" },
-  { icon: "🧵", name: "Textile Industry" },
-  { icon: "💊", name: "Pharmaceuticals" },
-  { icon: "📄", name: "Paper & Pulp Industry" },
-  { icon: "⚗️", name: "Chemical Manufacturing" },
-] as const;
+/** Keys map to Lucide icons in the rendering component. The design system
+ *  rules out emoji as icons, so nothing here is a glyph. */
+export type IconKey =
+  | "droplets"
+  | "zap"
+  | "train"
+  | "shield"
+  | "shirt"
+  | "pill"
+  | "scroll"
+  | "flask"
+  | "beaker"
+  | "truck"
+  | "headset"
+  | "badge";
+
+export const industries: {
+  icon: IconKey;
+  name: string;
+  slug: string;
+  blurb: string;
+}[] = [
+  {
+    icon: "droplets",
+    name: "Water Treatment Plants",
+    slug: "water-treatment",
+    blurb:
+      "Coagulants, disinfectants, and flocculants for municipal and industrial water and effluent treatment.",
+  },
+  {
+    icon: "zap",
+    name: "Power Plants",
+    slug: "power",
+    blurb:
+      "Boiler feed water chemicals and oxygen scavengers that protect high-pressure steam circuits from corrosion.",
+  },
+  {
+    icon: "train",
+    name: "Indian Railways",
+    slug: "railways",
+    blurb:
+      "Cleaning, descaling, and water treatment chemicals supplied to railway workshops and depots.",
+  },
+  {
+    icon: "shield",
+    name: "Defence Sector",
+    slug: "defence",
+    blurb:
+      "High-purity chemicals supplied to defence research and metallurgical establishments.",
+  },
+  {
+    icon: "shirt",
+    name: "Textile Industry",
+    slug: "textile",
+    blurb:
+      "Bleaching, dyeing, and reducing agents for denim, fabric processing, and finishing units.",
+  },
+  {
+    icon: "pill",
+    name: "Pharmaceuticals",
+    slug: "pharmaceuticals",
+    blurb:
+      "Process chemicals and intermediates for pharmaceutical manufacturing operations.",
+  },
+  {
+    icon: "scroll",
+    name: "Paper & Pulp Industry",
+    slug: "paper-pulp",
+    blurb:
+      "Alkalis, bleaching agents, and retention chemicals for pulp, paper, and board production.",
+  },
+  {
+    icon: "flask",
+    name: "Chemical Manufacturing",
+    slug: "chemical-manufacturing",
+    blurb:
+      "Bulk acids, alkalis, and raw materials feeding downstream chemical synthesis.",
+  },
+];
 
 export const testimonials = [
   {
@@ -43,30 +112,30 @@ export const clients = [
   { initials: "TT", name: "TC Terrytex" },
 ] as const;
 
-export const commitments = [
+export const commitments: { icon: IconKey; title: string; desc: string }[] = [
   {
-    icon: "⚗",
+    icon: "beaker",
     title: "Laboratory-Grade Purity",
     desc: "Every batch tested and certified before dispatch.",
   },
   {
-    icon: "🚚",
+    icon: "truck",
     title: "Pan-India Delivery",
     desc: "Reliable logistics to any location across India.",
   },
   {
-    icon: "🛡",
+    icon: "shield",
     title: "Safety Compliance",
     desc: "Full MSDS documentation and safe packaging for all chemicals.",
   },
   {
-    icon: "📞",
+    icon: "headset",
     title: "Dedicated Support",
     desc: "Technical team available for product selection and queries.",
   },
-] as const;
+];
 
-export const aboutBadges = [
+export const differentiators = [
   "Competitive Pricing",
   "Timely Delivery",
   "Technical Expertise",
