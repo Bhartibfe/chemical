@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import Icon from "@/components/Icon";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import { industries } from "@/lib/content";
@@ -31,59 +29,63 @@ export default function IndustriesPage() {
         ])}
       />
 
-      <section className="page-head grid-bg">
+      <section className="page-plate">
         <div className="container">
-          <nav aria-label="Breadcrumb" className="breadcrumb">
-            <Link href="/">Home</Link>
+          <nav aria-label="Breadcrumb" className="mono sheet-crumb">
+            <Link href="/">Index</Link>
             <span aria-hidden="true">/</span>
-            <span aria-current="page">Industries</span>
+            <span aria-current="page">Sectors</span>
           </nav>
 
-          <h1 className="h1">Industries we serve</h1>
-          <p className="lead">
-            SHIV ENTERPRISES supplies industrial chemicals to{" "}
-            {industries.length} sectors across India, from municipal water
-            treatment plants in Punjab to defence metallurgical laboratories and
-            thermal power stations.
-          </p>
+          <div className="page-plate-inner">
+            <div>
+              <span className="data page-plate-ref">SE/02</span>
+              <h1 className="display d1">Sectors served</h1>
+            </div>
+            <p className="lead">
+              SHIV ENTERPRISES supplies industrial chemicals to{" "}
+              {industries.length} sectors across India, from municipal water
+              treatment plants in Punjab to defence metallurgical laboratories
+              and thermal power stations.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section className="section">
+      <section className="band">
         <div className="container">
-          <ul className="industry-detail-grid">
+          <ul className="ledger">
             {industries.map((industry, i) => (
-              <Reveal
-                as="li"
-                index={i}
-                key={industry.slug}
-                className="card industry-detail-card"
-              >
-                <span className="commit-icon">
-                  <Icon name={industry.icon} size={22} />
+              <Reveal as="li" index={i} key={industry.slug} className="ledger-row">
+                <span className="data ledger-num">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-                <h2 className="h3">{industry.name}</h2>
-                <p className="prose-muted">{industry.blurb}</p>
+                <h2 className="display d3 ledger-title">{industry.name}</h2>
+                <p className="ledger-desc">{industry.blurb}</p>
               </Reveal>
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="section cta-band">
-        <div className="container cta-inner">
+      <section className="band enquiry-band">
+        <div className="container enquiry-band-inner">
           <div>
-            <h2 className="h2">Supplying your sector?</h2>
-            <p className="lead">
-              Tell us the application and we will recommend the right chemical,
-              grade, and dosing approach.
+            <p className="mono enquiry-kicker">Enquiry</p>
+            <h2 className="display d2">
+              Tell us the
+              <br />
+              application.
+            </h2>
+            <p className="lead enquiry-lead">
+              We will recommend the right chemical, grade, and dosing approach.
             </p>
           </div>
-          <div className="cta-actions">
-            <Link href="/contact" className="btn btn-primary">
-              Talk to our team <ArrowRight size={17} aria-hidden="true" />
+          <div className="enquiry-actions">
+            <Link href="/contact" className="btn btn-solid">
+              Talk to our team
             </Link>
-            <a href={site.phoneHref} className="btn btn-secondary">
+            <a href={site.phoneHref} className="btn btn-outline data">
               {site.phone}
             </a>
           </div>

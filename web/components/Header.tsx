@@ -4,16 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { navLinks, site } from "@/lib/site";
+
+/** Section reference printed in the masthead, the way a document header
+ *  names the sheet you are on. */
+const sheetRef: Record<string, string> = {
+  "/": "SE/00 · INDEX",
+  "/products": "SE/01 · CATALOGUE",
+  "/industries": "SE/02 · SECTORS",
+  "/about": "SE/03 · COMPANY",
+  "/contact": "SE/04 · ENQUIRY",
+};
 
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  // Close the mobile panel on Escape. Navigation closes it from the link
-  // handler below, which is more direct than reacting to a pathname change.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
@@ -24,10 +31,27 @@ export default function Header() {
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
+  const ref = pathname.startsWith("/products/")
+    ? "SE/01 · DATASHEET"
+    : (sheetRef[pathname] ?? "SE · SHIV ENTERPRISES");
+
   return (
-    <header className="site-header">
-      <div className="container header-inner">
-        <Link href="/" className="logo-lockup" aria-label={`${site.name} home`}>
+    <header className="masthead">
+      {/* Running head — document reference, certification, contact. */}
+      <div className="running-head">
+        <div className="container running-head-inner mono-sm">
+          <span>{ref}</span>
+          <span className="running-head-cert">
+            {site.certification} CERTIFIED
+          </span>
+          <a href={site.phoneHref} className="running-head-phone data">
+            {site.phone}
+          </a>
+        </div>
+      </div>
+
+      <div className="container masthead-inner">
+        <Link href="/" className="masthead-logo" aria-label={`${site.name} home`}>
           <Image
             src={site.logo}
             alt={`${site.name} — ${site.certification} certified industrial chemical supplier`}
@@ -37,53 +61,52 @@ export default function Header() {
           />
         </Link>
 
-        <nav className="nav-desktop" aria-label="Primary">
-          {navLinks.map((link) => (
+        <nav className="masthead-nav" aria-label="Primary">
+          {navLinks.map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
-              className="nav-link"
+              className="masthead-link mono"
               aria-current={isActive(link.href) ? "page" : undefined}
             >
+              <span className="masthead-link-num">
+                {String(i + 1).padStart(2, "0")}
+              </span>
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="header-actions">
+        <div className="masthead-actions">
           <ThemeToggle />
-          <Link href="/contact" className="btn btn-primary btn-compact">
-            Get a Quote
-          </Link>
           <button
             type="button"
-            className="nav-burger"
+            className="masthead-burger mono"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-nav"
-            aria-label={open ? "Close menu" : "Open menu"}
           >
-            {open ? <X size={22} /> : <Menu size={22} />}
+            {open ? "Close" : "Menu"}
           </button>
         </div>
       </div>
 
-      <div id="mobile-nav" className="nav-mobile" data-open={open} hidden={!open}>
+      <div id="mobile-nav" className="masthead-mobile" hidden={!open}>
         <nav className="container" aria-label="Mobile">
-          {navLinks.map((link) => (
+          {navLinks.map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
-              className="nav-mobile-link"
+              className="masthead-mobile-link"
               onClick={() => setOpen(false)}
               aria-current={isActive(link.href) ? "page" : undefined}
             >
-              {link.label}
+              <span className="mono masthead-link-num">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="display d3">{link.label}</span>
             </Link>
           ))}
-          <a href={site.phoneHref} className="nav-mobile-link nav-mobile-phone">
-            {site.phone}
-          </a>
         </nav>
       </div>
     </header>

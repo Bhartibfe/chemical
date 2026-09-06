@@ -478,5 +478,28 @@ export const categories: Category[] = [
   "Specialty",
 ];
 
+/**
+ * Category key for the index. `code` is the short label printed on each
+ * element tile; `token` selects the stripe colour from the CSS custom
+ * properties, so the palette lives in one place rather than in JSX.
+ */
+export const categoryMeta: Record<
+  Category,
+  { code: string; token: string; abbr: string }
+> = {
+  "Water Treatment": { code: "WTR", token: "--cat-water", abbr: "W" },
+  Acids: { code: "ACD", token: "--cat-acid", abbr: "A" },
+  "Alkalis & Salts": { code: "ALK", token: "--cat-alkali", abbr: "K" },
+  "Bleaching & Oxidising": { code: "OXD", token: "--cat-oxid", abbr: "O" },
+  Surfactants: { code: "SRF", token: "--cat-surf", abbr: "S" },
+  Specialty: { code: "SPC", token: "--cat-spec", abbr: "X" },
+};
+
+/** Catalogue index number, zero-padded — printed on tiles and datasheets. */
+export const indexOf = (slug: string) => {
+  const position = products.findIndex((p) => p.slug === slug);
+  return String(position + 1).padStart(2, "0");
+};
+
 export const getProduct = (slug: string) =>
   products.find((product) => product.slug === slug);

@@ -98,9 +98,10 @@ web/
              globals.css (tokens + base) · components.css (component styles)
              sitemap.ts · robots.ts
   components/ Header ThemeToggle Footer WhatsAppFab · ProductBrowser
-              ProductCard ProductVisual · Reveal Icon JsonLd EnquiryForm
+              ElementTile CategoryKey · Reveal JsonLd EnquiryForm
   lib/       site.ts (NAP single source of truth) · products.ts (29 items,
-             slug + category + applications) · content.ts · schema.ts · seo.ts
+             slug + category + formula + applications + categoryMeta)
+             content.ts · schema.ts · seo.ts
 ```
 
 Client Components only where interaction demands it: `Header`, `ThemeToggle`,
@@ -108,11 +109,30 @@ Client Components only where interaction demands it: `Header`, `ThemeToggle`,
 After any change run `npm run build` from `web/` and confirm routes still show
 `○ (Static)` / `● (SSG)`.
 
-### Design system
+### Design system — "The Chemical Index"
 
-Swiss minimalism, generated via the `ui-ux-pro-max` skill and anchored on
-colours sampled from the logo: **navy `#00243C`**, **cyan `#1496C8`**.
-Typography is **Lexend** (headings) + **Source Sans 3** (body).
+The site is set as a **technical reference document**, not a marketing page.
+This is deliberate and it is the thing that keeps it from looking like every
+other generated site. Hold the line on it.
+
+House rules, in order of importance:
+
+1. **No `border-radius`. No `box-shadow`.** Structure comes from hairline
+   rules and shared cell edges, never from floating cards.
+2. **Every number, code, unit, formula, address, and field label is
+   monospace.** `IBM Plex Mono` was drawn for technical documentation; it sets
+   all data. `Archivo` — tight, uppercase — sets display headings.
+3. **Sections are numbered** (`01`, `02`, …) and introduced by a `.marker`
+   rule. Products carry a document reference, `SE/PRD/NN`.
+4. **Paper and ink, not brand-colour washes.** Warm stock `#f4f2ed` in light,
+   `#0a1017` in dark. The logo's navy `#00243C` and cyan `#1496C8` appear as
+   ink and accent, never as gradients.
+5. **The catalogue is a periodic table.** `ElementTile` draws each chemical as
+   a chart cell: index number, category stripe, formula, name, category code.
+   The formula is the artwork — no decorative illustration.
+
+Six category colours (`--cat-water`, `--cat-acid`, …) form the chart key and
+are the only permitted accent hues. `CategoryKey` prints the legend.
 
 Light and dark are both first-class. `data-theme` on `<html>` is the single
 source of truth, set before first paint by the inline script in `layout.tsx`
@@ -120,8 +140,8 @@ and flipped by `ThemeToggle`. Define new colours as tokens in `globals.css`
 under both `:root` and `:root[data-theme="dark"]` — never hardcode a hex in a
 component.
 
-**No emoji as icons.** Use `lucide-react` via `components/Icon.tsx`. Product
-artwork is generated vector art (`ProductVisual`), seeded per product name.
+**No icon library and no emoji.** Both were removed on purpose; the document
+language uses numbers, rules, and type. Do not reintroduce them.
 
 ### Standing rules
 

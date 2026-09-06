@@ -1,17 +1,19 @@
-import { MessageCircle } from "lucide-react";
 import { site } from "@/lib/site";
 
+/** Persistent enquiry tab. Set as a ruled block rather than a floating
+ *  circle, so it belongs to the document rather than hovering over it. */
 export default function WhatsAppFab() {
   return (
     <a
-      className="wa-fab"
+      className="wa-tab mono"
       href={site.whatsapp}
       target="_blank"
       rel="noopener noreferrer"
     >
-      <MessageCircle size={24} strokeWidth={2} aria-hidden="true" />
+      WhatsApp
       <span className="visually-hidden">
-        Enquire about chemical products on WhatsApp (opens in a new tab)
+        {" "}
+        — enquire about chemical products (opens in a new tab)
       </span>
     </a>
   );

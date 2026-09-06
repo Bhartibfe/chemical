@@ -1,14 +1,13 @@
 import Link from "next/link";
-import { ArrowRight, Check, Quote } from "lucide-react";
-import Icon from "@/components/Icon";
+import CategoryKey from "@/components/CategoryKey";
+import ElementTile from "@/components/ElementTile";
 import JsonLd from "@/components/JsonLd";
-import ProductCard from "@/components/ProductCard";
 import Reveal from "@/components/Reveal";
 import { clients, commitments, industries, testimonials } from "@/lib/content";
 import { products } from "@/lib/products";
 import { productCatalogueSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
-import { site, stats } from "@/lib/site";
+import { addresses, site, stats } from "@/lib/site";
 
 // The title template on the root layout does not apply to this segment, so
 // the brand is spelled out here rather than lost from the homepage title.
@@ -19,205 +18,270 @@ export const metadata = pageMeta({
   path: "/",
 });
 
-const featured = products.slice(0, 6);
+const preview = products.slice(0, 12);
 
 export default function HomePage() {
   return (
     <>
       <JsonLd schema={productCatalogueSchema} />
 
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero grid-bg">
-        <div className="container hero-inner">
-          <p className="chip chip-accent hero-chip">
-            <Check size={14} aria-hidden="true" />
-            {site.certification} Certified Company
-          </p>
+      {/* ── 00 · MASTHEAD ────────────────────────────────────── */}
+      <section className="cover">
+        <div className="container cover-inner">
+          <div className="cover-main">
+            <p className="mono cover-kicker">
+              Industrial Chemical Index · Punjab, India
+            </p>
 
-          <h1 className="h1 hero-title">
-            Industrial chemicals,
-            <br />
-            <span className="hero-accent">delivered with certainty.</span>
-          </h1>
+            <h1 className="display d1 cover-title">
+              Twenty-nine
+              <br />
+              compounds.
+              <br />
+              <span className="cover-title-accent">One supplier.</span>
+            </h1>
 
-          {/* Answer-first and entity-explicit: quotable on its own by an AI
-              answer engine, with the company, credential, place and scope all
-              inside one sentence. */}
-          <p className="lead hero-lead">
-            SHIV ENTERPRISES is an {site.certification} certified industrial
-            chemical supplier based in Sardulgarh, Punjab, supplying{" "}
-            {products.length} water treatment chemicals, acids, alkalis and
-            surfactants to power plants, Indian Railways, defence, and textile
-            mills across India.
-          </p>
+            {/* Answer-first and entity-explicit: quotable standalone by an AI
+                answer engine, with company, credential, place and scope all
+                inside a single sentence. */}
+            <p className="lead cover-lead">
+              SHIV ENTERPRISES is an {site.certification} certified industrial
+              chemical supplier based in Sardulgarh, Punjab, supplying{" "}
+              {products.length} water treatment chemicals, acids, alkalis and
+              surfactants to power plants, Indian Railways, defence, and textile
+              mills across India.
+            </p>
 
-          <div className="hero-actions">
-            <Link href="/contact" className="btn btn-primary">
-              Request a Quote <ArrowRight size={17} aria-hidden="true" />
-            </Link>
-            <Link href="/products" className="btn btn-secondary">
-              Browse {products.length} Chemicals
-            </Link>
+            <div className="cover-actions">
+              <Link href="/products" className="btn btn-solid">
+                Open the index
+              </Link>
+              <Link href="/contact" className="btn btn-outline">
+                Request a quote
+              </Link>
+            </div>
           </div>
 
-          <dl className="stat-row">
-            {stats.map((stat) => (
-              <div key={stat.label} className="stat">
-                <dt className="stat-label">{stat.label}</dt>
-                <dd className="stat-value">{stat.num}</dd>
-              </div>
-            ))}
+          {/* Specification block — the document's own metadata. */}
+          <dl className="cover-spec">
+            <div className="field-row">
+              <dt>Entries</dt>
+              <span className="leader" aria-hidden="true" />
+              <dd className="data">{products.length}</dd>
+            </div>
+            <div className="field-row">
+              <dt>Categories</dt>
+              <span className="leader" aria-hidden="true" />
+              <dd className="data">06</dd>
+            </div>
+            <div className="field-row">
+              <dt>Sectors</dt>
+              <span className="leader" aria-hidden="true" />
+              <dd className="data">{String(industries.length).padStart(2, "0")}</dd>
+            </div>
+            <div className="field-row">
+              <dt>Clients</dt>
+              <span className="leader" aria-hidden="true" />
+              <dd className="data">{clients.length}</dd>
+            </div>
+            <div className="field-row">
+              <dt>Certification</dt>
+              <span className="leader" aria-hidden="true" />
+              <dd className="data">{site.certification}</dd>
+            </div>
+            <div className="field-row">
+              <dt>Offices</dt>
+              <span className="leader" aria-hidden="true" />
+              <dd className="data">Sardulgarh · Chandigarh</dd>
+            </div>
+            <div className="field-row">
+              <dt>Supply area</dt>
+              <span className="leader" aria-hidden="true" />
+              <dd className="data">Pan-India</dd>
+            </div>
           </dl>
         </div>
       </section>
 
-      {/* ── CLIENT PROOF ─────────────────────────────────────── */}
-      <section className="section-tight client-strip">
+      {/* ── 01 · THE INDEX ───────────────────────────────────── */}
+      <section className="band band-sheet">
         <div className="container">
-          <p className="strip-label">
-            Trusted by India&apos;s power, rail, defence and water institutions
-          </p>
-          <ul className="client-marquee">
-            {clients.map((client) => (
-              <li key={client.name}>{client.name}</li>
+          <div className="marker">
+            <span className="marker-num">01</span>
+            <span className="marker-title">The index</span>
+            <span className="marker-meta">
+              {preview.length} of {products.length} shown
+            </span>
+          </div>
+
+          <ul className="tile-grid">
+            {preview.map((product, i) => (
+              <li key={product.slug}>
+                <ElementTile product={product} index={i} />
+              </li>
             ))}
           </ul>
+
+          <div className="index-footer">
+            <CategoryKey />
+            <Link href="/products" className="btn btn-outline">
+              All {products.length} entries
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ── CAPABILITIES ─────────────────────────────────────── */}
-      <section className="section">
+      {/* ── 02 · SECTORS ─────────────────────────────────────── */}
+      <section className="band">
         <div className="container">
-          <Reveal>
-            <p className="eyebrow">Why SHIV ENTERPRISES</p>
-            <h2 className="h2">Supply you can plan a shutdown around</h2>
-            <p className="lead section-lead">
-              Procurement teams choose SHIV ENTERPRISES for tested purity,
-              documented safety compliance, and delivery that holds to schedule.
-            </p>
-          </Reveal>
+          <div className="marker">
+            <span className="marker-num">02</span>
+            <span className="marker-title">Sectors served</span>
+            <span className="marker-meta">{industries.length} entries</span>
+          </div>
 
-          <ul className="commit-grid">
-            {commitments.map((item, i) => (
-              <Reveal as="li" index={i} key={item.title} className="commit-card">
-                <span className="commit-icon">
-                  <Icon name={item.icon} size={22} />
+          <ul className="ledger">
+            {industries.map((industry, i) => (
+              <Reveal as="li" index={i} key={industry.slug} className="ledger-row">
+                <span className="data ledger-num">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="h3">{item.title}</h3>
-                <p className="prose-muted">{item.desc}</p>
+                <h3 className="display d3 ledger-title">{industry.name}</h3>
+                <p className="ledger-desc">{industry.blurb}</p>
               </Reveal>
             ))}
           </ul>
         </div>
       </section>
 
-      {/* ── FEATURED PRODUCTS ────────────────────────────────── */}
-      <section className="section section-alt">
+      {/* ── 03 · TERMS OF SUPPLY ─────────────────────────────── */}
+      <section className="band band-sheet">
         <div className="container">
-          <Reveal>
-            <div className="section-head">
-              <div>
-                <p className="eyebrow">What we supply</p>
-                <h2 className="h2">Core chemical range</h2>
-                <p className="lead section-lead">
-                  From sodium hypochlorite for municipal water treatment to
-                  hydrazine hydrate for boiler feed water — {products.length}{" "}
-                  chemicals, each with grade and application detail.
-                </p>
+          <div className="marker">
+            <span className="marker-num">03</span>
+            <span className="marker-title">Terms of supply</span>
+          </div>
+
+          <div className="terms-grid">
+            {commitments.map((item, i) => (
+              <Reveal as="div" index={i} key={item.title} className="term">
+                <span className="data term-num">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="display d3">{item.title}</h3>
+                <p className="prose">{item.desc}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 04 · REGISTER OF CLIENTS ─────────────────────────── */}
+      <section className="band">
+        <div className="container">
+          <div className="marker">
+            <span className="marker-num">04</span>
+            <span className="marker-title">Register of clients</span>
+            <span className="marker-meta">{clients.length} institutions</span>
+          </div>
+
+          <ul className="register">
+            {clients.map((client, i) => (
+              <li key={client.name} className="register-row">
+                <span className="data register-num">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="register-name">{client.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── 05 · REFERENCES ──────────────────────────────────── */}
+      <section className="band band-sheet">
+        <div className="container">
+          <div className="marker">
+            <span className="marker-num">05</span>
+            <span className="marker-title">References</span>
+          </div>
+
+          <ul className="quotes">
+            {testimonials.map((testimonial, i) => (
+              <Reveal as="li" index={i} key={testimonial.author} className="quote">
+                <blockquote>
+                  <p className="quote-text">{testimonial.quote}</p>
+                </blockquote>
+                <cite className="mono quote-cite">{testimonial.author}</cite>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── 06 · ENQUIRY ─────────────────────────────────────── */}
+      <section className="band enquiry-band">
+        <div className="container enquiry-band-inner">
+          <div>
+            <p className="mono enquiry-kicker">06 · Enquiry</p>
+            <h2 className="display d2">
+              Send the chemical,
+              <br />
+              grade and quantity.
+            </h2>
+            <p className="lead enquiry-lead">
+              Our technical team replies with availability, documentation, and
+              delivery timelines.
+            </p>
+          </div>
+
+          <dl className="enquiry-spec">
+            <div className="field-row">
+              <dt>Telephone</dt>
+              <span className="leader" aria-hidden="true" />
+              <dd>
+                <a href={site.phoneHref} className="data link">
+                  {site.phone}
+                </a>
+              </dd>
+            </div>
+            <div className="field-row">
+              <dt>Email</dt>
+              <span className="leader" aria-hidden="true" />
+              <dd>
+                <a href={site.emailHref} className="data link">
+                  {site.email}
+                </a>
+              </dd>
+            </div>
+            {addresses.map((address) => (
+              <div className="field-row" key={address.label}>
+                <dt>{address.label.replace(" Office", "")}</dt>
+                <span className="leader" aria-hidden="true" />
+                <dd className="data">{address.display}</dd>
               </div>
-              <Link href="/products" className="btn btn-secondary">
-                View all <ArrowRight size={16} aria-hidden="true" />
+            ))}
+            <div className="enquiry-cta">
+              <Link href="/contact" className="btn btn-solid">
+                Open enquiry form
               </Link>
             </div>
-          </Reveal>
-
-          <ul className="product-grid">
-            {featured.map((product, i) => (
-              <Reveal as="li" index={i} key={product.slug}>
-                <ProductCard product={product} />
-              </Reveal>
-            ))}
-          </ul>
+          </dl>
         </div>
       </section>
 
-      {/* ── INDUSTRIES ───────────────────────────────────────── */}
-      <section className="section">
+      {/* Stats are kept in the markup for crawlers and for anyone scanning the
+          page bottom, set as a final rule of record. */}
+      <section className="band-tight">
         <div className="container">
-          <Reveal>
-            <p className="eyebrow">Who we serve</p>
-            <h2 className="h2">Eight sectors, one supplier</h2>
-            <p className="lead section-lead">
-              SHIV ENTERPRISES supplies critical chemicals to India&apos;s
-              essential infrastructure — water treatment plants, power plants,
-              Indian Railways, and defence establishments among them.
-            </p>
-          </Reveal>
-
-          <ul className="industry-grid">
-            {industries.map((industry, i) => (
-              <Reveal
-                as="li"
-                index={i}
-                key={industry.slug}
-                className="card industry-card"
-              >
-                <span className="industry-icon">
-                  <Icon name={industry.icon} size={20} />
-                </span>
-                <h3 className="industry-name">{industry.name}</h3>
-                <p className="industry-blurb">{industry.blurb}</p>
-              </Reveal>
+          <dl className="tallies">
+            {stats.map((stat) => (
+              <div key={stat.label} className="tally">
+                <dt className="mono-sm">{stat.label}</dt>
+                <dd className="display d3 data">{stat.num}</dd>
+              </div>
             ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ─────────────────────────────────────── */}
-      <section className="section section-alt">
-        <div className="container">
-          <Reveal>
-            <p className="eyebrow">Client feedback</p>
-            <h2 className="h2">What buyers say</h2>
-          </Reveal>
-
-          <ul className="testi-grid">
-            {testimonials.map((testimonial, i) => (
-              <Reveal
-                as="li"
-                index={i}
-                key={testimonial.author}
-                className="card testi-card"
-              >
-                <Quote size={22} className="testi-mark" aria-hidden="true" />
-                <blockquote>
-                  <p>{testimonial.quote}</p>
-                </blockquote>
-                <cite>{testimonial.author}</cite>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* ── CTA ──────────────────────────────────────────────── */}
-      <section className="section cta-band">
-        <div className="container cta-inner">
-          <div>
-            <h2 className="h2">Need a quote or a technical spec?</h2>
-            <p className="lead">
-              Tell us the chemical, grade, and quantity. Our technical team
-              responds with availability and delivery timelines.
-            </p>
-          </div>
-          <div className="cta-actions">
-            <Link href="/contact" className="btn btn-primary">
-              Request a Quote <ArrowRight size={17} aria-hidden="true" />
-            </Link>
-            <a href={site.phoneHref} className="btn btn-secondary">
-              {site.phone}
-            </a>
-          </div>
+          </dl>
         </div>
       </section>
     </>

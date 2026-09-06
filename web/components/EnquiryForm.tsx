@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Send } from "lucide-react";
 import { products } from "@/lib/products";
 import { site } from "@/lib/site";
 
@@ -36,14 +35,18 @@ export default function EnquiryForm() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="enquiry-form">
+    <form onSubmit={onSubmit} className="form">
       <div className="form-row">
         <div className="field">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name" className="mono">
+            Name
+          </label>
           <input id="name" name="name" autoComplete="name" required />
         </div>
         <div className="field">
-          <label htmlFor="phone">Phone</label>
+          <label htmlFor="phone" className="mono">
+            Phone
+          </label>
           <input
             id="phone"
             name="phone"
@@ -55,7 +58,9 @@ export default function EnquiryForm() {
       </div>
 
       <div className="field">
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email" className="mono">
+          Email
+        </label>
         <input
           id="email"
           name="email"
@@ -67,7 +72,9 @@ export default function EnquiryForm() {
 
       <div className="form-row">
         <div className="field">
-          <label htmlFor="product">Chemical</label>
+          <label htmlFor="product" className="mono">
+            Chemical
+          </label>
           <input
             id="product"
             name="product"
@@ -81,13 +88,17 @@ export default function EnquiryForm() {
           </datalist>
         </div>
         <div className="field">
-          <label htmlFor="quantity">Quantity</label>
+          <label htmlFor="quantity" className="mono">
+            Quantity
+          </label>
           <input id="quantity" name="quantity" placeholder="e.g. 5 MT / month" />
         </div>
       </div>
 
       <div className="field">
-        <label htmlFor="message">Requirement</label>
+        <label htmlFor="message" className="mono">
+          Requirement
+        </label>
         <textarea
           id="message"
           name="message"
@@ -97,14 +108,14 @@ export default function EnquiryForm() {
         />
       </div>
 
-      <button type="submit" className="btn btn-primary form-submit">
-        <Send size={16} aria-hidden="true" /> Send enquiry
+      <button type="submit" className="btn btn-solid form-submit">
+        Send enquiry
       </button>
 
-      <p className="form-note" role="status" aria-live="polite">
+      <p className="form-note mono-sm" role="status" aria-live="polite">
         {sent
           ? `Your email app should now be open with the enquiry filled in. If nothing happened, email ${site.email} directly.`
-          : `This opens your email app with the details filled in. Prefer to talk? Call ${site.phone}.`}
+          : `Opens your email app with the details filled in. Prefer to talk? Call ${site.phone}.`}
       </p>
     </form>
   );

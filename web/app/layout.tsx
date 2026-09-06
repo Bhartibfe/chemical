@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Lexend, Source_Sans_3 } from "next/font/google";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
@@ -8,15 +8,17 @@ import { globalSchemas } from "@/lib/schema";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const lexend = Lexend({
-  variable: "--font-lexend",
+/** Archivo carries the industrial display voice; IBM Plex Mono was drawn for
+ *  technical documentation and sets every field, unit, and reference. */
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const sourceSans = Source_Sans_3({
-  variable: "--font-source-sans",
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   display: "swap",
@@ -63,8 +65,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f9fb" },
-    { media: "(prefers-color-scheme: dark)", color: "#04121e" },
+    { media: "(prefers-color-scheme: light)", color: "#f4f2ed" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a1017" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -83,7 +85,7 @@ export default function RootLayout({
     <html
       lang="en-IN"
       data-theme="light"
-      className={`${lexend.variable} ${sourceSans.variable}`}
+      className={`${archivo.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <head>

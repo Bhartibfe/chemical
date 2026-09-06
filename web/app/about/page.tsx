@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
-import Icon from "@/components/Icon";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import { clients, commitments, differentiators } from "@/lib/content";
@@ -31,156 +29,174 @@ export default function AboutPage() {
         ])}
       />
 
-      <section className="page-head grid-bg">
+      <section className="page-plate">
         <div className="container">
-          <nav aria-label="Breadcrumb" className="breadcrumb">
-            <Link href="/">Home</Link>
+          <nav aria-label="Breadcrumb" className="mono sheet-crumb">
+            <Link href="/">Index</Link>
             <span aria-hidden="true">/</span>
-            <span aria-current="page">About</span>
+            <span aria-current="page">Company</span>
           </nav>
 
-          <h1 className="h1">About SHIV ENTERPRISES</h1>
-          <p className="lead">
-            SHIV ENTERPRISES is an {site.certification} certified industrial
-            chemical supplier based in Sardulgarh, Mansa, Punjab, with a second
-            office in Chandigarh. The company supplies {products.length}{" "}
-            chemicals to power plants, Indian Railways, defence establishments,
-            water treatment plants, and textile mills across India.
-          </p>
+          <div className="page-plate-inner">
+            <div>
+              <span className="data page-plate-ref">SE/03</span>
+              <h1 className="display d1">The company</h1>
+            </div>
+            <p className="lead">
+              SHIV ENTERPRISES is an {site.certification} certified industrial
+              chemical supplier based in Sardulgarh, Mansa, Punjab, with a
+              second office in Chandigarh, supplying {products.length} chemicals
+              to power plants, Indian Railways, defence establishments, water
+              treatment plants, and textile mills across India.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container about-grid">
+      <section className="band">
+        <div className="container sheet-body">
           <div>
-            <Reveal>
-              <p className="eyebrow">Who we are</p>
-              <h2 className="h2">A chemical partner, not just a vendor</h2>
-              <p className="prose-muted about-para">
-                SHIV ENTERPRISES delivers high-purity chemical solutions to
-                India&apos;s most critical industries — from nuclear power
-                plants to railways and defence. Every product supplied meets
-                strict quality benchmarks under an {site.certification}{" "}
-                certified quality management system.
-              </p>
-              <p className="prose-muted about-para">
-                Our technical team supports product selection, dosing guidance,
-                and specification matching, so procurement teams get the right
-                grade the first time rather than the closest available
-                substitute.
-              </p>
+            <div className="marker">
+              <span className="marker-num">01</span>
+              <span className="marker-title">Statement</span>
+            </div>
 
-              <ul className="badge-row">
-                {differentiators.map((item) => (
-                  <li key={item} className="chip chip-accent">
-                    <Check size={13} aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+            <p className="prose about-para">
+              SHIV ENTERPRISES delivers high-purity chemical solutions to
+              India&apos;s most critical industries — from nuclear power plants
+              to railways and defence. Every product supplied meets strict
+              quality benchmarks under an {site.certification} certified quality
+              management system.
+            </p>
+            <p className="prose about-para">
+              Our technical team supports product selection, dosing guidance,
+              and specification matching, so procurement teams receive the right
+              grade the first time rather than the closest available substitute.
+            </p>
+
+            <ul className="marks">
+              {differentiators.map((item) => (
+                <li key={item} className="tag">
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <aside className="card iso-card">
-            <span className="iso-mark">
-              <Icon name="badge" size={26} />
-            </span>
-            <h2 className="h3">{site.certification}</h2>
-            <p className="prose-muted">
-              Certified quality management covering procurement, storage,
-              testing, and dispatch of industrial chemicals.
-            </p>
-            <dl className="spec-list">
+          <aside>
+            <div className="marker">
+              <span className="marker-num">02</span>
+              <span className="marker-title">Record</span>
+            </div>
+
+            <dl className="sheet-spec">
               {stats.map((stat) => (
-                <div key={stat.label}>
+                <div className="field-row" key={stat.label}>
                   <dt>{stat.label}</dt>
-                  <dd>{stat.num}</dd>
+                  <span className="leader" aria-hidden="true" />
+                  <dd className="data">{stat.num}</dd>
                 </div>
               ))}
+              <div className="field-row">
+                <dt>Certification</dt>
+                <span className="leader" aria-hidden="true" />
+                <dd className="data">{site.certification}</dd>
+              </div>
+              <div className="field-row">
+                <dt>Supply area</dt>
+                <span className="leader" aria-hidden="true" />
+                <dd className="data">Pan-India</dd>
+              </div>
             </dl>
           </aside>
         </div>
       </section>
 
-      <section className="section section-alt">
+      <section className="band band-sheet">
         <div className="container">
-          <Reveal>
-            <p className="eyebrow">Our commitment</p>
-            <h2 className="h2">What every order includes</h2>
-          </Reveal>
+          <div className="marker">
+            <span className="marker-num">03</span>
+            <span className="marker-title">Terms of supply</span>
+          </div>
 
-          <ul className="commit-grid">
+          <div className="terms-grid">
             {commitments.map((item, i) => (
-              <Reveal as="li" index={i} key={item.title} className="commit-card">
-                <span className="commit-icon">
-                  <Icon name={item.icon} size={22} />
+              <Reveal as="div" index={i} key={item.title} className="term">
+                <span className="data term-num">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="h3">{item.title}</h3>
-                <p className="prose-muted">{item.desc}</p>
+                <h2 className="display d3">{item.title}</h2>
+                <p className="prose">{item.desc}</p>
               </Reveal>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
 
-      <section className="section">
+      <section className="band">
         <div className="container">
-          <Reveal>
-            <p className="eyebrow">Our clients</p>
-            <h2 className="h2">Institutions that rely on us</h2>
-            <p className="lead section-lead">
-              SHIV ENTERPRISES serves government and private institutions
-              including Nuclear Power Corporation of India, Indian Railways, and
-              Nuclear Fuel Complex.
-            </p>
-          </Reveal>
+          <div className="marker">
+            <span className="marker-num">04</span>
+            <span className="marker-title">Register of clients</span>
+            <span className="marker-meta">{clients.length} institutions</span>
+          </div>
 
-          <ul className="client-grid">
+          <ul className="register">
             {clients.map((client, i) => (
-              <Reveal
-                as="li"
-                index={i}
-                key={client.name}
-                className="card client-card"
-              >
-                <span className="client-mark">{client.initials}</span>
-                <span className="client-name">{client.name}</span>
-              </Reveal>
+              <li key={client.name} className="register-row">
+                <span className="data register-num">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="register-name">{client.name}</span>
+              </li>
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="section section-alt">
+      <section className="band band-sheet">
         <div className="container">
-          <p className="eyebrow">Where to find us</p>
-          <h2 className="h2">Two offices in North India</h2>
-          <ul className="office-grid">
+          <div className="marker">
+            <span className="marker-num">05</span>
+            <span className="marker-title">Offices</span>
+          </div>
+
+          <ul className="offices">
             {addresses.map((address, i) => (
-              <Reveal as="li" index={i} key={address.label} className="card office-card">
-                <h3 className="h3">{address.label}</h3>
-                <address>{address.display}</address>
+              <Reveal as="li" index={i} key={address.label} className="office">
+                <span className="data office-num">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h2 className="display d3">{address.label}</h2>
+                <address className="data office-address">
+                  {address.display}
+                </address>
               </Reveal>
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="section cta-band">
-        <div className="container cta-inner">
+      <section className="band enquiry-band">
+        <div className="container enquiry-band-inner">
           <div>
-            <h2 className="h2">Work with SHIV ENTERPRISES</h2>
-            <p className="lead">
+            <p className="mono enquiry-kicker">Enquiry</p>
+            <h2 className="display d2">
+              Work with
+              <br />
+              SHIV ENTERPRISES.
+            </h2>
+            <p className="lead enquiry-lead">
               Send your requirement and our technical team will respond with
               availability, documentation, and delivery timelines.
             </p>
           </div>
-          <div className="cta-actions">
-            <Link href="/contact" className="btn btn-primary">
-              Contact Us <ArrowRight size={17} aria-hidden="true" />
+          <div className="enquiry-actions">
+            <Link href="/contact" className="btn btn-solid">
+              Contact us
             </Link>
-            <Link href="/products" className="btn btn-secondary">
-              View Catalogue
+            <Link href="/products" className="btn btn-outline">
+              View catalogue
             </Link>
           </div>
         </div>
