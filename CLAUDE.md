@@ -93,17 +93,36 @@ Typeface: **Inter** (300–800). Dark theme, cyan accent, glass-style cards
 
 ## React migration (planned, not started)
 
-Target: **Vite + React + TypeScript**, or **Next.js** if SSR/SSG is wanted —
-and for a content site whose whole point is SEO/GEO, Next.js static export is
-the stronger default because the crawler gets real HTML.
+Stack: **Next.js 16 + React 19 + TypeScript + Tailwind 4**, in `web/`. Every
+route is statically prerendered, so crawlers and AI engines receive complete
+HTML — that is the whole reason for the framework choice. Keep it that way.
 
-Rules for the migration when it happens:
-1. `weeebbbb.html` is read-only input. Build alongside it; delete nothing.
-2. One component per section, mirroring the existing IDs.
-3. Move the `products` array to a typed data module — don't scatter it.
-4. Every meta tag, JSON-LD block, and heading level survives the port intact.
-   Losing SEO markup in a refactor is a bug, not a detail.
-5. Content must be server-rendered or pre-rendered — never client-only.
+```
+web/
+  app/       layout.tsx (metadata + JSON-LD), page.tsx, globals.css,
+             sitemap.ts, robots.ts
+  components/  one per section: Nav Hero About Products Industries
+               Testimonials Clients Contact Footer WhatsAppButton, plus Reveal
+  lib/       site.ts (NAP single source of truth), products.ts,
+             content.ts, schema.ts (JSON-LD, derived from the data above)
+```
+
+Only `Products` and `Reveal` are Client Components; everything else renders on
+the server. Run `npm run build` from `web/` and confirm routes still show
+`○ (Static)`.
+
+Standing rules:
+
+1. `weeebbbb.html` is read-only reference. Never edit or delete it.
+2. Business facts change in `lib/site.ts` only — the copy, metadata, and
+   JSON-LD all read from it, which is what keeps NAP consistent.
+3. Every meta tag, JSON-LD block, and heading level must survive any refactor.
+   Losing SEO markup is a bug, not a detail.
+4. Never make content client-only, and never let it start at `opacity: 0`
+   without the `html.js` guard in `globals.css`.
+
+**Missing assets:** `web/public/logo.jpg` and `web/public/brochure.pdf` are
+referenced but not in the repo. Drop the real files in before deploying.
 
 ## Specialist agents
 
