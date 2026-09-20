@@ -40,48 +40,79 @@ mode, then use the matching prompts below.
 
 ## Option A · Four clips — LIGHT wash (matches the white theme)
 
-Generate **8 seconds each, 16:9, 1920×1080**. Every prompt asks explicitly
-for high-key lighting and a white background, because that is what keeps the
-hero bright.
+Generate **8 seconds each, 16:9, 1920×1080**.
 
-### Prompt 1 — Liquid, macro, high-key
+Two things every prompt below must carry, or the result will not fit:
 
-> Extreme macro close-up of clear liquid swirling gently in a glass beaker
-> standing on a bright white surface. High-key lighting, soft diffused
-> daylight from above, pale airy palette, almost no shadows, clean white
-> background. A faint cool blue tint in the liquid is the only colour in
-> frame. Very shallow depth of field, slow steady camera, no cuts, no text,
-> no hands, no branding. Photorealistic, 8 seconds.
+- **High-key, white background, minimal shadows** — otherwise the models
+  default to a dark moody studio look, which the light wash turns to mud.
+- **One saturated colour, named explicitly** — clear liquid on white reads as
+  an empty frame once the veil is over it. Colour is what makes the hero
+  look like anything at all.
 
-### Prompt 2 — Crystals, macro, high-key
+The scrim is weighted sideways: near-opaque under the copy on the left,
+thin on the right. So **put the colour on the right of frame** where it will
+actually show.
 
-> Extreme macro close-up of white chemical crystals and flakes on a white
-> surface, shifting and settling very slowly. Bright diffused studio
-> lighting, high-key, white on white with only the faintest grey shadows
-> defining the grains. Very shallow depth of field, slow gentle motion, no
-> cuts, no text, no hands. Photorealistic, 8 seconds.
+### Colours that are true to your own catalogue
 
-### Prompt 3 — Glassware, macro, high-key
+You are not inventing anything by using these — they are the real appearance
+of products you already supply:
 
-> Slow macro tracking shot past clean laboratory glassware — a beaker, a
-> measuring cylinder, a stoppered sample bottle — arranged on a white
-> surface against a white background. Bright soft daylight, high-key, pale
-> and airy, delicate highlights on the glass edges. Very shallow depth of
-> field, slow lateral motion, no cuts, no text, no hands, no labels.
+| Colour | Real product |
+| --- | --- |
+| Amber / gold | Poly aluminium chloride, ferric alum, LABSA |
+| Bright yellow | Sulphur |
+| Pale green | Ferrous sulphate, green acid |
+| Greenish-yellow | Sodium hypochlorite |
+
+Amber also happens to match the site's accent, so it is the safest pick.
+
+### Prompt 1 — Amber liquid, macro *(recommended)*
+
+> Extreme macro close-up of a warm amber-gold liquid swirling slowly in a
+> clear glass beaker on a bright white surface, positioned to the right of
+> frame. Bright diffused daylight passes through the liquid and throws soft
+> golden caustics across the white background. High-key lighting, pale airy
+> palette, saturated amber as the only colour. Very shallow depth of field,
+> slow steady camera, no cuts, no text, no hands, no branding.
 > Photorealistic, 8 seconds.
 
-### Prompt 4 — Pour, macro, high-key
+### Prompt 2 — Sample row, mixed colours *(best single clip)*
 
-> Extreme macro close-up of a clear liquid being poured slowly into a glass
-> beaker on a white surface. High-key lighting, bright and airy, white
-> background, soft highlights catching the falling stream and the ripples.
-> Very shallow depth of field, slow steady camera, no cuts, no text, no
-> hands, no branding. Photorealistic, 8 seconds.
+> Slow macro tracking shot past a row of clear glass sample bottles standing
+> on a bright white surface, each holding a different coloured liquid —
+> amber, deep blue, pale green, and clear. Light passes through the glass
+> and casts soft coloured shadows onto the white surface. High-key lighting,
+> bright and airy, clean white background. Very shallow depth of field, slow
+> lateral motion, no cuts, no text, no labels, no hands. Photorealistic,
+> 8 seconds.
 
-**Keywords that do the work here:** *high-key, bright diffused light, white
-background, pale airy palette, minimal shadows.* Leave them out and the model
-defaults to a dark moody studio look, which is the opposite of what the light
-wash needs.
+### Prompt 3 — Yellow powder, macro
+
+> Extreme macro close-up of bright yellow sulphur powder on a clean white
+> surface, fine grains shifting and settling very slowly. Vivid saturated
+> yellow against pure white, bright diffused studio lighting, high-key,
+> crisp grain texture. Very shallow depth of field, slow gentle motion, no
+> cuts, no text, no hands. Photorealistic, 8 seconds.
+
+### Prompt 4 — Blue pour, macro
+
+> Extreme macro close-up of a vivid cobalt blue liquid being poured slowly
+> into a clear glass beaker on a white surface, to the right of frame. The
+> falling stream and spreading ripples catch bright diffused daylight.
+> High-key lighting, white background, deep saturated blue against pure
+> white. Very shallow depth of field, slow steady camera, no cuts, no text,
+> no hands. Photorealistic, 8 seconds.
+
+### If a result still comes out colourless
+
+Models drift to clear glass unless pushed. Add, in order of force:
+
+1. Name the colour twice — "a warm amber-gold liquid … saturated amber".
+2. Add "vivid", "richly saturated", or "intensely coloured".
+3. Name a reference — "the colour of strong honey", "cobalt blue ink".
+4. Say what to avoid — "not clear, not colourless, not transparent water".
 
 ## Option A2 · Four clips — DARK wash
 

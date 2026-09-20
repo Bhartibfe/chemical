@@ -1686,14 +1686,40 @@
   background: var(--paper);
 }
 
+/* A flat white veil heavy enough to protect the text would also wash
+   all the colour out of the footage. So the veil is weighted sideways:
+   near-opaque under the copy column on the left, thin on the right
+   where the video is the only thing on screen. Colour survives, text
+   still clears AA. */
 .hero-section[data-scrim="light"]:has(.hero-video) .hero-scrim {
   background:
     linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0.97) 0%,
+      rgba(255, 255, 255, 0.94) 34%,
+      rgba(255, 255, 255, 0.58) 64%,
+      rgba(255, 255, 255, 0.32) 100%
+    ),
+    linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.78) 40%,
-      rgba(255, 255, 255, 0.94) 100%
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0.4) 100%
     );
+}
+
+/* Below the desktop breakpoint the copy spans the full width, so the
+   sideways weighting would leave text over open footage. Go back to a
+   flat veil there. */
+@media (max-width: 900px) {
+  .hero-section[data-scrim="light"]:has(.hero-video) .hero-scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.93) 0%,
+      rgba(255, 255, 255, 0.88) 45%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
+  }
 }
 
 /* The strip already uses a translucent paper background, which sits
@@ -1709,9 +1735,16 @@
   .hero-scrim {
   background:
     linear-gradient(
+      100deg,
+      rgba(0, 0, 0, 0.94) 0%,
+      rgba(0, 0, 0, 0.9) 34%,
+      rgba(0, 0, 0, 0.6) 64%,
+      rgba(0, 0, 0, 0.42) 100%
+    ),
+    linear-gradient(
       180deg,
-      rgba(0, 0, 0, 0.86) 0%,
-      rgba(0, 0, 0, 0.72) 40%,
-      rgba(0, 0, 0, 0.92) 100%
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0) 30%,
+      rgba(0, 0, 0, 0.5) 100%
     );
 }
