@@ -1392,6 +1392,11 @@
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+  /* The footage's own background white. With object-fit: contain the clip
+     letterboxes against this instead of being cropped, so the subject keeps
+     its natural framing. Because the fill sits under the same scrim as the
+     video, bars and footage read as one continuous surface in both themes. */
+  background: #e0e6e8;
 }
 
 .hero-video-clip {
@@ -1399,7 +1404,9 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* contain, not cover: a full-screen hero is far wider than 16:9, and
+     cover would crop a quarter of the frame and blow the subject up. */
+  object-fit: contain;
   opacity: 0;
   transition-property: opacity;
   transition-timing-function: linear;
@@ -1689,10 +1696,10 @@
   background:
     linear-gradient(
       100deg,
-      rgba(255, 255, 255, 0.97) 0%,
-      rgba(255, 255, 255, 0.94) 34%,
-      rgba(255, 255, 255, 0.58) 64%,
-      rgba(255, 255, 255, 0.32) 100%
+      rgba(255, 255, 255, 0.89) 0%,
+      rgba(255, 255, 255, 0.84) 34%,
+      rgba(255, 255, 255, 0.46) 64%,
+      rgba(255, 255, 255, 0.18) 100%
     ),
     linear-gradient(
       180deg,
@@ -1742,5 +1749,62 @@
 @media (max-width: 640px) {
   :root {
     --header-h: 92px;
+  }
+}
+
+/* ── SCROLL CUE ─────────────────────────────────────────────────────
+   The hero now fills the screen, so it needs to say there is more. */
+
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(16px, 3vh, 32px);
+  z-index: 3;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  pointer-events: none;
+}
+
+.scroll-cue-rail {
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--rule-strong) 45%,
+    transparent
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-cue-rail::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: -34px;
+  height: 34px;
+  background: linear-gradient(180deg, transparent, var(--ink-3), transparent);
+  animation: cue 2.4s ease-in-out infinite;
+}
+
+@keyframes cue {
+  to {
+    transform: translateY(68px);
+  }
+}
+
+@media (max-height: 620px) {
+  .scroll-cue {
+    display: none;
   }
 }

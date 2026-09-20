@@ -67,6 +67,10 @@ export default function HomePage() {
           </div>
         </div>
 
+        <span className="scroll-cue" aria-hidden="true">
+          Scroll
+          <span className="scroll-cue-rail" />
+        </span>
       </section>
 
       {/* Credential strip. Deliberately below the fold: the hero owns the
