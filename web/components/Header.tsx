@@ -23,25 +23,6 @@ export default function Header() {
 
   return (
     <header className="masthead">
-      {/* Top info bar */}
-      <div className="running-head">
-        <div className="page running-head-inner apparatus-sm">
-          <div className="running-head-left">
-            <span className="badge-pill-sm">ISO 9001:2015 CERTIFIED</span>
-            <span className="hidden-mobile">Sardulgarh, Punjab &amp; Chandigarh</span>
-          </div>
-          <div className="running-head-right flex items-center gap-3">
-            <a href={site.phoneHref} className="topbar-contact-link">
-              Call: {site.phone}
-            </a>
-            <span className="hidden-mobile text-slate-400 dark:text-slate-600">&bull;</span>
-            <a href={site.emailHref} className="topbar-contact-link hidden-mobile">
-              {site.email}
-            </a>
-          </div>
-        </div>
-      </div>
-
       <div className="page masthead-inner">
         <Link href="/" className="masthead-logo" aria-label={`${site.name} home`}>
           <Image

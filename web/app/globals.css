@@ -39,9 +39,9 @@
   /* Hero copy sits in a wider column than body content so it reads closer
      to the left edge of a full-bleed band. */
   --page-hero: 1760px;
-  /* Running head + masthead. The hero subtracts this to fill exactly one
-     screen, leaving the credential strip below the fold. */
-  --header-h: 106px;
+  /* The nav row. Pages below the hero pad by this, since the header is
+     fixed and no longer takes up flow. */
+  --header-h: 76px;
 }
 
 :root[data-theme="dark"] {
