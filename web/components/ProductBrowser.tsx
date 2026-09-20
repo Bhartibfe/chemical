@@ -4,6 +4,7 @@ import { useDeferredValue, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Entry from "./Entry";
+import type { ProductImage } from "@/lib/productImages";
 import {
   categories,
   categoryMeta,
@@ -32,7 +33,12 @@ function matches(
   );
 }
 
-export default function ProductBrowser() {
+export default function ProductBrowser({
+  images = {},
+}: {
+  /** Resolved on the server — fs is not available in a Client Component. */
+  images?: Record<string, ProductImage>;
+}) {
   const searchParams = useSearchParams();
   const requested = searchParams.get("category");
   const initialFilter: Filter = filters.includes(requested as Filter)
@@ -142,7 +148,7 @@ export default function ProductBrowser() {
                   ease: "linear",
                 }}
               >
-                <Entry product={product} />
+                <Entry product={product} image={images[product.slug] ?? null} />
               </motion.div>
             ))}
           </AnimatePresence>

@@ -6,6 +6,7 @@ import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import { clients, commitments, industries, testimonials } from "@/lib/content";
 import { products } from "@/lib/products";
+import { productImage } from "@/lib/productImages";
 import { productCatalogueSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
 import { heroScrim } from "@/lib/hero";
@@ -109,7 +110,11 @@ export default function HomePage() {
       >
         <div className="entry-card-grid">
           {opening.map((product) => (
-            <Entry key={product.slug} product={product} />
+            <Entry
+              key={product.slug}
+              product={product}
+              image={productImage(product.slug)}
+            />
           ))}
 
           {/* Closing cell. The header button already states the full

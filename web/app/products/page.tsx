@@ -5,6 +5,7 @@ import Chapter from "@/components/Chapter";
 import JsonLd from "@/components/JsonLd";
 import ProductBrowser from "@/components/ProductBrowser";
 import { categories, products } from "@/lib/products";
+import { productImageMap } from "@/lib/productImages";
 import { breadcrumbSchema, productCatalogueSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -70,7 +71,9 @@ export default function ProductsPage() {
           <Suspense
             fallback={<p className="apparatus-sm index-count">Loading index…</p>}
           >
-            <ProductBrowser />
+            <ProductBrowser
+              images={productImageMap(products.map((p) => p.slug))}
+            />
           </Suspense>
         </div>
       </section>

@@ -4,6 +4,7 @@ import Chapter from "@/components/Chapter";
 import Entry from "@/components/Entry";
 import JsonLd from "@/components/JsonLd";
 import { categoryMeta, getProduct, indexOf, products } from "@/lib/products";
+import { productImage } from "@/lib/productImages";
 import { breadcrumbSchema, productSchema } from "@/lib/schema";
 import { clampWords, pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -185,7 +186,11 @@ export default async function ProductPage({ params }: Params) {
         >
           <div className="entry-card-grid">
             {related.map((item) => (
-              <Entry key={item.slug} product={item} />
+              <Entry
+                key={item.slug}
+                product={item}
+                image={productImage(item.slug)}
+              />
             ))}
           </div>
         </Chapter>
