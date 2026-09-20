@@ -1869,26 +1869,26 @@
 .entry-card-all {
   justify-content: flex-start;
   gap: 14px;
-  background: var(--brand-navy);
-  border-color: var(--brand-navy);
-  color: #ffffff;
+  /* Brand gold. The loudest thing on a page of white and navy cards, which
+     is the point — and navy on gold clears AA at 7.96:1, where white on
+     gold would fail at 2:1. */
+  background: linear-gradient(145deg, #f7b544 0%, #f4a830 45%, #e3940f 100%);
+  border-color: #e3940f;
+  color: var(--brand-navy);
+  box-shadow: 0 6px 20px rgba(244, 168, 48, 0.3);
 }
 
 .entry-card-all:hover {
-  background: #0284c7;
-  border-color: #0284c7;
+  background: linear-gradient(145deg, #ffc256 0%, #f7b03a 45%, #eb9c14 100%);
+  border-color: #f4a830;
   transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(2, 132, 199, 0.22);
+  box-shadow: 0 12px 30px rgba(244, 168, 48, 0.42);
 }
 
 :root[data-theme="dark"] .entry-card-all {
-  background: var(--paper-3);
-  border-color: var(--rule-strong);
-}
-
-:root[data-theme="dark"] .entry-card-all:hover {
-  background: #0284c7;
-  border-color: #0284c7;
+  background: linear-gradient(145deg, #f7b544 0%, #f4a830 45%, #e3940f 100%);
+  border-color: #f4a830;
+  color: var(--brand-navy);
 }
 
 .entry-card-all-count {
@@ -1897,11 +1897,11 @@
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.03em;
-  color: var(--brand-gold);
+  color: var(--brand-navy);
 }
 
 :root[data-theme="dark"] .entry-card-all-count {
-  color: #ffffff;
+  color: var(--brand-navy);
 }
 
 .entry-card-all-body {
@@ -1918,10 +1918,12 @@
   line-height: 1.25;
 }
 
+/* Solid rather than a translucent navy: fading it toward the gold would
+   drop the contrast below AA. */
 .entry-card-all-sub {
   font-size: 0.875rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.72);
+  color: #3d2f12;
 }
 
 .entry-card-all-action {
@@ -1929,12 +1931,16 @@
   align-items: center;
   gap: 8px;
   padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(0, 36, 60, 0.28);
   font-family: var(--font-inter), system-ui, sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.entry-card-all-action span {
+  transition: transform 0.2s ease;
 }
 
 .entry-card-all:hover .entry-card-all-action span {
