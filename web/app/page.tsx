@@ -1,5 +1,4 @@
 import Link from "next/link";
-import CategoryGrid from "@/components/CategoryGrid";
 import Chapter from "@/components/Chapter";
 import Entry from "@/components/Entry";
 import HeroVideo from "@/components/HeroVideo";
@@ -102,6 +101,11 @@ export default function HomePage() {
         title="Featured Chemical Catalogue"
         note={`Showing ${opening.length} of ${products.length} industrial chemicals with MSDS and COA support.`}
         tone="tint"
+        action={
+          <Link href="/products" className="btn btn-ink">
+            View All {products.length} Products &rarr;
+          </Link>
+        }
       >
         <p className="prose opening chapter-opening">
           SHIV ENTERPRISES holds {products.length} industrial chemicals across
@@ -117,14 +121,6 @@ export default function HomePage() {
           ))}
         </div>
 
-        <p className="cat-grid-label">Browse by category</p>
-        <CategoryGrid />
-
-        <div className="chapter-foot">
-          <Link href="/products" className="btn btn-ink">
-            View All {products.length} Products &rarr;
-          </Link>
-        </div>
       </Chapter>
 
       {/* ── SECTION 02: SECTORS ───────────────────────────────── */}

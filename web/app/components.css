@@ -462,8 +462,30 @@
   background: var(--paper-2);
 }
 
+/* Title left, optional action right and level with it. */
 .chapter-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
   margin-bottom: 36px;
+}
+
+.chapter-head-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.chapter-head-action {
+  flex-shrink: 0;
+}
+
+@media (max-width: 760px) {
+  .chapter-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
 }
 
 .chapter-title-group {
@@ -1838,103 +1860,3 @@
   border-bottom: 1px solid var(--rule);
 }
 
-/* ── BROWSE BY CATEGORY ─────────────────────────────────────────────
-   Six entry points into the filtered catalogue, sitting between the
-   featured cards and the View All action. */
-
-.cat-grid-label {
-  margin-top: 48px;
-  margin-bottom: 16px;
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-
-.cat-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 12px;
-  list-style: none;
-}
-
-.cat-tile {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  height: 100%;
-  padding: 16px 18px;
-  border: 1px solid var(--rule);
-  border-radius: 12px;
-  background: var(--paper);
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
-}
-
-.cat-tile:hover {
-  border-color: var(--subject);
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07);
-  transform: translateY(-2px);
-}
-
-:root[data-theme="dark"] .cat-tile {
-  background: var(--paper-2);
-  border-color: var(--rule);
-}
-
-:root[data-theme="dark"] .cat-tile:hover {
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
-}
-
-/* Colour is the only thing carrying the category identity, so it also
-   gets a size and position change on hover rather than colour alone. */
-.cat-tile-bar {
-  width: 4px;
-  align-self: stretch;
-  min-height: 34px;
-  border-radius: 3px;
-  background: var(--subject);
-  transition: width 0.2s ease;
-}
-
-.cat-tile:hover .cat-tile-bar {
-  width: 6px;
-}
-
-.cat-tile-body {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-  margin-right: auto;
-}
-
-.cat-tile-name {
-  font-family: var(--font-plus-jakarta), system-ui, sans-serif;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--ink);
-  line-height: 1.25;
-}
-
-.cat-tile-count {
-  font-size: 0.8125rem;
-  color: var(--ink-3);
-}
-
-.cat-tile-arrow {
-  flex-shrink: 0;
-  color: var(--ink-3);
-  transition:
-    transform 0.2s ease,
-    color 0.2s ease;
-}
-
-.cat-tile:hover .cat-tile-arrow {
-  color: var(--subject);
-  transform: translateX(3px);
-}
