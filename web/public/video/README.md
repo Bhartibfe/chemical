@@ -114,3 +114,62 @@ Then `npm run build` and confirm the routes still report `○ (Static)`.
 - **SEO** — the video is `aria-hidden` and decorative. Headline, lead, stats,
   and buttons are server-rendered HTML above it, so nothing a crawler or an
   AI answer engine needs is inside the video layer.
+
+---
+
+# Option B · A single video
+
+You do not need four files. Three ways to end up with one, worst to best.
+
+## B1 · One prompt, one scene (simplest)
+
+Generate just **Prompt 1** and loop it. Lowest effort, lowest risk — a single
+8-second clip is where these models are strongest. The hero loops it
+automatically when `heroClips` has one entry.
+
+Downside: the same 8 seconds repeating is noticeable if visitors linger.
+
+## B2 · One prompt, one continuous take
+
+Ask for a single unbroken camera move that travels through the whole plant.
+Models handle continuous motion far better than they handle cuts, so describe
+a journey, never a sequence of scenes:
+
+> A single continuous cinematic tracking shot moving slowly forward through a
+> modern industrial chemical facility at golden hour. The camera glides past
+> large circular water treatment clarifier tanks with gently rotating arms,
+> continues between tall stainless steel storage tanks and polished pipework
+> with soft steam drifting, and finally moves along rows of sealed industrial
+> drums in a clean warehouse lit by shafts of daylight. Muted steel-blue and
+> teal palette with warm amber highlights, soft atmospheric haze, shallow
+> depth of field. One unbroken take, slow steady forward motion, no cuts, no
+> text, no logos, no people. Photorealistic, cinematic, 8 seconds.
+
+Ask for "one unbroken take" explicitly. Without it the model invents cuts and
+they look cheap.
+
+## B3 · Generate four, stitch into one (recommended)
+
+Best quality and the most control: generate the four scene prompts above,
+then merge them into a single file with cross-fades. You get one video, and
+each 8-second segment was generated at the length these models do well.
+
+With four 8-second clips and 1-second cross-fades:
+
+```bash
+ffmpeg -i hero-01.mp4 -i hero-02.mp4 -i hero-03.mp4 -i hero-04.mp4 \
+  -filter_complex \
+  "[0][1]xfade=transition=fade:duration=1:offset=7[a]; \
+   [a][2]xfade=transition=fade:duration=1:offset=14[b]; \
+   [b][3]xfade=transition=fade:duration=1:offset=21[c]" \
+  -map "[c]" -c:v libx264 -crf 30 -preset slow \
+  -movflags +faststart -an hero-loop.mp4
+```
+
+Offsets are cumulative: each is `previous offset + clip length − fade`.
+Result is roughly 29 seconds. Re-encode to WebM from that single file, pull
+the poster from it, and list one entry in `lib/hero.ts`.
+
+**For a clean loop point**, pick a first and last scene that end on similar
+framing and brightness — a dark, slow frame at both ends makes the wrap
+invisible. Mismatched ends produce a visible jump every 29 seconds.
