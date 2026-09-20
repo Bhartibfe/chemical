@@ -4,157 +4,96 @@ The hero video system is already built. It is **off** until you list clips in
 `web/lib/hero.ts` — until then the gradient hero renders normally, so the site
 is never broken while footage is in production.
 
-## 1 · Generate the clips
+## The rule that decides every prompt below
 
-Use Google Gemini (Veo), Runway, Kling, or Sora. Generate **4 clips at 8
-seconds each, 16:9, 1920×1080, no text, no logos, no people's faces**.
+SHIV ENTERPRISES is a **chemical supply business with two offices**, not a
+manufacturer with a plant. So:
 
-Text is deliberately excluded — the headline lives in HTML above the video, so
-it stays crisp, translatable, selectable, and readable by search engines. Text
-burned into a video is invisible to all of those.
+> **Shoot tight, never wide.**
 
-### Prompt 1 — Water treatment
+Wide shots — aerial views of treatment works, rows of stainless tank farms,
+cavernous warehouses — advertise scale you do not have. A procurement buyer
+who sees that footage and then deals with a two-office supplier feels misled,
+and that costs you the account.
 
-> Slow cinematic aerial push-in over a modern industrial water treatment
-> plant at golden hour. Large circular clarifier tanks with gently rotating
-> arms, clean blue-green water, geometric concrete basins. Muted teal and
-> steel-blue palette, soft haze, shallow depth of field. Smooth continuous
-> camera motion, no cuts, no text, no people. Photorealistic, 8 seconds.
+Close-ups do the opposite. Macro of the product, the drum lid, the sample
+bottle, the light on a liquid — these say *care, purity, handling*, which is
+exactly what a good supplier competes on and what a big distributor cannot
+claim as convincingly. Tight footage is both the honest choice and the
+better-looking one.
 
-### Prompt 2 — Storage and pipework
+Also: **no branding, no signage, no readable documents, no faces.** Nothing
+that implies the footage is your Sardulgarh or Chandigarh premises.
 
-> Slow dolly past rows of stainless steel chemical storage tanks and
-> polished pipework in an industrial facility. Late afternoon light raking
-> across metal surfaces, subtle steam drifting. Deep navy shadows with warm
-> amber highlights. Steady tracking shot, shallow depth of field, no text,
-> no people. Photorealistic, 8 seconds.
+## Option A · Four clips
 
-### Prompt 3 — Laboratory quality control
+Generate **8 seconds each, 16:9, 1920×1080**.
 
-> Extreme close-up, macro. Clear liquid swirling in laboratory glassware on
-> a clean white bench, a single drop falling into a beaker in slow motion.
-> Crisp reflections, cool neutral lighting with a faint amber rim. Very
-> shallow depth of field, slow drift of the camera. No text, no hands, no
-> faces. Photorealistic, 8 seconds.
+### Prompt 1 — Liquid, macro
 
-### Prompt 4 — Dispatch
+> Extreme macro close-up of a clear chemical liquid being poured slowly into
+> a glass laboratory beaker on a plain dark surface. Light catches the
+> falling stream and the ripples spreading across the surface. Soft neutral
+> daylight from one side, uncluttered background falling out of focus. Very
+> shallow depth of field, slow steady camera, no cuts, no text, no hands, no
+> branding. Photorealistic, 8 seconds.
 
-> Slow lateral tracking shot along rows of sealed industrial chemical drums
-> and pallets in a clean warehouse, shafts of daylight from high windows,
-> dust motes in the air. Desaturated blue-grey palette with warm highlights.
-> Smooth steady motion, no text, no logos, no people. Photorealistic,
-> 8 seconds.
+### Prompt 2 — Solid product, macro
 
-**One important caution.** These read as generic industrial footage, which is
-fine. Do **not** prompt for anything that implies it is the Sardulgarh or
-Chandigarh facility, and do not add signage or branding to the footage — an
-AI-generated shot presented as your own plant is a misrepresentation a buyer
-could hold against you. If you want the real plant on the page, film it; a
-plain phone video of the actual site is more persuasive to a procurement
-engineer than any generated shot.
+> Extreme macro close-up of white chemical flakes and crystals slowly
+> shifting and settling, filling the frame. Crisp texture detail, individual
+> grains catching the light. Cool neutral lighting with a faint warm rim,
+> dark background. Very shallow depth of field, slow gentle motion, no cuts,
+> no text, no hands. Photorealistic, 8 seconds.
 
-## 2 · Encode for the web
+### Prompt 3 — Sealed drums, tight
 
-Raw exports are far too heavy to autoplay. Target **under 2.5 MB per clip**.
+> Slow close-up tracking shot moving across the tops of sealed blue HDPE
+> chemical drums, focusing on the ribbed lids and metal clamp rings. Plain
+> unbranded drums, no labels. Warm side light, soft shadows, neutral
+> background falling out of focus. Slow lateral motion, shallow depth of
+> field, no text, no logos, no people. Photorealistic, 8 seconds.
 
-```bash
-# MP4 (H.264) — the universal fallback
-ffmpeg -i raw-01.mp4 -vf "scale=1920:-2,fps=24" \
-  -c:v libx264 -crf 30 -preset slow -profile:v high \
-  -movflags +faststart -an hero-01-plant.mp4
+### Prompt 4 — Sample and paperwork, tight
 
-# WebM (VP9) — smaller, served first where supported
-ffmpeg -i raw-01.mp4 -vf "scale=1920:-2,fps=24" \
-  -c:v libvpx-vp9 -crf 38 -b:v 0 -an hero-01-plant.webm
-```
+> Close-up of a small glass sample bottle of clear liquid on a clean work
+> surface beside a folded paper document, lit by soft daylight from a window
+> off frame. Faint dust visible in the light. The camera drifts slowly
+> closer. Shallow depth of field, no legible text, no faces, no branding.
+> Photorealistic, 8 seconds.
 
-`-an` strips audio (the hero is muted anyway, and it saves weight).
-`+faststart` moves the index to the front so playback begins before the file
-finishes downloading.
+## Option B · A single video
 
-### Poster frame — required
+You do not need four files. Three ways to one, worst to best.
 
-```bash
-ffmpeg -i hero-01-plant.mp4 -vf "select=eq(n\,0)" -q:v 3 hero-poster.jpg
-```
+### B1 · One prompt, one scene
 
-The poster is what Largest Contentful Paint actually measures, and it is what
-shows on reduced-motion, data-saver, and slow connections. Never skip it.
-
-## 3 · Wire it up
-
-Put the encoded files in this folder, then edit `web/lib/hero.ts`:
-
-```ts
-export const heroClips: HeroClip[] = [
-  { mp4: "/video/hero-01-plant.mp4", webm: "/video/hero-01-plant.webm",
-    label: "Water treatment clarifier tanks" },
-  { mp4: "/video/hero-02-tanks.mp4", webm: "/video/hero-02-tanks.webm",
-    label: "Chemical storage tanks and pipework" },
-  { mp4: "/video/hero-03-lab.mp4", webm: "/video/hero-03-lab.webm",
-    label: "Laboratory quality testing" },
-  { mp4: "/video/hero-04-dispatch.mp4", webm: "/video/hero-04-dispatch.webm",
-    label: "Sealed drums ready for dispatch" },
-];
-```
-
-One entry loops like the Tata Chemicals hero. Two or more cross-fade in
-sequence. Tune `clipDuration` and `fadeDuration` in the same file.
-
-Then `npm run build` and confirm the routes still report `○ (Static)`.
-
-## What the system already handles
-
-- **Reduced motion** — no video mounts at all; the poster stands in.
-- **Data saver / 2G** — same; the clips are never fetched.
-- **Autoplay refusal** — caught, poster remains.
-- **Only the visible clip decodes** — a four-clip hero costs about what a
-  one-clip hero costs.
-- **No layout shift** — the section is sized by CSS, not by the video.
-- **SEO** — the video is `aria-hidden` and decorative. Headline, lead, stats,
-  and buttons are server-rendered HTML above it, so nothing a crawler or an
-  AI answer engine needs is inside the video layer.
-
----
-
-# Option B · A single video
-
-You do not need four files. Three ways to end up with one, worst to best.
-
-## B1 · One prompt, one scene (simplest)
-
-Generate just **Prompt 1** and loop it. Lowest effort, lowest risk — a single
-8-second clip is where these models are strongest. The hero loops it
+Generate **Prompt 1** alone and loop it. Lowest effort, lowest risk — eight
+seconds is where these models are strongest, and a macro pour loops well
+because there is no establishing geography to jump. The hero loops
 automatically when `heroClips` has one entry.
 
-Downside: the same 8 seconds repeating is noticeable if visitors linger.
+### B2 · One prompt, one continuous take
 
-## B2 · One prompt, one continuous take
+Describe a **journey across a surface**, never a list of scenes. Models
+handle continuous motion far better than cuts:
 
-Ask for a single unbroken camera move that travels through the whole plant.
-Models handle continuous motion far better than they handle cuts, so describe
-a journey, never a sequence of scenes:
+> A single continuous macro tracking shot moving slowly across a clean work
+> surface: past a glass bottle of clear liquid, over a small heap of white
+> chemical crystals catching the light, and ending on the ribbed lid of a
+> sealed blue drum. Soft daylight from one side, plain dark background
+> falling out of focus. One unbroken take, slow steady motion, very shallow
+> depth of field, no cuts, no text, no logos, no people, no branding.
+> Photorealistic, cinematic, 8 seconds.
 
-> A single continuous cinematic tracking shot moving slowly forward through a
-> modern industrial chemical facility at golden hour. The camera glides past
-> large circular water treatment clarifier tanks with gently rotating arms,
-> continues between tall stainless steel storage tanks and polished pipework
-> with soft steam drifting, and finally moves along rows of sealed industrial
-> drums in a clean warehouse lit by shafts of daylight. Muted steel-blue and
-> teal palette with warm amber highlights, soft atmospheric haze, shallow
-> depth of field. One unbroken take, slow steady forward motion, no cuts, no
-> text, no logos, no people. Photorealistic, cinematic, 8 seconds.
-
-Ask for "one unbroken take" explicitly. Without it the model invents cuts and
+Keep "one unbroken take" in the prompt. Without it the model invents cuts and
 they look cheap.
 
-## B3 · Generate four, stitch into one (recommended)
+### B3 · Generate four, stitch into one (recommended)
 
-Best quality and the most control: generate the four scene prompts above,
-then merge them into a single file with cross-fades. You get one video, and
-each 8-second segment was generated at the length these models do well.
-
-With four 8-second clips and 1-second cross-fades:
+Best quality and control: generate the four prompts above, then merge with
+cross-fades. One file, but each segment generated at the length these models
+handle well.
 
 ```bash
 ffmpeg -i hero-01.mp4 -i hero-02.mp4 -i hero-03.mp4 -i hero-04.mp4 \
@@ -166,10 +105,71 @@ ffmpeg -i hero-01.mp4 -i hero-02.mp4 -i hero-03.mp4 -i hero-04.mp4 \
   -movflags +faststart -an hero-loop.mp4
 ```
 
-Offsets are cumulative: each is `previous offset + clip length − fade`.
-Result is roughly 29 seconds. Re-encode to WebM from that single file, pull
-the poster from it, and list one entry in `lib/hero.ts`.
+Offsets are cumulative: `previous offset + clip length − fade`. Result is
+roughly 29 seconds. For a clean loop, pick first and last shots with similar
+brightness and framing — mismatched ends give a visible jump on every wrap.
 
-**For a clean loop point**, pick a first and last scene that end on similar
-framing and brightness — a dark, slow frame at both ends makes the wrap
-invisible. Mismatched ends produce a visible jump every 29 seconds.
+## Option C · No AI video at all
+
+Worth considering seriously. A short clip filmed on a phone — actual stock on
+your shelves, a drum being sealed, product poured into a sample jar, an order
+going onto a vehicle — will out-persuade any generated footage with a
+procurement engineer, because it is real and it is *yours*. Shoot it tight,
+hold the phone steady, 10 seconds is plenty, and the same encoding recipe
+below applies.
+
+The gradient hero also stands on its own. Video is an enhancement here, not a
+requirement.
+
+## Encode for the web
+
+Raw exports are far too heavy to autoplay. Target **under 2.5 MB per clip**.
+
+```bash
+# MP4 (H.264) — the universal fallback
+ffmpeg -i raw-01.mp4 -vf "scale=1920:-2,fps=24" \
+  -c:v libx264 -crf 30 -preset slow -profile:v high \
+  -movflags +faststart -an hero-01.mp4
+
+# WebM (VP9) — smaller, served first where supported
+ffmpeg -i raw-01.mp4 -vf "scale=1920:-2,fps=24" \
+  -c:v libvpx-vp9 -crf 38 -b:v 0 -an hero-01.webm
+```
+
+`-an` strips audio (the hero is muted anyway). `+faststart` moves the index to
+the front so playback begins before the file finishes downloading.
+
+### Poster frame — required
+
+```bash
+ffmpeg -i hero-01.mp4 -vf "select=eq(n\,0)" -q:v 3 hero-poster.jpg
+```
+
+The poster is what Largest Contentful Paint actually measures, and it is what
+shows under reduced motion, data saver, and slow connections. Never skip it.
+
+## Wire it up
+
+Put the encoded files here, then edit `web/lib/hero.ts`:
+
+```ts
+export const heroClips: HeroClip[] = [
+  { mp4: "/video/hero-01.mp4", webm: "/video/hero-01.webm",
+    label: "Chemical liquid poured into a beaker" },
+];
+```
+
+One entry loops. Two or more cross-fade in sequence; tune `clipDuration` and
+`fadeDuration` in the same file. Then `npm run build` and confirm the routes
+still report `○ (Static)`.
+
+## What the system already handles
+
+- **Reduced motion** — no video mounts at all; the poster stands in.
+- **Data saver / 2G** — same; the clips are never fetched.
+- **Autoplay refusal** — caught, poster remains.
+- **Only the visible clip decodes** — four clips cost about what one costs.
+- **No layout shift** — the section is sized by CSS, not by the video.
+- **SEO** — the video is `aria-hidden` and decorative. Headline, lead, stats,
+  and buttons are server-rendered HTML above it, so nothing a crawler or an
+  AI answer engine needs sits inside the video layer.
