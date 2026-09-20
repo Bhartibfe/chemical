@@ -116,16 +116,6 @@ export default function HomePage() {
               image={productImage(product.slug)}
             />
           ))}
-
-          {/* Closing cell. The header button already states the full
-              "View All 29 Products", so this stays quiet — an arrow and a
-              label, not a second competing call to action. */}
-          <Link href="/products" className="browse-cell">
-            <span className="browse-cell-arrow" aria-hidden="true">
-              &rarr;
-            </span>
-            <span className="browse-cell-label">Browse catalogue</span>
-          </Link>
         </div>
 
       </Chapter>

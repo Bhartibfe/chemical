@@ -13,14 +13,26 @@ import path from "node:path";
  * `node:fs` ends up in the browser bundle and the build fails. Pages resolve
  * the images and pass them down as props.
  */
-const dir = path.join(process.cwd(), "public", "products");
+/**
+ * process.cwd() is the app directory during a build, but a dev server
+ * started from the repo root reports that instead — which silently resolved
+ * to a folder that does not exist and made every card fall back. Try both.
+ */
+const candidates = [
+  path.join(process.cwd(), "public", "products"),
+  path.join(process.cwd(), "web", "public", "products"),
+];
 
 function read(): string[] {
-  try {
-    return fs.readdirSync(dir);
-  } catch {
-    return [];
+  for (const dir of candidates) {
+    try {
+      const files = fs.readdirSync(dir);
+      if (files.length) return files;
+    } catch {
+      // try the next candidate
+    }
   }
+  return [];
 }
 
 /**

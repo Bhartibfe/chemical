@@ -1,10 +1,9 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import CategoryKey from "@/components/CategoryKey";
 import Chapter from "@/components/Chapter";
 import JsonLd from "@/components/JsonLd";
 import ProductBrowser from "@/components/ProductBrowser";
-import { categories, products } from "@/lib/products";
+import { products } from "@/lib/products";
 import { productImageMap } from "@/lib/productImages";
 import { breadcrumbSchema, productCatalogueSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
@@ -23,6 +22,7 @@ export const metadata = pageMeta({
 });
 
 export default function ProductsPage() {
+  const imageMap = productImageMap(products.map((p) => p.slug));
   return (
     <>
       <JsonLd
@@ -53,16 +53,8 @@ export default function ProductsPage() {
           <div className="page-header-title-block">
             <span className="badge-pill-primary">ISO 9001 CERTIFIED CATALOGUE</span>
             <h1 className="title t1 page-main-title">Industrial Chemicals Catalogue</h1>
-            <p className="lead page-main-sub">
-              SHIV ENTERPRISES supplies {products.length} industrial chemicals
-              across {categories.length} subject classes — water treatment, acids,
-              alkalis and salts, bleaching and oxidising agents, surfactants, and
-              specialty products — dispatched from Punjab and Chandigarh to sites
-              across India.
-            </p>
           </div>
 
-          <CategoryKey />
         </div>
       </section>
 
@@ -71,9 +63,7 @@ export default function ProductsPage() {
           <Suspense
             fallback={<p className="apparatus-sm index-count">Loading index…</p>}
           >
-            <ProductBrowser
-              images={productImageMap(products.map((p) => p.slug))}
-            />
+            <ProductBrowser images={imageMap} />
           </Suspense>
         </div>
       </section>
