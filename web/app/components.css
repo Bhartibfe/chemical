@@ -1519,6 +1519,14 @@
    with clips configured or not.
    ═══════════════════════════════════════════════════════════════════ */
 
+/* Wider than .page, so hero copy starts nearer the left edge. */
+.page-hero {
+  width: 100%;
+  max-width: var(--page-hero);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 3vw, 48px);
+}
+
 .hero-section {
   position: relative;
   display: flex;
@@ -1526,8 +1534,10 @@
   justify-content: flex-end;
   /* svh accounts for mobile browser chrome; the max() floor keeps the
      hero usable on very short windows. */
-  min-height: max(520px, 72svh);
-  padding-block: clamp(56px, 9vh, 104px) 0;
+  /* Fills exactly the screen below the header, so the credential strip
+     lands just past the fold and rewards the first scroll. */
+  min-height: calc(100svh - var(--header-h));
+  padding-block: clamp(40px, 6vh, 80px);
   overflow: hidden;
   background: linear-gradient(180deg, var(--paper-2) 0%, var(--paper) 100%);
   border-bottom: 1px solid var(--rule);
@@ -1537,7 +1547,6 @@
   flex: 1;
   display: flex;
   align-items: center;
-  padding-bottom: clamp(32px, 5vh, 56px);
 }
 
 /* Width is set here, in px, and nowhere else. A ch-based cap here would be
@@ -1578,9 +1587,8 @@
 .hero-strip {
   position: relative;
   z-index: 2;
-  border-top: 1px solid var(--rule);
-  background: color-mix(in srgb, var(--paper) 72%, transparent);
-  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
 }
 
 .hero-strip .stats-bar {
@@ -1605,17 +1613,6 @@
   border-left: 0;
 }
 
-/* Over video the strip goes dark glass so it reads as one piece with
-   the footage rather than a white bar pasted across it. */
-.hero-section[data-scrim="dark"]:has(.hero-video) .hero-strip {
-  background: rgba(0, 16, 28, 0.55);
-  border-top-color: rgba(255, 255, 255, 0.16);
-}
-
-.hero-section[data-scrim="dark"]:has(.hero-video) .hero-strip .stat-item {
-  border-left-color: rgba(255, 255, 255, 0.16);
-}
-
 /* The earlier video rules assumed a centred hero; this layout supplies
    its own height and alignment. */
 .hero-section[data-scrim="dark"]:has(.hero-video) {
@@ -1635,14 +1632,12 @@
   .hero-strip .stat-item:nth-child(-n + 2) {
     border-bottom: 1px solid var(--rule);
   }
-  .hero-section[data-scrim="dark"]:has(.hero-video) .hero-strip .stat-item:nth-child(-n + 2) {
-    border-bottom-color: rgba(255, 255, 255, 0.16);
-  }
 }
 
 @media (max-width: 640px) {
   .hero-section {
-    min-height: max(520px, 78svh);
+    /* --header-h drops to 92px at this breakpoint; the calc carries over. */
+    min-height: calc(100svh - var(--header-h));
   }
   .hero-title {
     font-size: clamp(2.125rem, 9vw, 3rem);
@@ -1670,7 +1665,7 @@
 /* Mode-agnostic: any video makes the hero a full band and retires the
    decorative corner glow. */
 .hero-section:has(.hero-video) {
-  min-height: max(560px, 82svh);
+  min-height: calc(100svh - var(--header-h));
 }
 
 .hero-section:has(.hero-video)::before {
@@ -1722,12 +1717,6 @@
   }
 }
 
-/* The strip already uses a translucent paper background, which sits
-   correctly over a light wash — it only needs the border restated. */
-.hero-section[data-scrim="light"]:has(.hero-video) .hero-strip {
-  background: color-mix(in srgb, var(--paper) 86%, transparent);
-}
-
 /* Dark stock inverts the veil, otherwise a light wash would blow out
    the dark theme. */
 :root[data-theme="dark"]
@@ -1747,4 +1736,12 @@
       rgba(0, 0, 0, 0) 30%,
       rgba(0, 0, 0, 0.5) 100%
     );
+}
+
+/* The masthead shrinks on small screens; keep the hero's full-screen
+   calculation honest. */
+@media (max-width: 640px) {
+  :root {
+    --header-h: 92px;
+  }
 }

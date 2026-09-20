@@ -36,6 +36,12 @@
 
   --measure: 68ch;
   --page: 1240px;
+  /* Hero copy sits in a wider column than body content so it reads closer
+     to the left edge of a full-bleed band. */
+  --page-hero: 1760px;
+  /* Running head + masthead. The hero subtracts this to fill exactly one
+     screen, leaving the credential strip below the fold. */
+  --header-h: 106px;
 }
 
 :root[data-theme="dark"] {

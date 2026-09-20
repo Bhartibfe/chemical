@@ -34,7 +34,7 @@ export default function HomePage() {
         <HeroVideo />
         <div className="hero-scrim" aria-hidden="true" />
 
-        <div className="page hero-inner">
+        <div className="page-hero hero-inner">
           <div className="hero-content">
             <span className="hero-badge">
               <span className="mark" style={{ background: "var(--accent)" }} />
@@ -67,10 +67,12 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Credential strip along the foot of the hero, the way a full-bleed
-            corporate hero anchors itself above the fold. */}
-        <div className="hero-strip">
-          <div className="page stats-bar">
+      </section>
+
+      {/* Credential strip. Deliberately below the fold: the hero owns the
+          first screen, and this is what rewards the first scroll. */}
+      <section className="hero-strip">
+        <div className="page-hero stats-bar">
             <div className="stat-item">
               <span className="stat-value">{products.length}+</span>
               <span className="stat-label">Industrial Compounds</span>
@@ -83,10 +85,9 @@ export default function HomePage() {
               <span className="stat-value">{industries.length}+</span>
               <span className="stat-label">Major Sectors Served</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-value">2 Offices</span>
-              <span className="stat-label">Punjab &amp; Chandigarh</span>
-            </div>
+          <div className="stat-item">
+            <span className="stat-value">2 Offices</span>
+            <span className="stat-label">Punjab &amp; Chandigarh</span>
           </div>
         </div>
       </section>
