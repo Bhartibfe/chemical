@@ -47,6 +47,7 @@ export default async function ProductPage({ params }: Params) {
 
   const meta = categoryMeta[product.category];
   const ref = indexOf(product.slug);
+  const heroImage = productImage(product.slug);
 
   const related = products
     .filter((p) => p.category === product.category && p.slug !== product.slug)
@@ -87,25 +88,26 @@ export default async function ProductPage({ params }: Params) {
             <span className="breadcrumb-current">{product.name}</span>
           </nav>
 
-          <div className="spread entry-spread">
-            <div>
-              <p className="apparatus entry-page-ref">
-                Entry {ref} · {product.category}
-              </p>
+          <div className="detail-hero">
+            <div className="detail-copy">
+              <span
+                className="pcard-pill detail-pill"
+                style={{ "--subject": `var(${meta.token})` } as React.CSSProperties}
+              >
+                {product.category}
+              </span>
 
-              <h1 className="title t1 entry-page-word mb-2">{product.name}</h1>
+              <h1 className="title t1 detail-title">{product.name}</h1>
 
               {product.formula && (
-                <p className="entry-page-formula mb-4">[ {product.formula} ]</p>
+                <p className="detail-formula">{product.formula}</p>
               )}
 
               {/* Answer-first: this sentence stands alone if an AI engine
                   lifts it out of the page. */}
-              <p className="lead opening entry-page-definition mb-6">
-                {product.summary}
-              </p>
+              <p className="lead detail-summary">{product.summary}</p>
 
-              <div className="title-page-actions">
+              <div className="detail-actions">
                 <Link href="/contact" className="btn btn-ink">
                   Enquire about {product.name}
                 </Link>
@@ -113,48 +115,85 @@ export default async function ProductPage({ params }: Params) {
                   Call {site.phone}
                 </a>
               </div>
+
+              <ul className="detail-assurances">
+                <li>{site.certification} certified</li>
+                <li>MSDS with every dispatch</li>
+                <li>Pan-India delivery</li>
+              </ul>
             </div>
 
-            {/* Marginal note — the book's outer column. */}
-            <aside className="margin-note">
-              <p className="apparatus-sm margin-note-label">Supply Specifications</p>
-              <dl className="margin-list">
-                <div>
-                  <dt>Subject</dt>
-                  <dd>{product.category}</dd>
-                </div>
-                {product.formula && (
-                  <div>
-                    <dt>Formula</dt>
-                    <dd>{product.formula}</dd>
-                  </div>
-                )}
-                <div>
-                  <dt>Application</dt>
-                  <dd>{product.tag}</dd>
-                </div>
-                <div>
-                  <dt>Supply area</dt>
-                  <dd>Pan-India</dd>
-                </div>
-                <div>
-                  <dt>Dispatch</dt>
-                  <dd>Punjab &amp; Chandigarh</dd>
-                </div>
-                <div>
-                  <dt>Documents</dt>
-                  <dd>MSDS supplied</dd>
-                </div>
-                <div>
-                  <dt>Certification</dt>
-                  <dd>{site.certification}</dd>
-                </div>
-              </dl>
-              <p className="margin-note-foot">
-                Grades, packing and pricing are confirmed on enquiry.
-              </p>
-            </aside>
+            {/* The catalogue photo, given room to be seen rather than
+                cropped into a card column. */}
+            <figure
+              className="detail-figure"
+              style={{ "--subject": `var(${meta.token})` } as React.CSSProperties}
+            >
+              {heroImage ? (
+                <picture>
+                  {heroImage.webp && (
+                    <source srcSet={heroImage.webp} type="image/webp" />
+                  )}
+                  <img
+                    src={heroImage.src}
+                    alt={`${product.name}${
+                      product.formula ? ` (${product.formula})` : ""
+                    } supplied by ${site.name}`}
+                    width={512}
+                    height={1024}
+                    fetchPriority="high"
+                  />
+                </picture>
+              ) : (
+                <span className="detail-figure-fallback" aria-hidden="true">
+                  {product.formula ?? meta.code}
+                </span>
+              )}
+            </figure>
           </div>
+
+          {/* Specifications, full width under the hero rather than squeezed
+              into a margin column. */}
+          <dl className="detail-specs">
+            <div>
+              <dt>Entry</dt>
+              <dd>{ref}</dd>
+            </div>
+            <div>
+              <dt>Category</dt>
+              <dd>{product.category}</dd>
+            </div>
+            {product.formula && (
+              <div>
+                <dt>Formula</dt>
+                <dd>{product.formula}</dd>
+              </div>
+            )}
+            <div>
+              <dt>Primary use</dt>
+              <dd>{product.tag}</dd>
+            </div>
+            <div>
+              <dt>Supply area</dt>
+              <dd>Pan-India</dd>
+            </div>
+            <div>
+              <dt>Dispatch from</dt>
+              <dd>Punjab &amp; Chandigarh</dd>
+            </div>
+            <div>
+              <dt>Documentation</dt>
+              <dd>MSDS supplied</dd>
+            </div>
+            <div>
+              <dt>Certification</dt>
+              <dd>{site.certification}</dd>
+            </div>
+          </dl>
+
+          <p className="detail-note">
+            Grades, packing and pricing are confirmed on enquiry.
+          </p>
         </div>
       </section>
 
