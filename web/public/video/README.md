@@ -274,3 +274,49 @@ still report `○ (Static)`.
 - **SEO** — the video is `aria-hidden` and decorative. Headline, lead, stats,
   and buttons are server-rendered HTML above it, so nothing a crawler or an
   AI answer engine needs sits inside the video layer.
+
+---
+
+# Export spec — the aspect that removes the crop
+
+The hero is `calc(100svh - header)`, so its shape varies with the window:
+
+| Window | Hero aspect |
+| --- | --- |
+| 1512×982 laptop | 1.73 : 1 |
+| 1920×1080 | 1.97 : 1 |
+| 1920×900 | 2.42 : 1 |
+| 3440×1440 ultrawide | 2.58 : 1 |
+
+The video is `object-fit: cover`, so it always fills the band and crops
+whatever does not fit. A 16:9 source (1.78) is narrower than most of those,
+so it gets cropped **top and bottom** and the subject is scaled up — which is
+the zoom problem.
+
+## Export at 2.4 : 1
+
+**Target: 2400 × 1000** (or 1920 × 800 if the tool caps at 1920 wide.)
+
+At 2.4:1 the source is wider than nearly every real hero shape, so `cover`
+crops a sliver off the sides instead of a quarter off the height, and the
+subject keeps the framing it was generated with. No letterboxing either,
+because `cover` still fills.
+
+If the generator only outputs 16:9, export 16:9 and crop to 2.4:1 yourself —
+keeping the middle band, which is where the subject sits:
+
+```bash
+# 1280x720 -> 1280x533, centre band
+ffmpeg -i source.mp4 -vf "crop=1280:533:0:94" -c:v libx264 -crf 31   -preset slow -movflags +faststart -an hero-samples.mp4
+```
+
+That is the same crop `cover` would apply at 1920×900, but doing it in the
+file means it is not *also* scaled up 1.5× in the browser.
+
+## Keep in mind
+
+- **Compose for the right half.** The scrim is near-opaque under the copy on
+  the left, so whatever should be seen belongs right of centre.
+- **Leave headroom.** Anything close to the top or bottom edge can still be
+  trimmed on an unusually tall or short window.
+- Re-run the encode and poster commands above after any re-export.
