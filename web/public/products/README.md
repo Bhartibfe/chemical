@@ -1,194 +1,238 @@
-# Product image prompts — all 29, ready to paste
+# Product image prompts — all 29 chemicals
 
-Every prompt below is **complete**. Copy one, paste it into the generator,
-save the result under the filename above it. Nothing to assemble.
+Generate one image per chemical. Filenames must match the slug exactly, or
+the card will fall back to a plain tint.
 
-## What to generate
+## Spec
 
 | | |
 | --- | --- |
-| Aspect | **2:3 portrait** (1024 x 1536) — what the generator returns by default |
-| Filename | `<slug>.png`, exactly as shown above each prompt |
-| Save to | `web/public/products/` |
+| Aspect | **1:2 portrait** |
+| Size | **512 x 1024** |
+| Filename | `<slug>.png` or `.jpg` — slugs listed below |
+| Location | this folder, `web/public/products/` |
 
-1:2 is the ideal shape for the card slot, but 2:3 is close enough that the
-conversion crops it cleanly, and it is what the generator gives without a
-fight. Do not hand-resize — the command below handles it.
+### Why 1:2, and not square
 
-## Composition, and why it matters
+The card renders the photo in a tall narrow slot — about **153 x 325** at a
+normal desktop width. `object-fit: cover` fills that slot and discards
+whatever does not fit, so the source aspect decides how much survives:
 
-Subject in the **right two thirds**, left third **clean empty background**.
+| Source | Width shown | Lost |
+| --- | --- | --- |
+| 1:1 square 1024x1024 | 47% | **53%** |
+| 3:4 768x1024 | 63% | 37% |
+| 9:16 576x1024 | 84% | 16% |
+| **1:2 512x1024** | **94%** | **6%** |
+
+A square loses over half its width. At 1:2 almost nothing is cropped.
+
+### Composition — this part matters
+
+Put the subject in the **right-hand two thirds** and leave the **left third
+as clean empty background**.
 
 ```
+  512 px wide
  +--------+------------------+
- | empty  |                  |
- | left   |     SUBJECT      |
+ |        |                  |
+ | empty  |     SUBJECT      |  1024 px tall
+ | left   |   centred here   |
  | third  |                  |
  +--------+------------------+
-   fades        stays visible
+   fade         visible
 ```
 
-The card runs the photo *under* the copy and dissolves its left side into
-the card. That dissolve covers roughly the left third — keep it empty and it
-lands on background rather than eating the subject. Proven already with
-sodium hypochlorite.
+The card fades the left edge of the photo into the card so the two do not
+meet on a hard line. That fade covers roughly the left third of the frame —
+so anything there disappears. Keep it empty and the fade lands on background
+instead of eating the subject.
 
-## After generating — one command
+Vertically, let the subject fill about 70-80% of the height, centred.
 
-Drop the raw PNGs into `web/public/products/` named by slug, then from that
-folder run:
+## The style block — paste this after every subject line
+
+This is what makes 29 separately generated images look like one set. Do not
+vary it, and do not let the generator "improve" it between runs.
+
+> Studio product photograph on a clean seamless background. Soft diffused
+> daylight from the upper left, gentle shadow falling to the lower right.
+> Shot at eye level. Subject placed in the right two thirds of the frame,
+> filling about 70% of the height, with the left third left as empty
+> background. Shallow depth of field, background softly out of
+> focus. Bright, clean, high-key. No text, no labels, no branding, no hands,
+> no people. Photorealistic, sharp focus on the subject, tall 1:2 portrait.
+
+## Background tint per category
+
+Append the tint line for that chemical's category, so each card's photo
+agrees with its formula pill.
+
+| Category | Append |
+| --- | --- |
+| Water Treatment | `Background tinted very pale blue.` |
+| Acids | `Background tinted very pale rose pink.` |
+| Alkalis & Salts | `Background tinted very pale lavender.` |
+| Bleaching & Oxidising | `Background tinted very pale mint green.` |
+| Surfactants | `Background tinted very pale magenta.` |
+| Specialty | `Background tinted very pale amber.` |
+
+Keep the tint *pale* — it sits behind a white card and a coloured pill, and a
+saturated background will fight both.
+
+---
+
+## Subject lines
+
+Colours below are the genuine appearance of each chemical. Using them keeps
+the catalogue honest and makes the set look like real product photography
+rather than stock.
+
+### Water Treatment — pale blue tint
+
+**`sodium-hypochlorite.jpg`**
+> A tall glass laboratory beaker holding a pale greenish-yellow transparent liquid.
+
+**`poly-aluminium-chloride.jpg`**
+> A shallow white ceramic dish holding pale yellow-white free-flowing powder.
+
+**`hydrazine-hydrate.jpg`**
+> A clear glass reagent bottle with a ground-glass stopper holding a colourless transparent liquid.
+
+**`polyacrylamide-pam.jpg`**
+> A shallow white ceramic dish holding translucent white coarse granules, like fine gravel.
+
+**`ferrous-sulphate.jpg`**
+> A shallow white ceramic dish holding pale blue-green crystalline granules.
+
+**`sodium-sulphite.jpg`**
+> A shallow white ceramic dish holding fine white powder, softly mounded.
+
+**`calcium-hypochlorite.jpg`**
+> A shallow white ceramic dish holding white compressed granules and small round tablets.
+
+**`ferric-alum.jpg`**
+> A shallow white ceramic dish holding pale straw-yellow chunky crystals.
+
+### Acids — pale rose pink tint
+
+**`sulphuric-acid.jpg`**
+> A conical glass Erlenmeyer flask holding a colourless, slightly oily-looking transparent liquid.
+
+**`hydrochloric-acid.jpg`**
+> A straight-sided glass beaker holding a colourless transparent liquid, faint vapour above the surface.
+
+**`acetic-acid.jpg`**
+> A clear glass reagent bottle with a glass stopper holding a colourless transparent liquid.
+
+**`phosphoric-acid.jpg`**
+> A glass beaker holding a colourless, thick, syrupy transparent liquid, slow viscous surface.
+
+**`nitric-acid.jpg`**
+> An amber glass reagent bottle beside a small glass beaker of pale yellow transparent liquid.
+
+### Alkalis & Salts — pale lavender tint
+
+**`caustic-lye.jpg`**
+> A glass beaker holding a clear colourless liquid, slightly viscous, faint meniscus.
+
+**`caustic-soda-flakes.jpg`**
+> A white ceramic bowl holding bright white flat irregular flakes.
+
+**`sodium-chloride.jpg`**
+> A white ceramic bowl holding coarse white crystalline salt, individual cubic crystals visible.
+
+**`soda-ash-light.jpg`**
+> A shallow white ceramic dish holding very fine, light, fluffy white powder.
+
+**`soda-ash-dense.jpg`**
+> A shallow white ceramic dish holding dense white granules, coarser and heavier than powder.
+
+**`hydrated-lime.jpg`**
+> A shallow white ceramic dish holding ultra-fine chalky white powder, smoothly mounded.
+
+**`calcium-chloride.jpg`**
+> A white ceramic bowl holding white pellets and small round prills.
+
+### Bleaching & Oxidising — pale mint green tint
+
+**`hydrogen-peroxide.jpg`**
+> A clear glass beaker holding a colourless transparent liquid with fine bubbles rising.
+
+**`sodium-hydrosulphite.jpg`**
+> A shallow white ceramic dish holding off-white to very pale cream fine powder.
+
+**`sodium-metabisulphite.jpg`**
+> A shallow white ceramic dish holding white crystalline powder with a slight sparkle.
+
+**`sodium-bisulphite.jpg`**
+> A glass beaker holding a colourless transparent liquid beside a small mound of white powder.
+
+### Surfactants — pale magenta tint
+
+**`labsa-96-percent.jpg`**
+> A glass beaker holding a thick dark amber-brown viscous liquid, slow heavy pour texture.
+
+**`cocamidopropyl-betaine.jpg`**
+> A glass beaker holding a pale straw-yellow viscous liquid with light foam on the surface.
+
+### Specialty — pale amber tint
+
+**`sulphur.jpg`**
+> A shallow white ceramic dish holding vivid bright yellow powder and small granules.
+
+**`ammonia.jpg`**
+> A clear glass reagent bottle with a stopper holding a colourless transparent liquid.
+
+**`green-acid.jpg`**
+> A glass beaker holding a clear green transparent liquid.
+
+---
+
+## Worked example
+
+Full prompt for `sulphur.jpg`:
+
+> A shallow white ceramic dish holding vivid bright yellow powder and small
+> granules. Studio product photograph on a clean seamless background. Soft
+> diffused daylight from the upper left, gentle shadow falling to the lower
+> right. Shot at eye level, subject centred, filling about 70% of the frame
+> with clear space around it. Shallow depth of field, background softly out
+> of focus. Bright, clean, high-key. No text, no labels, no branding, no
+> hands, no people. Photorealistic, sharp focus on the subject, tall 1:2
+> portrait. Background tinted very pale amber.
+
+## Before committing
+
+Generated files are far too heavy to ship 29 of. Convert and resize:
+
+Generators usually hand back a PNG of 1-2 MB. Drop the raw files in this
+folder under their slug name and run this once. It takes any `.png` or
+`.jpg`, writes the optimised pair, and removes the heavy original:
 
 ```bash
-CROP="scale=512:1024:force_original_aspect_ratio=increase,crop=512:1024:iw-512:(ih-1024)/2"
-for f in *.png; do
+# from web/public/products/
+for f in *.png *.jpg; do
   [ -e "$f" ] || continue
   base="${f%.*}"
-  ffmpeg -v error -i "$f" -vf "$CROP" -q:v 6 "$base.jpg" -y
-  ffmpeg -v error -i "$f" -vf "$CROP" -c:v libwebp -quality 72 "$base.webp" -y
-  rm -f "$f"
+  ffmpeg -v error -i "$f" -vf "scale=512:1024" -q:v 6 "$base.out.jpg" -y
+  ffmpeg -v error -i "$f" -vf "scale=512:1024" -c:v libwebp -quality 72 "$base.webp" -y
+  rm -f "$f"; mv "$base.out.jpg" "$base.jpg"
 done
 ```
 
-It **crops, never scales to fit**. Scaling a 2:3 source into 1:2 squashes the
-subject 25% narrower — that was caught on the first image. `iw-512` takes the
-whole reduction off the empty left band.
+Measured on the first image: **1.27 MB PNG became 20 KB JPEG and 9 KB WebP**,
+with no visible loss at the size the card renders it.
 
-Result per image: about **24 KB JPEG and 11 KB WebP** from a ~1.5 MB PNG.
+512 x 1024 is ample — the card renders these at roughly 200px, and the browser
+picks the WebP where supported. Target **under 60 KB each**; 29 images at
+that size is under 1.8 MB for the whole catalogue, and they lazy-load below
+the fold.
 
 ## Two rules
 
 - **No labels or branding in frame.** A generated label is a fake product
   label, and on a supplier's own catalogue that reads as misrepresentation.
 - **Keep the real colour.** Sulphur is yellow, ferrous sulphate is blue-green,
-  LABSA is dark brown. A procurement engineer knows what these look like;
-  getting it wrong costs more credibility than no photo would.
-
----
-
-## Water Treatment
-
-### `sodium-hypochlorite.png` — Sodium Hypochlorite
-
-> A tall glass laboratory beaker holding a pale greenish-yellow transparent liquid. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale blue.
-
-### `poly-aluminium-chloride.png` — Poly Aluminium Chloride
-
-> A shallow white ceramic dish holding pale yellow-white free-flowing powder. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale blue.
-
-### `hydrazine-hydrate.png` — Hydrazine Hydrate
-
-> A clear glass reagent bottle with a ground-glass stopper holding a colourless transparent liquid. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale blue.
-
-### `polyacrylamide-pam.png` — Polyacrylamide (PAM)
-
-> A shallow white ceramic dish holding translucent white coarse granules, like fine gravel. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale blue.
-
-### `ferrous-sulphate.png` — Ferrous Sulphate
-
-> A shallow white ceramic dish holding pale blue-green crystalline granules. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale blue.
-
-### `sodium-sulphite.png` — Sodium Sulphite
-
-> A shallow white ceramic dish holding fine white powder, softly mounded. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale blue.
-
-### `calcium-hypochlorite.png` — Calcium Hypochlorite
-
-> A shallow white ceramic dish holding white compressed granules and small round tablets. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale blue.
-
-### `ferric-alum.png` — Ferric Alum
-
-> A shallow white ceramic dish holding pale straw-yellow chunky crystals. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale blue.
-
-## Acids
-
-### `sulphuric-acid.png` — Sulphuric Acid
-
-> A conical glass Erlenmeyer flask holding a colourless, slightly oily-looking transparent liquid. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale rose pink.
-
-### `hydrochloric-acid.png` — Hydrochloric Acid
-
-> A straight-sided glass beaker holding a colourless transparent liquid, faint vapour above the surface. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale rose pink.
-
-### `acetic-acid.png` — Acetic Acid
-
-> A clear glass reagent bottle with a glass stopper holding a colourless transparent liquid. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale rose pink.
-
-### `phosphoric-acid.png` — Phosphoric Acid
-
-> A glass beaker holding a colourless, thick, syrupy transparent liquid with a slow viscous surface. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale rose pink.
-
-### `nitric-acid.png` — Nitric Acid
-
-> An amber glass reagent bottle beside a small glass beaker of pale yellow transparent liquid. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale rose pink.
-
-## Alkalis & Salts
-
-### `caustic-lye.png` — Caustic Lye
-
-> A glass beaker holding a clear colourless slightly viscous liquid with a faint meniscus. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale lavender.
-
-### `caustic-soda-flakes.png` — Caustic Soda Flakes
-
-> A white ceramic bowl holding bright white flat irregular flakes. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale lavender.
-
-### `sodium-chloride.png` — Sodium Chloride
-
-> A white ceramic bowl holding coarse white crystalline salt with individual cubic crystals visible. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale lavender.
-
-### `soda-ash-light.png` — Soda Ash Light
-
-> A shallow white ceramic dish holding very fine, light, fluffy white powder. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale lavender.
-
-### `soda-ash-dense.png` — Soda Ash Dense
-
-> A shallow white ceramic dish holding dense white granules, coarser and heavier than powder. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale lavender.
-
-### `hydrated-lime.png` — Hydrated Lime
-
-> A shallow white ceramic dish holding ultra-fine chalky white powder, smoothly mounded. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale lavender.
-
-### `calcium-chloride.png` — Calcium Chloride
-
-> A white ceramic bowl holding white pellets and small round prills. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale lavender.
-
-## Bleaching & Oxidising
-
-### `hydrogen-peroxide.png` — Hydrogen Peroxide
-
-> A clear glass beaker holding a colourless transparent liquid with fine bubbles rising. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale mint green.
-
-### `sodium-hydrosulphite.png` — Sodium Hydrosulphite
-
-> A shallow white ceramic dish holding off-white to very pale cream fine powder. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale mint green.
-
-### `sodium-metabisulphite.png` — Sodium Metabisulphite
-
-> A shallow white ceramic dish holding white crystalline powder with a slight sparkle. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale mint green.
-
-### `sodium-bisulphite.png` — Sodium Bisulphite
-
-> A glass beaker holding a colourless transparent liquid beside a small mound of white powder. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale mint green.
-
-## Surfactants
-
-### `labsa-96-percent.png` — LABSA 96%
-
-> A glass beaker holding a thick dark amber-brown viscous liquid with a slow heavy pour texture. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale magenta.
-
-### `cocamidopropyl-betaine.png` — Cocamidopropyl Betaine
-
-> A glass beaker holding a pale straw-yellow viscous liquid with light foam on the surface. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale magenta.
-
-## Specialty
-
-### `sulphur.png` — Sulphur
-
-> A shallow white ceramic dish holding vivid bright yellow powder and small granules. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale amber.
-
-### `ammonia.png` — Ammonia
-
-> A clear glass reagent bottle with a stopper holding a colourless transparent liquid. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale amber.
-
-### `green-acid.png` — Green Acid
-
-> A glass beaker holding a clear green transparent liquid. Studio product photograph. Soft diffused daylight from the upper left, gentle shadow falling to the lower right. Shot at eye level. Subject placed in the right two thirds of the frame, filling about 70% of the height, with the left third left as clean empty background. Shallow depth of field, background softly out of focus. Bright, clean, high-key. No text, no labels, no branding, no hands, no people. Photorealistic, sharp focus on the subject, tall 2:3 portrait. Background tinted very pale amber.
+  LABSA is dark brown. A procurement engineer knows what these look like, and
+  getting it wrong costs more credibility than a missing photo would.
