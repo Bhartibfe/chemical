@@ -37,11 +37,14 @@ export default function HomePage() {
           <div className="hero-content">
             <span className="hero-badge">
               <span className="mark" style={{ background: "var(--accent)" }} />
-              ISO 9001:2015 CERTIFIED INDUSTRIAL CHEMICAL SUPPLIER
+              ISO 9001:2015 Certified Supplier
             </span>
 
+            {/* Kept to two display lines. The long-tail keywords that used to
+                pad the headline now sit in the lead below, where they read as
+                a sentence instead of a banner. */}
             <h1 className="title t1 hero-title">
-              High-Grade Industrial Chemicals Supplied Across India
+              Industrial Chemicals, Supplied Across India
             </h1>
 
             <p className="lead hero-sub">

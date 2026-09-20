@@ -350,14 +350,6 @@
 
 /* ── HERO SECTION ──────────────────────────────────────────────────── */
 
-.hero-section {
-  padding-block: clamp(64px, 10vw, 120px) clamp(56px, 8vw, 96px);
-  background: linear-gradient(180deg, var(--paper-2) 0%, var(--paper) 100%);
-  border-bottom: 1px solid var(--rule);
-  position: relative;
-  overflow: hidden;
-}
-
 .hero-section::before {
   content: "";
   position: absolute;
@@ -368,12 +360,6 @@
   background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0) 70%);
   border-radius: 50%;
   pointer-events: none;
-}
-
-.hero-content {
-  max-width: 860px;
-  margin-inline: auto;
-  text-align: center;
 }
 
 .hero-badge {
@@ -413,9 +399,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
   gap: 16px;
-  margin-bottom: 56px;
 }
 
 .stats-bar {
@@ -1542,33 +1526,40 @@
   justify-content: flex-end;
   /* svh accounts for mobile browser chrome; the max() floor keeps the
      hero usable on very short windows. */
-  min-height: max(560px, 82svh);
-  padding-block: clamp(72px, 12vh, 140px) 0;
+  min-height: max(520px, 72svh);
+  padding-block: clamp(56px, 9vh, 104px) 0;
   overflow: hidden;
+  background: linear-gradient(180deg, var(--paper-2) 0%, var(--paper) 100%);
+  border-bottom: 1px solid var(--rule);
 }
 
 .hero-inner {
   flex: 1;
   display: flex;
-  align-items: flex-end;
-  padding-bottom: clamp(40px, 6vh, 72px);
+  align-items: center;
+  padding-bottom: clamp(32px, 5vh, 56px);
 }
 
+/* Width is set here, in px, and nowhere else. A ch-based cap here would be
+   measured against the body font while the headline runs at four times that
+   size — which squeezes the title to one word per line. */
 .hero-content {
-  max-width: 24ch;
+  max-width: 760px;
   margin-inline: 0;
   text-align: left;
 }
 
 .hero-content .hero-sub {
-  max-width: 56ch;
+  max-width: 58ch;
 }
 
 .hero-title {
-  font-size: clamp(2.5rem, 6.4vw, 5rem);
-  line-height: 1.02;
-  letter-spacing: -0.035em;
-  max-width: 18ch;
+  font-size: clamp(2.25rem, 5.2vw, 4.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  /* Never break inside a hyphenated word like "High-Grade". */
+  hyphens: none;
+  overflow-wrap: normal;
 }
 
 .hero-sub {
@@ -1578,7 +1569,9 @@
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
   gap: 12px;
+  margin-bottom: 0;
 }
 
 /* Credential strip */
