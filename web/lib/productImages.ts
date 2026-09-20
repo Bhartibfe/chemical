@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 /**
- * Which product photos actually exist, resolved once at build time.
+ * Which product photos actually exist.
  *
  * All 29 images will not land at once, so the card checks this instead of
  * pointing at a file and hoping. A missing photo falls back to a tinted
@@ -11,31 +11,41 @@ import path from "node:path";
  *
  * Server-only — it must never be imported from a Client Component, or
  * `node:fs` ends up in the browser bundle and the build fails. Pages resolve
- * the images and pass them down as props instead.
+ * the images and pass them down as props.
  */
 const dir = path.join(process.cwd(), "public", "products");
 
-const files = (() => {
+function read(): string[] {
   try {
     return fs.readdirSync(dir);
   } catch {
     return [];
   }
-})();
+}
 
-const byExtension = (ext: string) =>
+/**
+ * Production reads once — the set cannot change after a build, and 29 stat
+ * calls per page render would be waste. Development re-reads every time, so
+ * a newly dropped image shows up on refresh instead of needing a server
+ * restart, which is exactly the trap this hit the first time.
+ */
+const production = process.env.NODE_ENV === "production";
+const cached = production ? read() : null;
+const files = () => cached ?? read();
+
+const stems = (ext: string) =>
   new Set(
-    files
+    files()
       .filter((f) => f.toLowerCase().endsWith(ext))
       .map((f) => f.slice(0, -ext.length)),
   );
 
-const webp = byExtension(".webp");
-const jpg = byExtension(".jpg");
-
 export type ProductImage = { src: string; webp?: string };
 
 export function productImage(slug: string): ProductImage | null {
+  const jpg = stems(".jpg");
+  const webp = stems(".webp");
+
   if (jpg.has(slug)) {
     return {
       src: `/products/${slug}.jpg`,
