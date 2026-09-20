@@ -2074,10 +2074,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Centred. The base looked cut because the image was not stretching at
-     all — once that is fixed, centring frames the whole vessel, while
-     bottom-anchoring crops its rim and leaves dead table below. */
-  object-position: center;
+  /* A little below centre. Compared 50 / 60 / 68 / 78 against the real
+     photo at the rendered frame size: 60% drops the vessel just off centre
+     while keeping its rim clear of the top edge, which the lower values
+     start to crop. */
+  object-position: center 60%;
 }
 
 .detail-figure-fallback {
