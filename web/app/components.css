@@ -1526,12 +1526,15 @@
    with clips configured or not.
    ═══════════════════════════════════════════════════════════════════ */
 
-/* Wider than .page, so hero copy starts nearer the left edge. */
+/* Full-bleed: the hero band is not centred on a measure like body content
+   is, so the copy sits against a gutter instead of a centred column. On a
+   1920px display that puts the headline about 67px from the edge rather
+   than the 128px a centred 1760px container gave. */
 .page-hero {
   width: 100%;
-  max-width: var(--page-hero);
-  margin-inline: auto;
-  padding-inline: clamp(20px, 3vw, 48px);
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: clamp(20px, 3.5vw, 72px);
 }
 
 .hero-section {
