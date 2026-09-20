@@ -75,7 +75,9 @@ export default function Entry({
           </picture>
         ) : (
           <span className="pcard-media-fallback" aria-hidden="true">
-            {product.formula ?? meta.abbr}
+            {/* Category code, not the single-letter abbr — a lone "W" in the
+                photo slot reads as a rendering fault rather than a label. */}
+            {product.formula ?? meta.code}
           </span>
         )}
       </div>

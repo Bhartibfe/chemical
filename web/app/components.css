@@ -1961,10 +1961,14 @@
 
 /* Photo column. Tinted from the category colour so the card reads as part
    of its class even before a photo exists. */
+/* flex with stretch, not grid with place-items: center — centring the grid
+   item stops it stretching, so the image's height: 100% resolved against an
+   auto height and collapsed to its intrinsic size instead of filling. */
 .pcard-media {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
   background: color-mix(in srgb, var(--subject) 9%, var(--paper));
   overflow: hidden;
 }
@@ -1973,6 +1977,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Bias away from the fade on the left edge, so the subject stays clear
+     of it without needing the photos recomposed. */
+  object-position: 62% center;
   display: block;
 }
 
@@ -1991,6 +1998,7 @@
 }
 
 .pcard-media-fallback {
+  align-self: center;
   padding: 10px;
   font-family: var(--font-plus-jakarta), system-ui, sans-serif;
   font-size: 1.25rem;
