@@ -168,14 +168,23 @@ Full prompt for `sulphur.jpg`:
 
 Generated files are far too heavy to ship 29 of. Convert and resize:
 
+Generators usually hand back a PNG of 1-2 MB. Drop the raw files in this
+folder under their slug name and run this once. It takes any `.png` or
+`.jpg`, writes the optimised pair, and removes the heavy original:
+
 ```bash
 # from web/public/products/
-for f in *.jpg; do
-  ffmpeg -v error -i "$f" -vf "scale=640:640" -q:v 6 "${f%.jpg}.tmp.jpg" -y
-  mv "${f%.jpg}.tmp.jpg" "$f"
-  ffmpeg -v error -i "$f" -vf "scale=640:640" -c:v libwebp -quality 72 "${f%.jpg}.webp" -y
+for f in *.png *.jpg; do
+  [ -e "$f" ] || continue
+  base="${f%.*}"
+  ffmpeg -v error -i "$f" -vf "scale=640:640" -q:v 6 "$base.out.jpg" -y
+  ffmpeg -v error -i "$f" -vf "scale=640:640" -c:v libwebp -quality 72 "$base.webp" -y
+  rm -f "$f"; mv "$base.out.jpg" "$base.jpg"
 done
 ```
+
+Measured on the first image: **1.27 MB PNG became 20 KB JPEG and 9 KB WebP**,
+with no visible loss at the size the card renders it.
 
 640px is ample — the card renders these at roughly 200px, and the browser
 picks the WebP where supported. Target **under 60 KB each**; 29 images at
