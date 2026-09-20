@@ -23,13 +23,12 @@ export type HeroClip = {
 };
 
 export const heroClips: HeroClip[] = [
-  // Example once the files exist — uncomment and adjust:
-  // { mp4: "/video/hero-01-plant.mp4", webm: "/video/hero-01-plant.webm",
-  //   label: "Chemical storage tanks at a water treatment plant" },
-  // { mp4: "/video/hero-02-lab.mp4",   webm: "/video/hero-02-lab.webm",
-  //   label: "Laboratory testing of a chemical sample" },
-  // { mp4: "/video/hero-03-dispatch.mp4", webm: "/video/hero-03-dispatch.webm",
-  //   label: "Drums being loaded for dispatch" },
+  {
+    mp4: "/video/hero-samples.mp4",
+    webm: "/video/hero-samples.webm",
+    label:
+      "Amber, blue and yellow chemical samples in laboratory glassware on a white surface",
+  },
 ];
 
 /**
