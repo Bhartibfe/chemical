@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CategoryGrid from "@/components/CategoryGrid";
 import Chapter from "@/components/Chapter";
 import Entry from "@/components/Entry";
 import HeroVideo from "@/components/HeroVideo";
@@ -115,6 +116,9 @@ export default function HomePage() {
             <Entry key={product.slug} product={product} />
           ))}
         </div>
+
+        <p className="cat-grid-label">Browse by category</p>
+        <CategoryGrid />
 
         <div className="chapter-foot">
           <Link href="/products" className="btn btn-ink">
