@@ -1835,10 +1835,12 @@
    both take the category colour via --subject.
    ═══════════════════════════════════════════════════════════════════ */
 
+/* The photo is a layer, not a column: it spans most of the card and runs
+   under the copy, then dissolves. A column meets the text on a hard edge;
+   a layer lets the image carry across the whole card. */
 .pcard {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 42%;
-  align-items: stretch;
+  position: relative;
+  display: block;
   border: 1px solid var(--rule);
   border-radius: 16px;
   background: var(--paper);
@@ -1866,11 +1868,14 @@
 }
 
 .pcard-body {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
   padding: 20px;
+  width: 64%;
   min-width: 0;
 }
 
@@ -1965,12 +1970,23 @@
    item stops it stretching, so the image's height: 100% resolved against an
    auto height and collapsed to its intrinsic size instead of filling. */
 .pcard-media {
-  position: relative;
+  position: absolute;
+  inset: 0 0 0 22%;
+  z-index: 0;
   display: flex;
   align-items: stretch;
   justify-content: center;
   background: color-mix(in srgb, var(--subject) 9%, var(--paper));
   overflow: hidden;
+}
+
+/* <picture> is the flex child, not <img>. Without sizing it, the image's
+   width/height: 100% resolved against an auto-sized wrapper and left a gap
+   at the right edge of the card. */
+.pcard-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .pcard-media img {
@@ -1986,16 +2002,30 @@
 
 /* Softens the join so the photo reads as part of the card rather than a
    pasted-in rectangle. */
+/* Long dissolve. Solid at the left edge so the copy sits on clean card,
+   gone by just past halfway so the subject is untouched. */
 .pcard-media::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(90deg, var(--paper) 0%, rgba(255, 255, 255, 0) 32%);
+  background: linear-gradient(
+    90deg,
+    var(--paper) 0%,
+    var(--paper) 14%,
+    color-mix(in srgb, var(--paper) 72%, transparent) 34%,
+    rgba(255, 255, 255, 0) 58%
+  );
 }
 
 :root[data-theme="dark"] .pcard-media::after {
-  background: linear-gradient(90deg, var(--paper-2) 0%, rgba(0, 0, 0, 0) 32%);
+  background: linear-gradient(
+    90deg,
+    var(--paper-2) 0%,
+    var(--paper-2) 14%,
+    color-mix(in srgb, var(--paper-2) 72%, transparent) 34%,
+    rgba(0, 0, 0, 0) 58%
+  );
 }
 
 .pcard-media-fallback {
@@ -2011,10 +2041,11 @@
 }
 
 @media (max-width: 480px) {
-  .pcard {
-    grid-template-columns: minmax(0, 1fr) 34%;
-  }
   .pcard-body {
+    width: 70%;
     padding: 16px;
+  }
+  .pcard-media {
+    inset: 0 0 0 30%;
   }
 }
