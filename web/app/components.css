@@ -1613,12 +1613,11 @@
   border-left: 0;
 }
 
-/* The earlier video rules assumed a centred hero; this layout supplies
-   its own height and alignment. */
+/* Height comes from the mode-agnostic rule below; this only restores the
+   stretch alignment the dark treatment needs. */
 .hero-section[data-scrim="dark"]:has(.hero-video) {
   display: flex;
   align-items: stretch;
-  min-height: max(560px, 86svh);
 }
 
 @media (max-width: 900px) {
