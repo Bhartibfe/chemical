@@ -499,11 +499,14 @@
   max-width: 60ch;
 }
 
+/* Single centred action under the card grid. Was a space-between row
+   pairing the button with a category legend; the legend belongs on the
+   catalogue page, where the filters give it a job. */
 .chapter-foot {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 20px;
   margin-top: 40px;
   padding-top: 24px;

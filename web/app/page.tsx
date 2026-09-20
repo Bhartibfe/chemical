@@ -1,5 +1,4 @@
 import Link from "next/link";
-import CategoryKey from "@/components/CategoryKey";
 import Chapter from "@/components/Chapter";
 import Entry from "@/components/Entry";
 import HeroVideo from "@/components/HeroVideo";
@@ -118,7 +117,6 @@ export default function HomePage() {
         </div>
 
         <div className="chapter-foot">
-          <CategoryKey />
           <Link href="/products" className="btn btn-ink">
             View All {products.length} Products &rarr;
           </Link>
