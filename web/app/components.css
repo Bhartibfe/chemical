@@ -8,16 +8,17 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  /* Fully opaque. At 0.9 the hero video showed through and tinted the bar
-     grey; solid white is the lightest it can be, and it drops the blur the
-     translucency needed. */
-  background: #ffffff;
+  /* Translucent over the hero, with a blur so the footage reads as frosted
+     glass behind the bar rather than a sharp image through it. */
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--rule);
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 :root[data-theme="dark"] .masthead {
-  background: #1a1a1a;
+  background: rgba(26, 26, 26, 0.95);
   border-bottom-color: #2e2e2e;
 }
 
