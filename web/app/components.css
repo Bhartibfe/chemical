@@ -1729,26 +1729,21 @@
   background: var(--paper);
 }
 
-/* A flat white veil heavy enough to protect the text would also wash
-   all the colour out of the footage. So the veil is weighted sideways:
-   near-opaque under the copy column on the left, thin on the right
-   where the video is the only thing on screen. Colour survives, text
-   still clears AA. */
+/* No full-width wash. The veil is a soft pool behind the copy only and
+   reaches zero before the midpoint, so the right side of the frame — where
+   the colour is — carries no white over it at all.
+
+   It cannot be removed entirely: measured with no veil, the navy headline
+   falls on the dark blue liquid at 1.23:1, against a 4.5 AA floor. */
 .hero-section[data-scrim="light"]:has(.hero-video) .hero-scrim {
-  background:
-    linear-gradient(
-      100deg,
-      rgba(255, 255, 255, 0.74) 0%,
-      rgba(255, 255, 255, 0.64) 34%,
-      rgba(255, 255, 255, 0.14) 64%,
-      rgba(255, 255, 255, 0) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.06) 0%,
-      rgba(255, 255, 255, 0) 30%,
-      rgba(255, 255, 255, 0.1) 100%
-    );
+  background: radial-gradient(
+    ellipse 58% 82% at 20% 52%,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.88) 38%,
+    rgba(255, 255, 255, 0.52) 68%,
+    rgba(255, 255, 255, 0.12) 88%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 
 /* Below the desktop breakpoint the copy spans the full width, so the
@@ -1756,11 +1751,12 @@
    flat veil there. */
 @media (max-width: 900px) {
   .hero-section[data-scrim="light"]:has(.hero-video) .hero-scrim {
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.93) 0%,
+    background: radial-gradient(
+      ellipse 118% 62% at 50% 44%,
+      rgba(255, 255, 255, 0.95) 0%,
       rgba(255, 255, 255, 0.88) 45%,
-      rgba(255, 255, 255, 0.95) 100%
+      rgba(255, 255, 255, 0.6) 76%,
+      rgba(255, 255, 255, 0.28) 100%
     );
   }
 }
@@ -1770,20 +1766,14 @@
 :root[data-theme="dark"]
   .hero-section[data-scrim="light"]:has(.hero-video)
   .hero-scrim {
-  background:
-    linear-gradient(
-      100deg,
-      rgba(0, 0, 0, 0.94) 0%,
-      rgba(0, 0, 0, 0.9) 34%,
-      rgba(0, 0, 0, 0.6) 64%,
-      rgba(0, 0, 0, 0.42) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.3) 0%,
-      rgba(0, 0, 0, 0) 30%,
-      rgba(0, 0, 0, 0.5) 100%
-    );
+  background: radial-gradient(
+    ellipse 58% 82% at 20% 52%,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.84) 38%,
+    rgba(0, 0, 0, 0.5) 68%,
+    rgba(0, 0, 0, 0.14) 88%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 
 /* The masthead shrinks on small screens; keep the hero's full-screen
