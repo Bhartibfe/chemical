@@ -1419,7 +1419,7 @@
   pointer-events: none;
 }
 
-.hero-section:has(.hero-video) .hero-scrim {
+.hero-section[data-scrim="dark"]:has(.hero-video) .hero-scrim {
   background:
     linear-gradient(
       180deg,
@@ -1444,7 +1444,7 @@
    Only applies when a video layer is actually present, so the light
    gradient hero keeps its own colours. */
 
-.hero-section:has(.hero-video) {
+.hero-section[data-scrim="dark"]:has(.hero-video) {
   background: #001423;
   border-bottom-color: rgba(255, 255, 255, 0.12);
   min-height: min(76vh, 680px);
@@ -1452,43 +1452,43 @@
   align-items: center;
 }
 
-.hero-section:has(.hero-video)::before {
+.hero-section[data-scrim="dark"]:has(.hero-video)::before {
   display: none;
 }
 
-.hero-section:has(.hero-video) .hero-title,
-.hero-section:has(.hero-video) .stat-value {
+.hero-section[data-scrim="dark"]:has(.hero-video) .hero-title,
+.hero-section[data-scrim="dark"]:has(.hero-video) .stat-value {
   color: #ffffff;
   text-shadow: 0 1px 24px rgba(0, 0, 0, 0.35);
 }
 
-.hero-section:has(.hero-video) .hero-sub {
+.hero-section[data-scrim="dark"]:has(.hero-video) .hero-sub {
   color: rgba(255, 255, 255, 0.88);
 }
 
-.hero-section:has(.hero-video) .stat-label {
+.hero-section[data-scrim="dark"]:has(.hero-video) .stat-label {
   color: rgba(255, 255, 255, 0.68);
 }
 
-.hero-section:has(.hero-video) .hero-badge {
+.hero-section[data-scrim="dark"]:has(.hero-video) .hero-badge {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.28);
   color: #ffffff;
   backdrop-filter: blur(6px);
 }
 
-.hero-section:has(.hero-video) .stats-bar {
+.hero-section[data-scrim="dark"]:has(.hero-video) .stats-bar {
   border-top-color: rgba(255, 255, 255, 0.18);
 }
 
-.hero-section:has(.hero-video) .btn-plain {
+.hero-section[data-scrim="dark"]:has(.hero-video) .btn-plain {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.38);
   color: #ffffff;
   backdrop-filter: blur(6px);
 }
 
-.hero-section:has(.hero-video) .btn-plain:hover {
+.hero-section[data-scrim="dark"]:has(.hero-video) .btn-plain:hover {
   background: #ffffff;
   border-color: #ffffff;
   color: var(--brand-navy);
@@ -1497,7 +1497,7 @@
 /* On short landscape phones a full-bleed video eats the whole screen —
    cap it so the copy and the first CTA stay visible. */
 @media (max-height: 560px) {
-  .hero-section:has(.hero-video) {
+  .hero-section[data-scrim="dark"]:has(.hero-video) {
     min-height: 0;
   }
 }
@@ -1607,18 +1607,18 @@
 
 /* Over video the strip goes dark glass so it reads as one piece with
    the footage rather than a white bar pasted across it. */
-.hero-section:has(.hero-video) .hero-strip {
+.hero-section[data-scrim="dark"]:has(.hero-video) .hero-strip {
   background: rgba(0, 16, 28, 0.55);
   border-top-color: rgba(255, 255, 255, 0.16);
 }
 
-.hero-section:has(.hero-video) .hero-strip .stat-item {
+.hero-section[data-scrim="dark"]:has(.hero-video) .hero-strip .stat-item {
   border-left-color: rgba(255, 255, 255, 0.16);
 }
 
 /* The earlier video rules assumed a centred hero; this layout supplies
    its own height and alignment. */
-.hero-section:has(.hero-video) {
+.hero-section[data-scrim="dark"]:has(.hero-video) {
   display: flex;
   align-items: stretch;
   min-height: max(560px, 86svh);
@@ -1635,7 +1635,7 @@
   .hero-strip .stat-item:nth-child(-n + 2) {
     border-bottom: 1px solid var(--rule);
   }
-  .hero-section:has(.hero-video) .hero-strip .stat-item:nth-child(-n + 2) {
+  .hero-section[data-scrim="dark"]:has(.hero-video) .hero-strip .stat-item:nth-child(-n + 2) {
     border-bottom-color: rgba(255, 255, 255, 0.16);
   }
 }
@@ -1657,4 +1657,61 @@
   .hero-actions .btn {
     flex: 1 1 100%;
   }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   SCRIM MODES
+
+   Layout is identical in both; only the wash over the footage and the
+   text colour change. Set the mode in lib/hero.ts.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Mode-agnostic: any video makes the hero a full band and retires the
+   decorative corner glow. */
+.hero-section:has(.hero-video) {
+  min-height: max(560px, 82svh);
+}
+
+.hero-section:has(.hero-video)::before {
+  display: none;
+}
+
+/* ── LIGHT WASH ─────────────────────────────────────────────────────
+   Near-white veil over the footage, so the video reads as a soft ghost
+   and the hero stays part of the white page. Text colours are left
+   exactly as they are on the videoless hero — nothing to override. */
+
+.hero-section[data-scrim="light"] {
+  background: var(--paper);
+}
+
+.hero-section[data-scrim="light"]:has(.hero-video) .hero-scrim {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.78) 40%,
+      rgba(255, 255, 255, 0.94) 100%
+    );
+}
+
+/* The strip already uses a translucent paper background, which sits
+   correctly over a light wash — it only needs the border restated. */
+.hero-section[data-scrim="light"]:has(.hero-video) .hero-strip {
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+}
+
+/* Dark stock inverts the veil, otherwise a light wash would blow out
+   the dark theme. */
+:root[data-theme="dark"]
+  .hero-section[data-scrim="light"]:has(.hero-video)
+  .hero-scrim {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.86) 0%,
+      rgba(0, 0, 0, 0.72) 40%,
+      rgba(0, 0, 0, 0.92) 100%
+    );
 }

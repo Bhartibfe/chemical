@@ -39,6 +39,18 @@ export const heroClips: HeroClip[] = [
  */
 export const heroPoster = "/video/hero-poster.jpg";
 
+/**
+ * How the video is blended into the hero.
+ *
+ *   "light" — a near-white wash over the footage; the video reads as a soft
+ *             ghost behind dark navy text. Matches the white site theme, and
+ *             needs bright, high-key footage to look intentional.
+ *   "dark"  — a deep navy wash; text flips to white. The Tata Chemicals
+ *             treatment. Works with almost any footage, but the hero becomes
+ *             a dark band above a white page.
+ */
+export const heroScrim: "light" | "dark" = "light";
+
 /** Milliseconds each clip holds before cross-fading to the next. */
 export const clipDuration = 6000;
 

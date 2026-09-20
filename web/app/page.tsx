@@ -9,6 +9,7 @@ import { clients, commitments, industries, testimonials } from "@/lib/content";
 import { products } from "@/lib/products";
 import { productCatalogueSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
+import { heroScrim } from "@/lib/hero";
 import { addresses, site } from "@/lib/site";
 
 export const metadata = pageMeta({
@@ -29,7 +30,7 @@ export default function HomePage() {
       {/* HeroVideo renders nothing until clips are configured in lib/hero.ts,
           so the gradient hero below stands on its own until then. All hero
           copy is server-rendered above the video layer, never inside it. */}
-      <section className="hero-section">
+      <section className="hero-section" data-scrim={heroScrim}>
         <HeroVideo />
         <div className="hero-scrim" aria-hidden="true" />
 

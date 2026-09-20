@@ -25,7 +25,67 @@ better-looking one.
 Also: **no branding, no signage, no readable documents, no faces.** Nothing
 that implies the footage is your Sardulgarh or Chandigarh premises.
 
-## Option A · Four clips
+## Choose the wash first — it decides the prompt
+
+`heroScrim` in `web/lib/hero.ts` controls how the footage blends in:
+
+| Mode | Look | Footage it needs |
+| --- | --- | --- |
+| `"light"` *(default)* | Near-white veil; video is a soft ghost behind dark navy text. Hero stays part of the white page. | **Bright, high-key, pale.** Shot on white, minimal shadows. |
+| `"dark"` | Deep navy veil; text flips to white. The Tata treatment. | Almost anything. Moody and contrasty works best. |
+
+Get this backwards and the hero looks muddy: dark footage under a light wash
+turns grey, and pale footage under a dark wash loses all detail. Pick the
+mode, then use the matching prompts below.
+
+## Option A · Four clips — LIGHT wash (matches the white theme)
+
+Generate **8 seconds each, 16:9, 1920×1080**. Every prompt asks explicitly
+for high-key lighting and a white background, because that is what keeps the
+hero bright.
+
+### Prompt 1 — Liquid, macro, high-key
+
+> Extreme macro close-up of clear liquid swirling gently in a glass beaker
+> standing on a bright white surface. High-key lighting, soft diffused
+> daylight from above, pale airy palette, almost no shadows, clean white
+> background. A faint cool blue tint in the liquid is the only colour in
+> frame. Very shallow depth of field, slow steady camera, no cuts, no text,
+> no hands, no branding. Photorealistic, 8 seconds.
+
+### Prompt 2 — Crystals, macro, high-key
+
+> Extreme macro close-up of white chemical crystals and flakes on a white
+> surface, shifting and settling very slowly. Bright diffused studio
+> lighting, high-key, white on white with only the faintest grey shadows
+> defining the grains. Very shallow depth of field, slow gentle motion, no
+> cuts, no text, no hands. Photorealistic, 8 seconds.
+
+### Prompt 3 — Glassware, macro, high-key
+
+> Slow macro tracking shot past clean laboratory glassware — a beaker, a
+> measuring cylinder, a stoppered sample bottle — arranged on a white
+> surface against a white background. Bright soft daylight, high-key, pale
+> and airy, delicate highlights on the glass edges. Very shallow depth of
+> field, slow lateral motion, no cuts, no text, no hands, no labels.
+> Photorealistic, 8 seconds.
+
+### Prompt 4 — Pour, macro, high-key
+
+> Extreme macro close-up of a clear liquid being poured slowly into a glass
+> beaker on a white surface. High-key lighting, bright and airy, white
+> background, soft highlights catching the falling stream and the ripples.
+> Very shallow depth of field, slow steady camera, no cuts, no text, no
+> hands, no branding. Photorealistic, 8 seconds.
+
+**Keywords that do the work here:** *high-key, bright diffused light, white
+background, pale airy palette, minimal shadows.* Leave them out and the model
+defaults to a dark moody studio look, which is the opposite of what the light
+wash needs.
+
+## Option A2 · Four clips — DARK wash
+
+Use these only if you set `heroScrim = "dark"`.
 
 Generate **8 seconds each, 16:9, 1920×1080**.
 
@@ -83,6 +143,16 @@ handle continuous motion far better than cuts:
 > chemical crystals catching the light, and ending on the ribbed lid of a
 > sealed blue drum. Soft daylight from one side, plain dark background
 > falling out of focus. One unbroken take, slow steady motion, very shallow
+> depth of field, no cuts, no text, no logos, no people, no branding.
+> Photorealistic, cinematic, 8 seconds.
+
+For the **light wash** (the default), use this instead:
+
+> A single continuous macro tracking shot moving slowly across a clean white
+> surface: past a glass bottle of clear liquid, over a small heap of white
+> chemical crystals catching the light, ending on a glass beaker. High-key
+> lighting, bright diffused daylight, pale airy palette, white background,
+> almost no shadows. One unbroken take, slow steady motion, very shallow
 > depth of field, no cuts, no text, no logos, no people, no branding.
 > Photorealistic, cinematic, 8 seconds.
 
