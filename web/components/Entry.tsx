@@ -1,36 +1,39 @@
 import Link from "next/link";
 import { categoryMeta, type Product } from "@/lib/products";
 
-/**
- * One indexed entry, set as a line of a printed index: entry number,
- * headword, dot leader, formula. Scanning a column of these is how a reader
- * actually uses a reference handbook.
- */
-export default function Entry({
-  product,
-  index,
-}: {
-  product: Product;
-  index: number;
-}) {
+export default function Entry({ product }: { product: Product }) {
   const meta = categoryMeta[product.category];
 
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="entry"
+      className="entry-card"
       style={{ "--subject": `var(${meta.token})` } as React.CSSProperties}
     >
-      <span className="folio entry-number">{String(index + 1).padStart(2, "0")}</span>
+      <div className="entry-card-header">
+        <span className="entry-card-cat-badge" style={{ backgroundColor: `var(${meta.token})` }}>
+          {product.category}
+        </span>
+        {product.formula && (
+          <span className="entry-card-formula">
+            {product.formula}
+          </span>
+        )}
+      </div>
 
-      <span className="entry-head">
-        <span className="entry-word">{product.name}</span>
-        <span className="apparatus-sm entry-subject">{product.category}</span>
-      </span>
+      <div className="entry-card-body">
+        <h3 className="entry-card-title">{product.name}</h3>
+        <p className="entry-card-applications">
+          {product.applications[0]}
+          {product.applications.length > 1 ? ` · +${product.applications.length - 1} applications` : ''}
+        </p>
+      </div>
 
-      <span className="entry-leader" aria-hidden="true" />
-
-      <span className="entry-formula">{product.formula ?? meta.abbr}</span>
+      <div className="entry-card-footer">
+        <span className="entry-card-action">
+          View Specifications &rarr;
+        </span>
+      </div>
     </Link>
   );
 }

@@ -43,35 +43,56 @@ export default function ProductBrowser() {
   const [filter, setFilter] = useState<Filter>(initialFilter);
   const reduced = useReducedMotion();
 
-  // Keeps typing responsive while the full index re-renders.
   const deferredQuery = useDeferredValue(query);
 
   const visible = useMemo(
-    () =>
-      products
-        .map((product, index) => ({ product, index }))
-        .filter(({ product }) => matches(product, deferredQuery, filter)),
+    () => products.filter((product) => matches(product, deferredQuery, filter)),
     [deferredQuery, filter],
   );
 
   return (
-    <>
+    <div className="product-browser-wrapper">
       <div className="finder">
         <div className="finder-search">
-          <label htmlFor="product-search" className="apparatus-sm">
-            Search the index
+          <label htmlFor="product-search" className="finder-label">
+            Search Chemicals &amp; Compounds
           </label>
-          <input
-            id="product-search"
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Headword, formula or application…"
-            autoComplete="off"
-          />
+          <div className="search-input-wrapper">
+            <svg
+              className="search-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            <input
+              id="product-search"
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search by chemical name, formula (e.g. NaOH, H2SO4), or application..."
+              autoComplete="off"
+            />
+            {query && (
+              <button
+                type="button"
+                className="search-clear-btn"
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+              >
+                &times;
+              </button>
+            )}
+          </div>
         </div>
 
-        <div className="finder-filters" role="group" aria-label="Filter by subject">
+        <div className="finder-filters" role="group" aria-label="Filter by category">
           {filters.map((option) => {
             const active = filter === option;
             const meta = option === "All" ? null : categoryMeta[option];
@@ -80,33 +101,35 @@ export default function ProductBrowser() {
                 key={option}
                 type="button"
                 onClick={() => setFilter(option)}
-                className="finder-filter apparatus-sm"
+                className="finder-filter"
                 data-active={active}
                 aria-pressed={active}
               >
                 {meta && (
                   <span
-                    className="mark"
+                    className="category-dot"
                     style={{ background: `var(${meta.token})` }}
                     aria-hidden="true"
                   />
                 )}
-                {option === "All" ? "All subjects" : option}
+                {option === "All" ? "All Categories" : option}
               </button>
             );
           })}
         </div>
       </div>
 
-      <p className="apparatus-sm index-count" role="status" aria-live="polite">
-        {visible.length} of {products.length} entries
-        {filter !== "All" && ` · ${filter}`}
-      </p>
+      <div className="index-count-bar">
+        <span className="index-count-text">
+          Showing <strong>{visible.length}</strong> of {products.length} chemicals
+          {filter !== "All" && <span className="filter-tag-label"> &bull; Category: {filter}</span>}
+        </span>
+      </div>
 
       {visible.length > 0 ? (
-        <motion.div layout={!reduced} className="index-list">
+        <motion.div layout={!reduced} className="entry-card-grid">
           <AnimatePresence mode="popLayout">
-            {visible.map(({ product, index }, position) => (
+            {visible.map((product, position) => (
               <motion.div
                 key={product.slug}
                 layout={!reduced}
@@ -119,33 +142,33 @@ export default function ProductBrowser() {
                   ease: "linear",
                 }}
               >
-                <Entry product={product} index={index} />
+                <Entry product={product} />
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
       ) : (
         <div className="index-empty">
-          <p className="title t3">No entry under “{query}”.</p>
+          <p className="title t3">No chemical found matching &ldquo;{query}&rdquo;.</p>
           <p className="prose">
-            SHIV ENTERPRISES sources beyond this handbook. Call{" "}
-            <a href="tel:+917814969998" className="link">
+            SHIV ENTERPRISES custom sources compounds beyond our primary catalogue. Contact our technical sales team directly at{" "}
+            <a href="tel:+917814969998" className="link font-semibold">
               +91 78149 69998
             </a>{" "}
-            and we will confirm availability.
+            for immediate availability.
           </p>
           <button
             type="button"
-            className="btn btn-plain"
+            className="btn btn-ink"
             onClick={() => {
               setQuery("");
               setFilter("All");
             }}
           >
-            Show all entries
+            Reset Filters &amp; View All Products
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 }

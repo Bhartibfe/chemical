@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Source_Sans_3, Source_Serif_4 } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
@@ -8,21 +8,16 @@ import { globalSchemas } from "@/lib/schema";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-/** Source Serif 4 is a book face — it sets the running text and every
- *  heading. Source Sans 3 carries only the apparatus: running heads, folios,
- *  and small-cap labels. */
-const sourceSerif = Source_Serif_4({
-  variable: "--font-source-serif",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
   display: "swap",
 });
 
-const sourceSans = Source_Sans_3({
-  variable: "--font-source-sans",
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
   subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -67,8 +62,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbf9f5" },
-    { media: "(prefers-color-scheme: dark)", color: "#14110e" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0f19" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -87,14 +82,14 @@ export default function RootLayout({
     <html
       lang="en-IN"
       data-theme="light"
-      className={`${sourceSerif.variable} ${sourceSans.variable}`}
+      className={`${inter.variable} ${plusJakarta.variable}`}
       suppressHydrationWarning
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <JsonLd schema={globalSchemas} />
       </head>
-      <body>
+      <body className="antialiased selection:bg-amber-500 selection:text-slate-950">
         <a className="skip-link" href="#main">
           Skip to main content
         </a>

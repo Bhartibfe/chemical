@@ -33,16 +33,22 @@ export default function ContactPage() {
 
       <section className="chapter-opener">
         <div className="page">
-          <nav aria-label="Breadcrumb" className="apparatus-sm breadcrumb">
-            <Link href="/">Handbook</Link>
-            <span aria-hidden="true">·</span>
-            <span aria-current="page">Enquiries</span>
+          <nav aria-label="Breadcrumb" className="breadcrumb-nav">
+            <Link href="/" className="breadcrumb-link">
+              <svg className="w-4 h-4 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Home
+            </Link>
+            <svg className="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+            <span className="breadcrumb-current">Contact &amp; Quotes</span>
           </nav>
 
-          <p className="apparatus chapter-opener-num">§ 04</p>
-          <h1 className="title t1">Enquiries</h1>
-          <hr className="rule-double" />
-          <p className="lead">
+          <span className="section-badge-pill mb-3 inline-block">REQUEST A QUOTE</span>
+          <h1 className="title t1 mb-4">Contact &amp; Technical Enquiries</h1>
+          <p className="lead mb-6">
             Request a quote, ask about a grade, or get technical guidance. Call{" "}
             {site.phone}, email {site.email}, or send the form below.
           </p>

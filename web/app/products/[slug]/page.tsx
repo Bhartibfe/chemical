@@ -10,19 +10,6 @@ import { site } from "@/lib/site";
 
 type Params = { params: Promise<{ slug: string }> };
 
-const roman = [
-  "i",
-  "ii",
-  "iii",
-  "iv",
-  "v",
-  "vi",
-  "vii",
-  "viii",
-  "ix",
-  "x",
-];
-
 /** One static entry per chemical — 29 indexable pages, each targeting the
  *  searches buyers actually run for that specific product. */
 export function generateStaticParams() {
@@ -80,12 +67,23 @@ export default async function ProductPage({ params }: Params) {
       {/* ── ENTRY HEAD ───────────────────────────────────────── */}
       <section className="entry-page">
         <div className="page">
-          <nav aria-label="Breadcrumb" className="apparatus-sm breadcrumb">
-            <Link href="/">Handbook</Link>
-            <span aria-hidden="true">·</span>
-            <Link href="/products">Catalogue</Link>
-            <span aria-hidden="true">·</span>
-            <span aria-current="page">{product.name}</span>
+          <nav aria-label="Breadcrumb" className="breadcrumb-nav">
+            <Link href="/" className="breadcrumb-link">
+              <svg className="w-4 h-4 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Home
+            </Link>
+            <svg className="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+            <Link href="/products" className="breadcrumb-link">
+              Catalogue
+            </Link>
+            <svg className="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+            <span className="breadcrumb-current">{product.name}</span>
           </nav>
 
           <div className="spread entry-spread">
@@ -94,17 +92,15 @@ export default async function ProductPage({ params }: Params) {
                 Entry {ref} · {product.category}
               </p>
 
-              <h1 className="title t1 entry-page-word">{product.name}</h1>
+              <h1 className="title t1 entry-page-word mb-2">{product.name}</h1>
 
               {product.formula && (
-                <p className="entry-page-formula">[ {product.formula} ]</p>
+                <p className="entry-page-formula mb-4">[ {product.formula} ]</p>
               )}
-
-              <hr className="rule-double" />
 
               {/* Answer-first: this sentence stands alone if an AI engine
                   lifts it out of the page. */}
-              <p className="prose opening entry-page-definition">
+              <p className="lead opening entry-page-definition mb-6">
                 {product.summary}
               </p>
 
@@ -113,14 +109,14 @@ export default async function ProductPage({ params }: Params) {
                   Enquire about {product.name}
                 </Link>
                 <a href={site.phoneHref} className="btn btn-plain">
-                  {site.phone}
+                  Call {site.phone}
                 </a>
               </div>
             </div>
 
             {/* Marginal note — the book's outer column. */}
             <aside className="margin-note">
-              <p className="apparatus-sm margin-note-label">Supply</p>
+              <p className="apparatus-sm margin-note-label">Supply Specifications</p>
               <dl className="margin-list">
                 <div>
                   <dt>Subject</dt>
@@ -164,14 +160,14 @@ export default async function ProductPage({ params }: Params) {
       {/* ── USES ─────────────────────────────────────────────── */}
       <Chapter
         number={1}
-        title="Uses"
+        title="Key Applications &amp; Industry Uses"
         note={`Where buyers across India take ${product.name.toLowerCase()}.`}
         tone="tint"
       >
-        <ol className="uses">
+        <ol className="uses mb-6">
           {product.applications.map((application, i) => (
             <li key={application} className="use">
-              <span className="folio use-num">{roman[i] ?? String(i + 1)}</span>
+              <span className="folio use-num">0{i + 1}</span>
               <span>{application}</span>
             </li>
           ))}
@@ -184,16 +180,12 @@ export default async function ProductPage({ params }: Params) {
       {related.length > 0 && (
         <Chapter
           number={2}
-          title="See also"
+          title="Related Chemical Compounds"
           note={`Other entries under ${product.category}.`}
         >
-          <div className="index-list">
+          <div className="entry-card-grid">
             {related.map((item) => (
-              <Entry
-                key={item.slug}
-                product={item}
-                index={products.findIndex((p) => p.slug === item.slug)}
-              />
+              <Entry key={item.slug} product={item} />
             ))}
           </div>
         </Chapter>

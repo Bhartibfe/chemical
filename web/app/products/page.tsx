@@ -36,22 +36,31 @@ export default function ProductsPage() {
 
       <section className="chapter-opener">
         <div className="page">
-          <nav aria-label="Breadcrumb" className="apparatus-sm breadcrumb">
-            <Link href="/">Handbook</Link>
-            <span aria-hidden="true">·</span>
-            <span aria-current="page">Catalogue</span>
+          <nav aria-label="Breadcrumb" className="breadcrumb-nav">
+            <Link href="/" className="breadcrumb-link">
+              <svg className="w-4 h-4 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Home
+            </Link>
+            <svg className="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+            <span className="breadcrumb-current">Products Catalogue</span>
           </nav>
 
-          <p className="apparatus chapter-opener-num">§ 01</p>
-          <h1 className="title t1">The catalogue</h1>
-          <hr className="rule-double" />
-          <p className="lead">
-            SHIV ENTERPRISES supplies {products.length} industrial chemicals
-            across {categories.length} subject classes — water treatment, acids,
-            alkalis and salts, bleaching and oxidising agents, surfactants, and
-            specialty products — dispatched from Punjab and Chandigarh to sites
-            across India.
-          </p>
+          <div className="page-header-title-block">
+            <span className="badge-pill-primary">ISO 9001 CERTIFIED CATALOGUE</span>
+            <h1 className="title t1 page-main-title">Industrial Chemicals Catalogue</h1>
+            <p className="lead page-main-sub">
+              SHIV ENTERPRISES supplies {products.length} industrial chemicals
+              across {categories.length} subject classes — water treatment, acids,
+              alkalis and salts, bleaching and oxidising agents, surfactants, and
+              specialty products — dispatched from Punjab and Chandigarh to sites
+              across India.
+            </p>
+          </div>
+
           <CategoryKey />
         </div>
       </section>

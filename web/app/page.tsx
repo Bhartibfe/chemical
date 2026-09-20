@@ -2,6 +2,7 @@ import Link from "next/link";
 import CategoryKey from "@/components/CategoryKey";
 import Chapter from "@/components/Chapter";
 import Entry from "@/components/Entry";
+import HeroVideo from "@/components/HeroVideo";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import { clients, commitments, industries, testimonials } from "@/lib/content";
@@ -10,8 +11,6 @@ import { productCatalogueSchema } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
 import { addresses, site } from "@/lib/site";
 
-// The title template on the root layout does not apply to this segment, so
-// the brand is spelled out here rather than lost from the homepage title.
 export const metadata = pageMeta({
   title: "Industrial Chemical Supplier in Punjab | SHIV ENTERPRISES",
   description:
@@ -26,93 +25,73 @@ export default function HomePage() {
     <>
       <JsonLd schema={productCatalogueSchema} />
 
-      {/* ── TITLE PAGE ───────────────────────────────────────── */}
-      <section className="title-page">
-        <div className="page">
-          <p className="apparatus title-page-imprint">
-            Sardulgarh, Punjab · {site.certification} Certified
-          </p>
+      {/* ── HERO SECTION ───────────────────────────────────────── */}
+      {/* HeroVideo renders nothing until clips are configured in lib/hero.ts,
+          so the gradient hero below stands on its own until then. All hero
+          copy is server-rendered above the video layer, never inside it. */}
+      <section className="hero-section">
+        <HeroVideo />
+        <div className="hero-scrim" aria-hidden="true" />
 
-          <h1 className="title t1 title-page-title">
-            A handbook of
-            <br />
-            industrial chemicals
-          </h1>
+        <div className="page hero-inner">
+          <div className="hero-content">
+            <span className="hero-badge">
+              <span className="mark" style={{ background: "var(--accent)" }} />
+              ISO 9001:2015 CERTIFIED INDUSTRIAL CHEMICAL SUPPLIER
+            </span>
 
-          <p className="title-page-sub">
-            Twenty-nine compounds for power, rail, defence and textile
-          </p>
+            <h1 className="title t1 hero-title">
+              High-Grade Industrial Chemicals Supplied Across India
+            </h1>
 
-          <hr className="rule-double" />
+            <p className="lead hero-sub">
+              SHIV ENTERPRISES is an {site.certification} certified chemical
+              supplier based in Sardulgarh, Punjab, delivering{" "}
+              {products.length}+ industrial compounds, acids, alkalis, and
+              surfactants to power plants, Indian Railways, defence, and
+              textile industries across India.
+            </p>
 
-          {/* Answer-first and entity-explicit: quotable standalone by an AI
-              answer engine, with company, credential, place and scope all
-              inside a single sentence. */}
-          <p className="lead title-page-lead">
-            SHIV ENTERPRISES is an {site.certification} certified industrial
-            chemical supplier based in Sardulgarh, Punjab, supplying{" "}
-            {products.length} water treatment chemicals, acids, alkalis and
-            surfactants to power plants, Indian Railways, defence, and textile
-            mills across India.
-          </p>
+            <div className="hero-actions">
+              <Link href="/products" className="btn btn-ink">
+                Browse Chemical Catalogue &rarr;
+              </Link>
+              <Link href="/contact" className="btn btn-plain">
+                Request a Custom Quote
+              </Link>
+            </div>
+          </div>
+        </div>
 
-          <div className="title-page-actions">
-            <Link href="/products" className="btn btn-ink">
-              Open the catalogue
-            </Link>
-            <Link href="/contact" className="btn btn-plain">
-              Request a quote
-            </Link>
+        {/* Credential strip along the foot of the hero, the way a full-bleed
+            corporate hero anchors itself above the fold. */}
+        <div className="hero-strip">
+          <div className="page stats-bar">
+            <div className="stat-item">
+              <span className="stat-value">{products.length}+</span>
+              <span className="stat-label">Industrial Compounds</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">ISO 9001</span>
+              <span className="stat-label">Certified Quality</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">{industries.length}+</span>
+              <span className="stat-label">Major Sectors Served</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">2 Offices</span>
+              <span className="stat-label">Punjab &amp; Chandigarh</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── CONTENTS ─────────────────────────────────────────── */}
-      <section className="contents">
-        <div className="page">
-          <p className="apparatus contents-label">Contents</p>
-          <ol className="contents-list">
-            <li>
-              <Link href="/products">
-                <span className="folio">01</span>
-                <span className="contents-title">The catalogue</span>
-                <span className="contents-leader" aria-hidden="true" />
-                <span className="folio">{products.length} entries</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/industries">
-                <span className="folio">02</span>
-                <span className="contents-title">Sectors served</span>
-                <span className="contents-leader" aria-hidden="true" />
-                <span className="folio">{industries.length} sectors</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/about">
-                <span className="folio">03</span>
-                <span className="contents-title">The company</span>
-                <span className="contents-leader" aria-hidden="true" />
-                <span className="folio">{clients.length} clients</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact">
-                <span className="folio">04</span>
-                <span className="contents-title">Enquiries</span>
-                <span className="contents-leader" aria-hidden="true" />
-                <span className="folio">{site.phone}</span>
-              </Link>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      {/* ── § 01 THE CATALOGUE ───────────────────────────────── */}
+      {/* ── SECTION 01: CATALOGUE ─────────────────────────────── */}
       <Chapter
         number={1}
-        title="The catalogue"
-        note={`Showing ${opening.length} of ${products.length} entries. Each entry carries its formula, subject class, and applications.`}
+        title="Featured Chemical Catalogue"
+        note={`Showing ${opening.length} of ${products.length} industrial chemicals with MSDS and COA support.`}
         tone="tint"
       >
         <p className="prose opening chapter-opening">
@@ -123,136 +102,134 @@ export default function HomePage() {
           system, with MSDS documentation on dispatch.
         </p>
 
-        <div className="index-list index-list-preview">
-          {opening.map((product, i) => (
-            <Entry key={product.slug} product={product} index={i} />
+        <div className="entry-card-grid">
+          {opening.map((product) => (
+            <Entry key={product.slug} product={product} />
           ))}
         </div>
 
         <div className="chapter-foot">
           <CategoryKey />
-          <Link href="/products" className="btn btn-plain">
-            All {products.length} entries
+          <Link href="/products" className="btn btn-ink">
+            View All {products.length} Products &rarr;
           </Link>
         </div>
       </Chapter>
 
-      {/* ── § 02 SECTORS ─────────────────────────────────────── */}
+      {/* ── SECTION 02: SECTORS ───────────────────────────────── */}
       <Chapter
         number={2}
-        title="Sectors served"
-        note={`${industries.length} sectors, from municipal water treatment to defence metallurgy.`}
+        title="Key Industrial Sectors Served"
+        note={`Delivering tailored chemical solutions to ${industries.length}+ core industries nationwide.`}
       >
-        <ol className="sector-list">
+        <ol className="sector-grid">
           {industries.map((industry, i) => (
-            <Reveal as="li" index={i} key={industry.slug} className="sector">
-              <span className="folio sector-num">
-                {String(i + 1).padStart(2, "0")}
+            <Reveal as="li" index={i} key={industry.slug} className="sector-card">
+              <span className="sector-num">
+                SECTOR 0{i + 1}
               </span>
-              <div>
-                <h3 className="title t3 sector-name">{industry.name}</h3>
-                <p className="prose sector-desc">{industry.blurb}</p>
-              </div>
+              <h3 className="title t3 sector-name">{industry.name}</h3>
+              <p className="sector-desc">{industry.blurb}</p>
             </Reveal>
           ))}
         </ol>
       </Chapter>
 
-      {/* ── § 03 TERMS OF SUPPLY ─────────────────────────────── */}
+      {/* ── SECTION 03: TERMS & COMMITMENT ───────────────────── */}
       <Chapter
         number={3}
-        title="Terms of supply"
-        note="What every order carries, whatever the chemical."
+        title="Quality & Supply Commitments"
+        note="Every order carries guaranteed purity, COA documentation, and reliable dispatch."
         tone="tint"
       >
-        <ol className="terms">
+        <ol className="terms-grid">
           {commitments.map((item, i) => (
-            <Reveal as="li" index={i} key={item.title} className="term">
-              <span className="folio term-num">
-                {["i", "ii", "iii", "iv"][i] ?? String(i + 1)}
-              </span>
-              <div>
-                <h3 className="title t3">{item.title}</h3>
-                <p className="prose">{item.desc}</p>
+            <Reveal as="li" index={i} key={item.title} className="term-card">
+              <div className="term-icon-badge">
+                0{i + 1}
               </div>
+              <h3 className="title t3">{item.title}</h3>
+              <p className="prose">{item.desc}</p>
             </Reveal>
           ))}
         </ol>
       </Chapter>
 
-      {/* ── § 04 CLIENTS & REFERENCES ────────────────────────── */}
+      {/* ── SECTION 04: CLIENTS & TESTIMONIALS ────────────────── */}
       <Chapter
         number={4}
-        title="Clients and references"
-        note={`${clients.length} government and private institutions across India.`}
+        title="Trusted Client Partnerships"
+        note={`Partnering with ${clients.length}+ government institutions, railways, and major enterprises across India.`}
       >
-        <ul className="client-list">
-          {clients.map((client, i) => (
-            <li key={client.name} className="client">
-              <span className="folio">{String(i + 1).padStart(2, "0")}</span>
-              <span>{client.name}</span>
+        <ul className="client-pills">
+          {clients.map((client) => (
+            <li key={client.name} className="client-pill">
+              {client.name}
             </li>
           ))}
         </ul>
 
-        <ul className="quotes">
+        <ul className="quotes-grid">
           {testimonials.map((testimonial, i) => (
-            <Reveal as="li" index={i} key={testimonial.author} className="quote">
+            <Reveal as="li" index={i} key={testimonial.author} className="quote-card">
               <blockquote>
-                <p className="quote-text">{testimonial.quote}</p>
+                <p className="quote-text">&ldquo;{testimonial.quote}&rdquo;</p>
               </blockquote>
-              <cite className="apparatus-sm quote-cite">
-                {testimonial.author}
+              <cite className="quote-cite">
+                &mdash; {testimonial.author}
               </cite>
             </Reveal>
           ))}
         </ul>
       </Chapter>
 
-      {/* ── § 05 ENQUIRIES ───────────────────────────────────── */}
+      {/* ── SECTION 05: ENQUIRIES ─────────────────────────────── */}
       <Chapter
         number={5}
-        title="Enquiries"
-        note="Include the chemical, grade and quantity for a faster reply."
-        tone="plate"
+        title="Get in Touch &amp; Request a Quote"
+        note="Specify chemical, grade, and quantity for direct price and dispatch timelines."
       >
-        <div className="enquiry-spread">
-          <div>
-            <p className="lead">
-              Send the chemical, grade and quantity. Our technical team replies
-              with availability, documentation, and delivery timelines.
-            </p>
-            <div className="title-page-actions">
-              <Link href="/contact" className="btn btn-ink">
-                Open the enquiry form
-              </Link>
-            </div>
-          </div>
-
-          <dl className="imprint-list">
+        <div className="enquiry-card">
+          <div className="enquiry-spread">
             <div>
-              <dt className="apparatus-sm">Telephone</dt>
-              <dd>
-                <a href={site.phoneHref} className="link">
-                  {site.phone}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt className="apparatus-sm">Email</dt>
-              <dd>
-                <a href={site.emailHref} className="link">
-                  {site.email}
-                </a>
-              </dd>
-            </div>
-            {addresses.map((address) => (
-              <div key={address.label}>
-                <dt className="apparatus-sm">{address.label}</dt>
-                <dd>{address.display}</dd>
+              <h3 className="title t2" style={{ color: "#ffffff", marginBottom: "16px" }}>
+                Ready to Order or Have Technical Enquiries?
+              </h3>
+              <p className="lead">
+                Send us your required chemical name, target grade, and batch quantity. Our technical team will reply with immediate stock availability, COA/MSDS documentation, and competitive delivery schedules.
+              </p>
+              <div style={{ marginTop: "28px" }}>
+                <Link href="/contact" className="btn btn-plain" style={{ background: "#ffffff", color: "#00243c", borderColor: "#ffffff" }}>
+                  Open Detailed Enquiry Form &rarr;
+                </Link>
               </div>
-            ))}
-          </dl>
+            </div>
+
+            <dl className="imprint-list">
+              <div>
+                <dt>Direct Telephone</dt>
+                <dd>
+                  <a href={site.phoneHref} className="enquiry-contact-link">
+                    {site.phone}
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Official Email</dt>
+                <dd>
+                  <a href={site.emailHref} className="enquiry-contact-link">
+                    {site.email}
+                  </a>
+                </dd>
+              </div>
+              {addresses.map((address) => (
+                <div key={address.label}>
+                  <dt>{address.label}</dt>
+                  <dd>{address.display}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </Chapter>
     </>

@@ -7,15 +7,6 @@ import { useEffect, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
 import { navLinks, site } from "@/lib/site";
 
-/** Verso runs the book title; recto runs the chapter. */
-const chapterOf: Record<string, string> = {
-  "/": "Contents",
-  "/products": "§ 01 · The Catalogue",
-  "/industries": "§ 02 · Sectors",
-  "/about": "§ 03 · The Company",
-  "/contact": "§ 04 · Enquiries",
-};
-
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -30,19 +21,24 @@ export default function Header() {
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
-  const chapter = pathname.startsWith("/products/")
-    ? "§ 01 · Entry"
-    : (chapterOf[pathname] ?? "Reference Handbook");
-
   return (
     <header className="masthead">
-      {/* Running head — book title left, chapter right, as a printed page. */}
+      {/* Top info bar */}
       <div className="running-head">
         <div className="page running-head-inner apparatus-sm">
-          <span>
-            Shiv Enterprises · Industrial Chemicals · {site.certification}
-          </span>
-          <span className="running-head-chapter">{chapter}</span>
+          <div className="running-head-left">
+            <span className="badge-pill-sm">ISO 9001:2015 CERTIFIED</span>
+            <span className="hidden-mobile">Sardulgarh, Punjab &amp; Chandigarh</span>
+          </div>
+          <div className="running-head-right flex items-center gap-3">
+            <a href={site.phoneHref} className="topbar-contact-link">
+              Call: {site.phone}
+            </a>
+            <span className="hidden-mobile text-slate-400 dark:text-slate-600">&bull;</span>
+            <a href={site.emailHref} className="topbar-contact-link hidden-mobile">
+              {site.email}
+            </a>
+          </div>
         </div>
       </div>
 
@@ -51,29 +47,29 @@ export default function Header() {
           <Image
             src={site.logo}
             alt={`${site.name} — ${site.certification} certified industrial chemical supplier`}
-            width={412}
-            height={175}
+            width={360}
+            height={150}
             priority
           />
         </Link>
 
         <nav className="masthead-nav" aria-label="Primary">
-          {navLinks.map((link, i) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className="masthead-link"
               aria-current={isActive(link.href) ? "page" : undefined}
             >
-              <span className="folio masthead-link-num" aria-hidden="true">
-                {String(i + 1).padStart(2, "0")}
-              </span>
               {link.label}
             </Link>
           ))}
         </nav>
 
         <div className="masthead-actions">
+          <Link href="/contact" className="btn btn-ink header-cta-btn">
+            Request Quote
+          </Link>
           <ThemeToggle />
           <button
             type="button"
@@ -82,14 +78,14 @@ export default function Header() {
             aria-expanded={open}
             aria-controls="mobile-nav"
           >
-            {open ? "Close" : "Contents"}
+            {open ? "Close" : "Menu"}
           </button>
         </div>
       </div>
 
       <div id="mobile-nav" className="masthead-mobile" hidden={!open}>
         <nav className="page" aria-label="Mobile">
-          {navLinks.map((link, i) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -97,10 +93,14 @@ export default function Header() {
               onClick={() => setOpen(false)}
               aria-current={isActive(link.href) ? "page" : undefined}
             >
-              <span className="folio">{String(i + 1).padStart(2, "0")}</span>
               <span className="title t3">{link.label}</span>
             </Link>
           ))}
+          <div className="mobile-cta-wrapper">
+            <Link href="/contact" className="btn btn-ink w-full" onClick={() => setOpen(false)}>
+              Request Quote
+            </Link>
+          </div>
         </nav>
       </div>
     </header>
