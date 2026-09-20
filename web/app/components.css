@@ -1837,7 +1837,7 @@
 
 .pcard {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 38%;
+  grid-template-columns: minmax(0, 1fr) 42%;
   align-items: stretch;
   border: 1px solid var(--rule);
   border-radius: 16px;
@@ -1977,9 +1977,10 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Bias away from the fade on the left edge, so the subject stays clear
-     of it without needing the photos recomposed. */
-  object-position: 62% center;
+  /* Centre. Sources are 1:2 portrait, which the slot crops by only ~6%, so
+     there is nothing to bias away from — the left third of the frame is
+     deliberately empty background for the fade to sit on. */
+  object-position: center;
   display: block;
 }
 

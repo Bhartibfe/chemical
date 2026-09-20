@@ -7,11 +7,48 @@ the card will fall back to a plain tint.
 
 | | |
 | --- | --- |
-| Aspect | **1:1 square** |
-| Size | **1024 × 1024** |
-| Format | JPG from the generator; convert to WebP before committing |
-| Filename | `<slug>.jpg` — slugs listed below, e.g. `sodium-hypochlorite.jpg` |
+| Aspect | **1:2 portrait** |
+| Size | **512 x 1024** |
+| Filename | `<slug>.png` or `.jpg` — slugs listed below |
 | Location | this folder, `web/public/products/` |
+
+### Why 1:2, and not square
+
+The card renders the photo in a tall narrow slot — about **153 x 325** at a
+normal desktop width. `object-fit: cover` fills that slot and discards
+whatever does not fit, so the source aspect decides how much survives:
+
+| Source | Width shown | Lost |
+| --- | --- | --- |
+| 1:1 square 1024x1024 | 47% | **53%** |
+| 3:4 768x1024 | 63% | 37% |
+| 9:16 576x1024 | 84% | 16% |
+| **1:2 512x1024** | **94%** | **6%** |
+
+A square loses over half its width. At 1:2 almost nothing is cropped.
+
+### Composition — this part matters
+
+Put the subject in the **right-hand two thirds** and leave the **left third
+as clean empty background**.
+
+```
+  512 px wide
+ +--------+------------------+
+ |        |                  |
+ | empty  |     SUBJECT      |  1024 px tall
+ | left   |   centred here   |
+ | third  |                  |
+ +--------+------------------+
+   fade         visible
+```
+
+The card fades the left edge of the photo into the card so the two do not
+meet on a hard line. That fade covers roughly the left third of the frame —
+so anything there disappears. Keep it empty and the fade lands on background
+instead of eating the subject.
+
+Vertically, let the subject fill about 70-80% of the height, centred.
 
 ## The style block — paste this after every subject line
 
@@ -20,10 +57,11 @@ vary it, and do not let the generator "improve" it between runs.
 
 > Studio product photograph on a clean seamless background. Soft diffused
 > daylight from the upper left, gentle shadow falling to the lower right.
-> Shot at eye level, subject centred, filling about 70% of the frame with
-> clear space around it. Shallow depth of field, background softly out of
+> Shot at eye level. Subject placed in the right two thirds of the frame,
+> filling about 70% of the height, with the left third left as empty
+> background. Shallow depth of field, background softly out of
 > focus. Bright, clean, high-key. No text, no labels, no branding, no hands,
-> no people. Photorealistic, sharp focus on the subject, 1:1 square.
+> no people. Photorealistic, sharp focus on the subject, tall 1:2 portrait.
 
 ## Background tint per category
 
@@ -161,8 +199,8 @@ Full prompt for `sulphur.jpg`:
 > right. Shot at eye level, subject centred, filling about 70% of the frame
 > with clear space around it. Shallow depth of field, background softly out
 > of focus. Bright, clean, high-key. No text, no labels, no branding, no
-> hands, no people. Photorealistic, sharp focus on the subject, 1:1 square.
-> Background tinted very pale amber.
+> hands, no people. Photorealistic, sharp focus on the subject, tall 1:2
+> portrait. Background tinted very pale amber.
 
 ## Before committing
 
@@ -177,8 +215,8 @@ folder under their slug name and run this once. It takes any `.png` or
 for f in *.png *.jpg; do
   [ -e "$f" ] || continue
   base="${f%.*}"
-  ffmpeg -v error -i "$f" -vf "scale=640:640" -q:v 6 "$base.out.jpg" -y
-  ffmpeg -v error -i "$f" -vf "scale=640:640" -c:v libwebp -quality 72 "$base.webp" -y
+  ffmpeg -v error -i "$f" -vf "scale=512:1024" -q:v 6 "$base.out.jpg" -y
+  ffmpeg -v error -i "$f" -vf "scale=512:1024" -c:v libwebp -quality 72 "$base.webp" -y
   rm -f "$f"; mv "$base.out.jpg" "$base.jpg"
 done
 ```
@@ -186,7 +224,7 @@ done
 Measured on the first image: **1.27 MB PNG became 20 KB JPEG and 9 KB WebP**,
 with no visible loss at the size the card renders it.
 
-640px is ample — the card renders these at roughly 200px, and the browser
+512 x 1024 is ample — the card renders these at roughly 200px, and the browser
 picks the WebP where supported. Target **under 60 KB each**; 29 images at
 that size is under 1.8 MB for the whole catalogue, and they lazy-load below
 the fold.
