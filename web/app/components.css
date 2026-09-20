@@ -1409,6 +1409,8 @@
      on the source aspect; see public/video/README.md for the export spec
      that reduces the crop to almost nothing. */
   object-fit: cover;
+  /* Counteracts the desaturation the veil causes. */
+  filter: saturate(1.18) contrast(1.04);
   opacity: 0;
   transition-property: opacity;
   transition-timing-function: linear;
@@ -1704,16 +1706,16 @@
   background:
     linear-gradient(
       100deg,
-      rgba(255, 255, 255, 0.89) 0%,
-      rgba(255, 255, 255, 0.84) 34%,
-      rgba(255, 255, 255, 0.46) 64%,
-      rgba(255, 255, 255, 0.18) 100%
+      rgba(255, 255, 255, 0.78) 0%,
+      rgba(255, 255, 255, 0.7) 34%,
+      rgba(255, 255, 255, 0.28) 64%,
+      rgba(255, 255, 255, 0.06) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.22) 0%,
+      rgba(255, 255, 255, 0.1) 0%,
       rgba(255, 255, 255, 0) 30%,
-      rgba(255, 255, 255, 0.4) 100%
+      rgba(255, 255, 255, 0.18) 100%
     );
 }
 
