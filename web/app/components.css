@@ -2012,9 +2012,9 @@
   background: linear-gradient(
     90deg,
     var(--paper) 0%,
-    var(--paper) 14%,
-    color-mix(in srgb, var(--paper) 72%, transparent) 34%,
-    rgba(255, 255, 255, 0) 58%
+    color-mix(in srgb, var(--paper) 84%, transparent) 14%,
+    color-mix(in srgb, var(--paper) 52%, transparent) 36%,
+    rgba(255, 255, 255, 0) 62%
   );
 }
 
@@ -2022,9 +2022,9 @@
   background: linear-gradient(
     90deg,
     var(--paper-2) 0%,
-    var(--paper-2) 14%,
-    color-mix(in srgb, var(--paper-2) 72%, transparent) 34%,
-    rgba(0, 0, 0, 0) 58%
+    color-mix(in srgb, var(--paper-2) 84%, transparent) 14%,
+    color-mix(in srgb, var(--paper-2) 52%, transparent) 36%,
+    rgba(0, 0, 0, 0) 62%
   );
 }
 
