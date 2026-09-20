@@ -101,36 +101,25 @@ export default function HomePage() {
         title="Featured Chemical Catalogue"
         note={`Showing ${opening.length} of ${products.length} industrial chemicals with MSDS and COA support.`}
         tone="tint"
+        action={
+          <Link href="/products" className="btn btn-ink">
+            View All {products.length} Products &rarr;
+          </Link>
+        }
       >
-        <p className="prose opening chapter-opening">
-          SHIV ENTERPRISES holds {products.length} industrial chemicals across
-          six subject classes, from sodium hypochlorite for municipal water
-          treatment to hydrazine hydrate for boiler feed water. Every entry is
-          supplied under an {site.certification} certified quality management
-          system, with MSDS documentation on dispatch.
-        </p>
-
         <div className="entry-card-grid">
           {opening.map((product) => (
             <Entry key={product.slug} product={product} />
           ))}
 
-          {/* Closing tile: the grid itself carries the call to action, so it
-              lands where the eye already is after the last card. */}
-          <Link href="/products" className="entry-card entry-card-all">
-            <span className="entry-card-all-count">
-              {products.length - opening.length}+
+          {/* Closing cell. The header button already states the full
+              "View All 29 Products", so this stays quiet — an arrow and a
+              label, not a second competing call to action. */}
+          <Link href="/products" className="browse-cell">
+            <span className="browse-cell-arrow" aria-hidden="true">
+              &rarr;
             </span>
-            <span className="entry-card-all-body">
-              <span className="entry-card-all-title">View all products</span>
-              <span className="entry-card-all-sub">
-                Full catalogue of {products.length} industrial chemicals across
-                six categories
-              </span>
-            </span>
-            <span className="entry-card-all-action">
-              Browse catalogue <span aria-hidden="true">&rarr;</span>
-            </span>
+            <span className="browse-cell-label">Browse catalogue</span>
           </Link>
         </div>
 
