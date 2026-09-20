@@ -20,8 +20,10 @@
   border-bottom-color: #2e2e2e;
 }
 
+/* Transparent so it takes the masthead's white. Previously --paper-2, a
+   light grey, which made the header read as two different tones stacked. */
 .running-head {
-  background: var(--paper-2);
+  background: transparent;
   border-bottom: 1px solid var(--rule);
   padding-block: 6px;
 }
