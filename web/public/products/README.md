@@ -236,3 +236,29 @@ the fold.
 - **Keep the real colour.** Sulphur is yellow, ferrous sulphate is blue-green,
   LABSA is dark brown. A procurement engineer knows what these look like, and
   getting it wrong costs more credibility than a missing photo would.
+
+
+---
+
+## Two images to regenerate
+
+All 29 are installed and rendering. The generator added labels to the
+glassware despite the prompt excluding them. Most are harmless — the text
+came out clean and the formulas are correct (`CH3COOH`, `NaOH`, `HCl`,
+`H3PO4`, `H2SO4` all check out), so they read as chemical identity rather
+than branding.
+
+Two invent a specification, which is a different matter on a supplier's own
+catalogue:
+
+| File | Label says | Problem |
+| --- | --- | --- |
+| `green-acid` | "Acid Green 25" | That is a textile dye. Your green acid is an industrial cleaning acid — wrong substance entirely. |
+| `cocamidopropyl-betaine` | "~30% active" | A concentration claim. If you supply a different active percentage, the photo contradicts the product. |
+
+Regenerate those two with this appended to their prompt:
+
+> The glassware is completely plain and unlabelled. No text, no printed
+> label, no graduation markings.
+
+Nothing else needs redoing.
