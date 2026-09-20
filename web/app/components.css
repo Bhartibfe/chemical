@@ -1860,3 +1860,87 @@
   border-bottom: 1px solid var(--rule);
 }
 
+
+/* ── VIEW-ALL TILE ──────────────────────────────────────────────────
+   Final cell of the catalogue grid. Shares .entry-card's box so it sits
+   flush with the others, but inverts so it reads as an action rather
+   than a twelfth product. */
+
+.entry-card-all {
+  justify-content: flex-start;
+  gap: 14px;
+  background: var(--brand-navy);
+  border-color: var(--brand-navy);
+  color: #ffffff;
+}
+
+.entry-card-all:hover {
+  background: #0284c7;
+  border-color: #0284c7;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(2, 132, 199, 0.22);
+}
+
+:root[data-theme="dark"] .entry-card-all {
+  background: var(--paper-3);
+  border-color: var(--rule-strong);
+}
+
+:root[data-theme="dark"] .entry-card-all:hover {
+  background: #0284c7;
+  border-color: #0284c7;
+}
+
+.entry-card-all-count {
+  font-family: var(--font-plus-jakarta), system-ui, sans-serif;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--brand-gold);
+}
+
+:root[data-theme="dark"] .entry-card-all-count {
+  color: #ffffff;
+}
+
+.entry-card-all-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: auto;
+}
+
+.entry-card-all-title {
+  font-family: var(--font-plus-jakarta), system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.entry-card-all-sub {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.entry-card-all-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.entry-card-all:hover .entry-card-all-action span {
+  transform: translateX(3px);
+}
+
+.entry-card-all-action span {
+  transition: transform 0.2s ease;
+}

@@ -101,11 +101,6 @@ export default function HomePage() {
         title="Featured Chemical Catalogue"
         note={`Showing ${opening.length} of ${products.length} industrial chemicals with MSDS and COA support.`}
         tone="tint"
-        action={
-          <Link href="/products" className="btn btn-ink">
-            View All {products.length} Products &rarr;
-          </Link>
-        }
       >
         <p className="prose opening chapter-opening">
           SHIV ENTERPRISES holds {products.length} industrial chemicals across
@@ -119,6 +114,24 @@ export default function HomePage() {
           {opening.map((product) => (
             <Entry key={product.slug} product={product} />
           ))}
+
+          {/* Closing tile: the grid itself carries the call to action, so it
+              lands where the eye already is after the last card. */}
+          <Link href="/products" className="entry-card entry-card-all">
+            <span className="entry-card-all-count">
+              {products.length - opening.length}+
+            </span>
+            <span className="entry-card-all-body">
+              <span className="entry-card-all-title">View all products</span>
+              <span className="entry-card-all-sub">
+                Full catalogue of {products.length} industrial chemicals across
+                six categories
+              </span>
+            </span>
+            <span className="entry-card-all-action">
+              Browse catalogue <span aria-hidden="true">&rarr;</span>
+            </span>
+          </Link>
         </div>
 
       </Chapter>
