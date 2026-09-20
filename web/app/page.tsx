@@ -18,7 +18,7 @@ export const metadata = pageMeta({
   path: "/",
 });
 
-const opening = products.slice(0, 8);
+const opening = products.slice(0, 6);
 
 export default function HomePage() {
   return (
