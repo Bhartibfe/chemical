@@ -117,20 +117,55 @@ export default function ContactPage() {
         tone="tint"
       >
         {/* Mirrors the FAQPage schema above, so what an AI engine reads and
-            what a visitor reads are the same answers. */}
-        <dl className="faq">
+            what a visitor reads are the same answers.
+
+            <details> rather than a JS accordion: the answers stay in the DOM
+            whether open or shut, so crawlers and AI answer engines still read
+            all six. A JS accordion that mounts answers on click would hide
+            them from both. It is also keyboard-operable and screen-reader
+            announced for free. */}
+        <div className="faq">
           {faqSchema.mainEntity.map((entry, i) => (
-            <div key={entry.name} className="faq-entry">
-              <dt>
-                <span className="folio faq-num">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="title t3">{entry.name}</span>
-              </dt>
-              <dd className="prose">{entry.acceptedAnswer.text}</dd>
-            </div>
+            <details
+              key={entry.name}
+              className="faq-item"
+              open={i === 0}
+              name="faq"
+            >
+              <summary className="faq-q">
+                <span className="faq-num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="faq-q-text">{entry.name}</span>
+                <svg
+                  className="faq-chevron"
+                  viewBox="0 0 20 20"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M5 8l5 5 5-5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </summary>
+              <div className="faq-a">
+                <p>{entry.acceptedAnswer.text}</p>
+              </div>
+            </details>
           ))}
-        </dl>
+        </div>
+
+        <div className="faq-cta">
+          <p className="faq-cta-text">
+            Something not covered here? Our technical team answers grade,
+            packing and lead-time questions directly.
+          </p>
+          <a href={site.phoneHref} className="btn btn-ink">
+            Call {site.phone}
+          </a>
+        </div>
       </Chapter>
     </>
   );

@@ -6,6 +6,9 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
+  /* Lets <details> animate open instead of snapping. */
+  interpolate-size: allow-keywords;
+
   --brand-navy: #00243c;
   --brand-gold: #f4a830;
   --brand-gold-dark: #d98e19;
